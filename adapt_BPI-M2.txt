@@ -1,0 +1,10 @@
+./graphing.sh_my
+./packages/modules/smarthome/tasmota/on.py_my
+./packages/modules/smarthome/tasmota/off.py_my
+./packages/modules/smarthome/tasmota/watt.py_my
+./runs/u1p3pcheck.sh_my
+./runs/u1p3pgoe.py_my
+./runs/pubmqtt.sh_my
+./web/api.php_my
+./web/settings/systeminfo.php_my
+./web/tools/raspbian_ARM.php_my

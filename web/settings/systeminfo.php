@@ -82,9 +82,9 @@
 					<div class="row">
 						<div class="col">
 							<p>
-								Board: <?php echo trim( exec('cat /sys/firmware/devicetree/base/model') ); ?>
+								Board: <?php echo trim("bpi-M2"); ?>
 							</p>
-							CPU: <?php echo exec('cat /proc/cpuinfo | grep -m 1 "model name" | sed "s/^.*: //"'); ?><br>
+							CPU: <?php echo exec('cat /proc/cpuinfo | grep -m 1 "Hardware" | sed "s/^.*: //"'); ?><br>
 							CPU-Kerne: <?php echo exec('cat /proc/cpuinfo | grep processor | wc -l'); ?><br>
 						</div>
 					</div>
@@ -192,8 +192,8 @@
 					}
 					$.getJSON('tools/programmloggerinfo.php', function(data){
 						json = eval(data);
-						$('#cpu').val(json.cpuuse);
-						$('#cpuuse').text(json.cpuuse);
+						$('#cpu').val(json.cpuuse/4);
+						$('#cpuuse').text(json.cpuuse/4);
 						$('#cputemp').text((json.cputemp/1000).toFixed(2));
 						$('#cpufreq').text((json.cpufreq/1000));
 						$('#memtot').text(json.memtot);
