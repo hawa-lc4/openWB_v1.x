@@ -1,10 +1,25 @@
 ./graphing.sh
+    lines 43, 44: get data for my own python data processing
+    
 ./packages/modules/smarthome/tasmota/on.py
 ./packages/modules/smarthome/tasmota/off.py
 ./packages/modules/smarthome/tasmota/watt.py
+      several modifications for current Tasmota versions used
+
 ./runs/u1p3pcheck.sh
+    add execution of u1p3pgoe.py
+
 ./runs/u1p3pgoe.py
+    u1p3pgoe.py added
+
 ./runs/pubmqtt.sh
+    removed " | bc" entries causing lot's of error messages in openWB log files
+
 ./web/api.php
+    added response part to tell wbec that openWB is alive (under construction!)
+
 ./web/settings/systeminfo.php
+    modification to show reasonable info on BPI-M2 board (lines 85, 87 195 and 196)
+
 ./web/tools/raspbian_ARM.php
+    modification to show reasonable info on BPI-M2 board (line 4)
