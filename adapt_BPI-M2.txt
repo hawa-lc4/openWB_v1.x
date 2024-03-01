@@ -1,3 +1,5 @@
+Changes made to adapt openWB v1.x.x to fit my needs for installation on BPI-M2:
+
 ./graphing.sh
     lines 43, 44: get data for my own python data processing
     
