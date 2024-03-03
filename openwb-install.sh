@@ -1,55 +1,44 @@
 #!/bin/bash
-# hawa-lc4: adapt for installation on Raspberry PI 4B with OS bookworm
-
-OS_VERSION=`grep VERSION_CODENAME /etc/os-release |cut -f2 -d=`
-echo "OS Version detected: " &OS_VERSION
-sleep 3
 
 echo "install required packages..."
 # check for outdated sources.list (Stretch only)
-# if grep -q -e "^deb http://raspbian.raspberrypi.org/raspbian/ stretch" /etc/apt/sources.list; then
-# 	echo "sources.list outdated! upgrading..."
-# 	sudo sed -i "s/^deb http:\/\/raspbian.raspberrypi.org\/raspbian\/ stretch/deb http:\/\/legacy.raspbian.org\/raspbian\/ stretch/g" /etc/apt/sources.list
-# else
-# 	echo "sources.list already updated"
-# fi
+if grep -q -e "^deb http://raspbian.raspberrypi.org/raspbian/ stretch" /etc/apt/sources.list; then
+	echo "sources.list outdated! upgrading..."
+	sudo sed -i "s/^deb http:\/\/raspbian.raspberrypi.org\/raspbian\/ stretch/deb http:\/\/legacy.raspbian.org\/raspbian\/ stretch/g" /etc/apt/sources.list
+else
+	echo "sources.list already updated"
+fi
 apt-get update
-apt-get -qy install vim bc apache2 php php-gd php-curl php-xml php-json libapache2-mod-php jq raspberrypi-kernel-headers i2c-tools git mosquitto mosquitto-clients socat python3-pip sshpass
+apt-get -q -y install vim bc apache2 php php-gd php-curl php-xml php-json libapache2-mod-php jq raspberrypi-kernel-headers i2c-tools git mosquitto mosquitto-clients socat python-pip python3-pip sshpass
 echo "...done"
 
 echo "check for timezone"
-# if  grep -Fxq "Europe/Berlin" /etc/timezone
-# then
-# 	echo "...ok"
-# else
-# 	echo 'Europe/Berlin' > /etc/timezone
-# 	dpkg-reconfigure -f noninteractive tzdata
-# 	cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
-# 	echo "...changed"
-# fi
-echo "... config to be made by raspi-config only!"
+if  grep -Fxq "Europe/Berlin" /etc/timezone
+then
+	echo "...ok"
+else
+	echo 'Europe/Berlin' > /etc/timezone
+	dpkg-reconfigure -f noninteractive tzdata
+	cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+	echo "...changed"
+fi
 
 echo "check for i2c bus"
-# if grep -Fxq "i2c-bcm2835" /etc/modules
-# then
-# 	echo "...ok"
-# else
-# 	if ! grep -Fxq "i2c-dev" /etc/modules
-# 	then
-# 		echo "i2c-dev" >> /etc/modules
-# 	fi
-# 	echo "i2c-bcm2708" >> /etc/modules
-# 	echo "snd-bcm2835" >> /etc/modules  # und da ist sowieso der Wurm drin! das sollte wohl i2c-bcm2835 heißen?!
-# 	echo "dtparam=i2c1=on" >> /etc/modules
-# 	echo "dtparam=i2c_arm=on" >> /etc/modules
-# 	echo "...changed"
-# fi
-echo "... config to be made by raspi-config only!"
+if grep -Fxq "i2c-bcm2835" /etc/modules
+then
+	echo "...ok"
+else
+	echo "i2c-dev" >> /etc/modules
+	echo "i2c-bcm2708" >> /etc/modules
+	echo "snd-bcm2835" >> /etc/modules
+	echo "dtparam=i2c1=on" >> /etc/modules
+	echo "dtparam=i2c_arm=on" >> /etc/modules
+fi
 
 echo "check for initial git clone"
 if [ ! -d /var/www/html/openWB/web ]; then
 	cd /var/www/html/
-	git clone https://github.com/hawa-lc4/openWB_v1.x.git --branch adapt_RPI-4B openWB
+	git clone https://github.com/snaptec/openWB.git --branch master
 	chown -R pi:pi openWB 
 	echo "... git cloned"
 else
@@ -103,36 +92,25 @@ elif [ -d "/etc/php/7.3/" ]; then
 	echo "OS Buster"
 	sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
 	sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
-elif [ -d "/etc/php/8.2/" ]; then
-	echo "OS Bookworm"
-	sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
-	sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
 fi
 
 echo "installing pymodbus"
-if [ OS_VERSION == bookworm ]
-then
-	sudo apt-get -qy install python3-pymodbus
-else
-	sudo pip install -U pymodbus
-fi
+sudo pip install  -U pymodbus
 
 echo "check for paho-mqtt"
 if python3 -c "import paho.mqtt.publish as publish" &> /dev/null; then
 	echo 'mqtt installed...'
-elif [ OS_VERSION == bookworm ]: then
-	sudo apt-get -qy install python3-paho-mqtt
 else
 	sudo pip3 install paho-mqtt
 fi
 
-#Adafruit install; MCP4725 12-Bit DAC; deprecated, see https://github.com/adafruit/Adafruit_Python_MCP4725
-# echo "check for MCP4725"
-# if python -c "import Adafruit_MCP4725" &> /dev/null; then
-# 	echo 'Adafruit_MCP4725 installed...'
-# else
-# 	sudo pip install Adafruit_MCP4725
-# fi
+#Adafruit install
+echo "check for MCP4725"
+if python -c "import Adafruit_MCP4725" &> /dev/null; then
+	echo 'Adafruit_MCP4725 installed...'
+else
+	sudo pip install Adafruit_MCP4725
+fi
 
 echo "www-data ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/010_pi-nopasswd
 
