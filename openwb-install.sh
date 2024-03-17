@@ -38,7 +38,8 @@ fi
 echo "check for initial git clone"
 if [ ! -d /var/www/html/openWB/web ]; then
 	cd /var/www/html/
-	git clone https://github.com/snaptec/openWB.git --branch master
+	# git clone https://github.com/snaptec/openWB.git --branch master
+	git clone https://github.com/hawa-lc4/openWB_v1.x.git --branch adapt_BPI-M2 openWB
 	chown -R pi:pi openWB 
 	echo "... git cloned"
 else

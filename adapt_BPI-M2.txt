@@ -1,7 +1,10 @@
 Changes made to adapt openWB v1.x.x to fit my needs for installation on BPI-M2:
 
 ./graphing.sh
-    lines 43, 44: get data for my own python data processing
+    get data for my own python data processing (lines 43, 44)
+
+./openwb-install.sh
+    change URL for install from my own adapted version (linbes 41/42)
     
 ./packages/modules/smarthome/tasmota/on.py
 ./packages/modules/smarthome/tasmota/off.py
@@ -9,10 +12,10 @@ Changes made to adapt openWB v1.x.x to fit my needs for installation on BPI-M2:
       several modifications for current Tasmota versions used
 
 ./runs/u1p3pcheck.sh
-    add execution of u1p3pgoe.py
+    add execution of u1p3pgoe.py (several lines)
 
 ./runs/u1p3pgoe.py
-    u1p3pgoe.py added
+    u1p3pgoe.py added (file added)
 
 ./runs/pubmqtt.sh
     removed " | bc" entries causing lot's of error messages in openWB log files
@@ -22,6 +25,9 @@ Changes made to adapt openWB v1.x.x to fit my needs for installation on BPI-M2:
 
 ./web/settings/systeminfo.php
     modification to show reasonable info on BPI-M2 board (lines 85, 87 195 and 196)
+
+./web/settings/update.php
+    changes update control and URL; taken out original releases and added my adapted one (lines 74, 87, 91, 126, 133, 134, 136, 137, 233-235)
 
 ./web/tools/raspbian_ARM.php
     modification to show reasonable info on BPI-M2 board (line 4)
