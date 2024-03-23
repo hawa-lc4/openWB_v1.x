@@ -406,15 +406,15 @@
 											<th scope="row">Gesamtertrag [kWh]</th>
 											<td><div class="yieldInverter">--</div></td>
 										</tr>
-										<tr class="hide">
+										<tr>
 											<th scope="row">Tagesertrag [kWh]</th>
 											<td><div class="dYieldInverter">--</div></td>
 										</tr>
-										<tr class="hide">
+										<tr class="hide" id="monatsertragRow">
 											<th scope="row">Monatsertrag [kWh]</th>
 											<td><div class="mYieldInverter">--</div></td>
 										</tr>
-										<tr class="hide">
+										<tr class="hide" id="jahresertragRow">
 											<th scope="row">Jahresertrag [kWh]</th>
 											<td><div class="yYieldInverter">--</div></td>
 										</tr>

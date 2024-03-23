@@ -146,18 +146,18 @@ function processPvMsg(mqttmsg, mqttpayload) {
 			kShow(mqttpayload, '#inverter' + index + ' .yieldInverter');
 		}
 		// no data in openWB 1.x
-		// else if ( mqttmsg.match(/^openWB\/pv\/[0-9]+\/DailyYieldKwh$/i) )
-		// {
-		// 	fractionDigitsShow(mqttpayload, '#inverter' + index + ' .dYieldInverter');
-		// }
-		// else if ( mqttmsg.match(/^openWB\/pv\/[0-9]+\/MonthlyYieldKwh$/i) )
-		// {
-		// 	fractionDigitsShow(mqttpayload, '#inverter' + index + ' .mYieldInverter');
-		// }
-		// else if ( mqttmsg.match(/^openWB\/pv\/[0-9]+\/YearlyYieldKwh$/i) )
-		// {
-		// 	fractionDigitsShow(mqttpayload, '#inverter' + index + ' .yYieldInverter');
-		// }
+		else if ( mqttmsg.match(/^openWB\/pv\/[0-9]+\/DailyYieldKwh$/i) )
+		{
+			fractionDigitsShow(mqttpayload, '#inverter' + index + ' .dYieldInverter');
+		}
+		else if ( mqttmsg.match(/^openWB\/pv\/[0-9]+\/MonthlyYieldKwh$/i) )
+		{
+			fractionDigitsShow(mqttpayload, '#inverter' + index + ' .mYieldInverter');
+		}
+		else if ( mqttmsg.match(/^openWB\/pv\/[0-9]+\/YearlyYieldKwh$/i) )
+		{
+			fractionDigitsShow(mqttpayload, '#inverter' + index + ' .yYieldInverter');
+		}
 		else if (mqttmsg.match(/^openWB\/pv\/[0-9]+\/faultState$/i)) {
 			setWarningLevel(mqttpayload, '#inverter' + index + ' .faultStrPvRow');
 		}
