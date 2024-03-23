@@ -20,7 +20,7 @@ pkill -u pi -f "$OPENWBBASEDIR/packages/legacy_run_server.py"
 
 # force lower case on releasetrain for comparison
 if [[ "${releasetrain,,}" == "stable" ]]; then
-	train=stable17
+	train=adapt_BPI-M2
 else
 	train=$releasetrain
 fi

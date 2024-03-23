@@ -271,9 +271,9 @@
 						if ( releasetrains.includes("<?php echo $releasetrain?>") ) {
 							// check the box matching config file releasetrain
 							$("input[value='<?php echo $releasetrain?>']").prop('checked', true);
-						} else if ( releasetrains.includes("stable17") ) {
+						} else if ( releasetrains.includes("adapt_BPI-M2") ) {
 							// version from config file not availabe so select stable
-							$("input[value='stable17']").prop('checked', true);
+							$("input[value='adapt_BPI-M2']").prop('checked', true);
 						} else if ( releasetrains.includes("beta") ) {
 							// stable not availabe so select beta
 							$("input[value='beta']").prop('checked', true);
