@@ -48,8 +48,8 @@
 			$releasetrain = trim($releasetrain);
 
 			if ( $releasetrain == "" ) {
-				// if no releasetrain set, set stable ==> adapt_BPI-M2
-				$releasetrain="stable";
+				// if no releasetrain set, set adapt ==> adapt_BPI-M2
+				$releasetrain="adapt";
 			}
 
 			$updateinprogress = trim(file_get_contents('/var/www/html/openWB/ramdisk/updateinprogress'));
@@ -78,15 +78,15 @@
 									<span class="mx-1" id="availStableVersionSpan" data-version=""></span><span class="spinner-grow spinner-grow-sm" id="availStableVersionSpinner"></span>
 								</label>
 							</div>
-							<div class="custom-control custom-radio">
+							<!-- <div class="custom-control custom-radio">
 								<input class="custom-control-input" type="radio" name="releasetrainRadioBtn" id="radioBtnBeta" value="beta" disabled>
 								<label class="custom-control-label vaRow" for="radioBtnBeta">
 									Beta:
 									<span class="mx-1" id="availBetaVersionSpan" data-version=""></span><span class="spinner-grow spinner-grow-sm" id="availBetaVersionSpinner"></span>
 								</label>
-							</div>
+							</div> -->
 							<div class="custom-control custom-radio">
-								<input class="custom-control-input" type="radio" name="releasetrainRadioBtn" id="radioBtnNightly" value="master" disabled>
+								<input class="custom-control-input" type="radio" name="releasetrainRadioBtn" id="radioBtnNightly" value="master-forked" disabled>
 								<label class="custom-control-label vaRow" for="radioBtnNightly">
 									Nightly:
 									<span class="mx-1" id="availNightlyVersionSpan" data-version=""></span><span class="spinner-grow spinner-grow-sm" id="availNightlyVersionSpinner"></span>
@@ -128,14 +128,14 @@
 								Die adapt_BPI-M2 basiert auf der  Nightly-Version und beinhaltet Neuentwicklungen, die teils nur eingeschränkt getestet sind. Fehlverhalten ist wahrscheinlich.<br>
 								Alle Änderungen können auf <a href="https://github.com/hawa-lc4/openWB_v1.x/commits/adapt_BPI-M2">GitHub</a> eingesehen werden.
 							</p>
-							<h2>Beta</h2>
+							<!-- <h2>Beta</h2>
 							<p>
 								Die Beta-Version beinhaltet neue Features für zukünftige Stable-Versionen, befindet sich aber noch in der Testphase. Fehlverhalten ist nicht ausgeschlossen.
-							</p>
-							<h2>adapt_BPI-M2</h2>
+							</p> -->
+							<h2>Nightly</h2>
 							<p>
-								Die Nightly-Version beinhaltet Neuentwicklungen, die teils nur eingeschränkt getestet sind. Fehlverhalten ist wahrscheinlich.<br>
-								Alle Änderungen können auf <a href="https://github.com/snaptec/openWB/commits/master">GitHub</a> eingesehen werden.
+								Die Nightly-Version ist die master-forked und beinhaltet Neuentwicklungen, die teils nur eingeschränkt getestet sind. Fehlverhalten ist wahrscheinlich.<br>
+								Alle Änderungen können auf <a href="https://github.com/hawa-lc4/openWB_v1.x/commits/master-forked">GitHub</a> eingesehen werden.
 							</p>
 						</div>
 					</div>
@@ -231,9 +231,9 @@
 				}
 
 				$(function getAllVersions() {
-					displayVersion("Stable", 'https://raw.githubusercontent.com/hawa-lc4/openWB_v1.x/adapt_BPI-M2/web/version');
-					displayVersion("Beta", 'https://raw.githubusercontent.com/snaptec/openWB/beta/web/version');
-					displayVersion("Nightly", 'https://raw.githubusercontent.com/snaptec/openWB/master/web/version');
+					displayVersion("adapt_BPI-M2", 'https://raw.githubusercontent.com/hawa-lc4/openWB_v1.x/adapt_BPI-M2/web/version');
+					// displayVersion("Beta", 'https://raw.githubusercontent.com/snaptec/openWB/beta/web/version');
+					displayVersion("Nightly", 'https://raw.githubusercontent.com/hawa-lc4/openWB_v1.x/master-forked/web/version');
 				});
 
 				$.get({
@@ -246,7 +246,7 @@
 					$("#modalInstalledVersionSpan").prepend(result);
 				});
 
-				if("<?php echo $releasetrain ?>" == "master") {
+				if("<?php echo $releasetrain ?>" == "adapt") {
 					$.get({
 						url: "/openWB/web/lastcommit",
 						cache: false
@@ -273,13 +273,13 @@
 							$("input[value='<?php echo $releasetrain?>']").prop('checked', true);
 						} else if ( releasetrains.includes("adapt_BPI-M2") ) {
 							// version from config file not availabe so select stable
-							$("input[value='adapt_BPI-M2']").prop('checked', true);
+							$("input[value='adapt']").prop('checked', true);
 						} else if ( releasetrains.includes("beta") ) {
 							// stable not availabe so select beta
 							$("input[value='beta']").prop('checked', true);
-						} else if ( releasetrains.includes("master") ) {
+						} else if ( releasetrains.includes("master-forked") ) {
 							// version from config file not availabe so check if stable can be selected
-							$("input[value='master']").prop('checked', true);
+							$("input[value='master-forked']").prop('checked', true);
 						}
 						$("#updateBtn").removeAttr("disabled");
 					}
@@ -291,13 +291,13 @@
 					var choice = $(".custom-control-input:checked").attr("value");
 					// and set text
 					switch (choice) {
-						case "stable":
+						case "adapt":
 							$("#selectedVersionSpan").text( $("#availStableVersionSpan").data("version") );
 							break;
 						case "beta":
 							$("#selectedVersionSpan").text( $("#availBetaVersionSpan").data("version") );
 							break;
-						case "master":
+						case "master-forked":
 							$("#selectedVersionSpan").text( $("#availNightlyVersionSpan").data("version") );
 							break;
 					}

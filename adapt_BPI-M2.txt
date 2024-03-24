@@ -20,6 +20,9 @@ Changes made to adapt openWB v1.x.x to fit my needs for installation on BPI-M2:
 ./runs/pubmqtt.sh
     removed " | bc" entries causing lot's of error messages in openWB log files
 
+./runs/mqttsub.py
+    changed values regarding releaseTrain
+
 ./web/api.php
     added response part to tell wbec that openWB is alive (under construction!)
 
