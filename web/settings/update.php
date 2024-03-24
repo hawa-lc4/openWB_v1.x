@@ -247,7 +247,8 @@
 					$("#modalInstalledVersionSpan").prepend(result);
 				});
 
-				if("<?php echo $releasetrain ?>" == "master-forked") {
+				// if("<?php echo $releasetrain ?>" == "master-forked") {
+				if(true) {
 					$.get({
 						url: "/openWB/web/lastcommit",
 						cache: false
