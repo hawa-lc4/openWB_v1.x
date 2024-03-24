@@ -588,7 +588,7 @@ updateConfig(){
 		echo "soc_smarteq_intervall=120" >> $ConfigFile
 	fi
 	if ! grep -Fq "releasetrain=" $ConfigFile; then
-		echo "releasetrain=stable" >> $ConfigFile
+		echo "releasetrain=adapt_BPI-M2" >> $ConfigFile
 	fi
 	if ! grep -Fq "wrkostalpikoip=" $ConfigFile; then
 		echo "wrkostalpikoip=192.168.0.10" >> $ConfigFile

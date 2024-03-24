@@ -48,8 +48,8 @@
 			$releasetrain = trim($releasetrain);
 
 			if ( $releasetrain == "" ) {
-				// if no releasetrain set, set stable
-				$releasetrain="stable";
+				// if no releasetrain set, set adapt_BPI-M2
+				$releasetrain="adapt_BPI-M2";
 			}
 
 		?>
