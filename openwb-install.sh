@@ -24,7 +24,7 @@ else
 fi
 
 echo "check for i2c bus"
-if grep -Fxq "i2c-bcm2835" /etc/modules
+if grep -Fxq "snd-bcm2835" /etc/modules
 then
 	echo "...ok"
 else
