@@ -35,7 +35,7 @@ except Exception:
     aktpower = 0
     powerc = 0
 
-if (aktpower > 50) or (p_status == "ON"):
+if (p_status == "ON"):
     relais = 1
 answer = '{"power":' + str(aktpower) + ',"powerc":' + str(powerc) + ',"on":' + str(relais) + '} '
 f1 = open('/var/www/html/openWB/ramdisk/smarthome_device_ret' + str(devicenumber), 'w')
