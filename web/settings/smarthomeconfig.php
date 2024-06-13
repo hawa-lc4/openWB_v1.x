@@ -669,7 +669,7 @@ $numDevices = 9;
 														<input type="radio" name="device_setautoDevices<?php echo $devicenum; ?>" id="device_setauto<?php echo $devicenum; ?>1" data-option="1" value="1">in den automatischen Modus stellen
 													</label>
 												</div>
-												<span class="form-text small">Diese Option bewirkt, dass ein Gerät um 23:59 immer in den automaischen Modus geschaltet wird.
+												<span class="form-text small">Diese Option bewirkt, dass ein Gerät um 23:59 immer in den automatischen Modus geschaltet wird.
 												</span>
 											</div>
 										</div>
