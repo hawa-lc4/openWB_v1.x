@@ -133,10 +133,12 @@ at_reboot() {
 
 	# check if tesla wall connector is configured and start daemon
 	if [[ $evsecon == twcmanager ]]; then
-		echo "twcmanager..."
-		if [[ $twcmanagerlp1ip == "localhost/TWC" ]]; then
-			screen -dm -S TWCManager /var/www/html/TWC/TWCManager.py &
-		fi
+		echo "twcmanager1..."
+		sudo python3 "$OPENWBBASEDIR/modules/twcmanagerlp1/atrebootwbec.py" $twcmanagerlp1ip $twcmanagerlp1port
+	fi
+	if [[ $evsecons1 == twcmanager ]]; then
+		echo "twcmanager2..."
+		sudo python3 "$OPENWBBASEDIR/modules/twcmanagerlp2/atrebootwbec.py" $twcmanagerlp2ip $twcmanagerlp2port
 	fi
 
 	# display setup
