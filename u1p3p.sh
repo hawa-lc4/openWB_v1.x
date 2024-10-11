@@ -12,7 +12,7 @@ u1p3pswitch() {
 			u1p3schaltparam=8
 		fi
 		uhwaittime=$((u1p3schaltparam * 60))
-		urwaittime=$(((16 - u1p3schaltparam) * 60))
+		urwaittime=$uhwaittime
 		openwbDebugLog "MAIN" 1 "automatische Umschaltung aktiv"
 		openwbDebugLog "MAIN" 1 "Timing Umschaltung: $uhwaittime / $urwaittime"
 		if ((ladestatus == 0)); then
