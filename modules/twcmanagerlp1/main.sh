@@ -1,13 +1,11 @@
 #!/bin/bash
 
-wbeclp2ip=$twcmanagerlp2ip
-wbeclp2port=$twcmanagerlp2port
-# wbeclp2ip='192.168.183.114'
-# wbeclp2port=502
+wbeclp1ip=$twcmanagerlp1ip
+wbeclp1port=$twcmanagerlp1port
 rekwh='^[-+]?[0-9]+\.?[0-9]*$'
 
 n=0
-output=$(sudo python3 /var/www/html/openWB/modules/twcmanagerlp2/readwbec.py $wbeclp2ip $wbeclp2port)
+output=$(sudo python3 /var/www/html/openWB/modules/twcmanagerlp1/readwbec.py $wbeclp1ip $wbeclp1port)
 
 while read -r line; do
         if (( $n == 0 )); then
@@ -25,6 +23,7 @@ while read -r line; do
                                 echo 0 > /var/www/html/openWB/ramdisk/chargestat
                                 ;;
                 esac
+        fi
         if (( $n == 1 )); then
                 echo "$line" > /var/www/html/openWB/ramdisk/lla1
         fi
