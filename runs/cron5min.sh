@@ -25,6 +25,9 @@ openwbDebugLog "MAIN" 0 "##### cron5min.sh started #####"
 dailyfile="$OPENWBBASEDIR/web/logging/data/daily/$(date +%Y%m%d).csv"
 monthlyladelogfile="$OPENWBBASEDIR/web/logging/data/ladelog/$(date +%Y%m).csv"
 
+# reset LP standby counter if set
+echo 0 > "$RAMDISKDIR/llstandby"
+
 # check if a monthly logfile exists and create a new one if not
 if [[ ! -f "$monthlyladelogfile" ]]; then
 	openwbDebugLog "MAIN" 1 "creating new monthly chargelog: $monthlyladelogfile"

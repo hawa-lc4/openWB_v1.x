@@ -176,7 +176,8 @@ function setChargingCurrentWifi () {
 
 function setChargingCurrenttwcmanager () {
 	if [[ $evsecon == "twcmanager" ]]; then
-		if [[ $twcmanagerlp1httpcontrol -eq 1 ]]; then
+	stb=`cat ramdisk/llstandby`
+		if [[ $twcmanagerlp1httpcontrol -eq 1 && $stb -eq 0 ]]; then
 			sudo python3 /var/www/html/openWB/modules/twcmanagerlp1/set-currentwbec.py $twcmanagerlp1ip $twcmanagerlp1port $current
 		fi
 	fi

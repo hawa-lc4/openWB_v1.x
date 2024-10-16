@@ -58,9 +58,9 @@ function cleanup()
 	local endregel=$(date +%s)
 	local t=$((endregel-startregel))
 
-	if [ "$t" -le "7" ] ; then   # 1..7 Ok
-		openwbDebugLog "MAIN" 2 "**** Regulation loop needs $t seconds"
-	elif [ "$t" -le "8" ] ; then # 8 Warning
+	if [ "$t" -le "9" ] ; then   # 1..7 Ok
+		openwbDebugLog "MAIN" 0 "**** Regulation loop needs $t seconds"
+	elif [ "$t" -le "13" ] ; then # 8 Warning
 		openwbDebugLog "MAIN" 0 "**** WARNING **** Regulation loop needs $t seconds"
 	else                         # 9,10,... Fatal
 		openwbDebugLog "MAIN" 0 "**** FATAL *********************************"
@@ -74,7 +74,7 @@ trap cleanup EXIT
 #config file einlesen
 . /var/www/html/openWB/loadconfig.sh
 
-openwbDebugLog "MAIN" 1 "**** Regulation loop start ****"
+openwbDebugLog "MAIN" 0 "**** Regulation loop start ****"
 
 declare -r IsFloatingNumberRegex='^-?[0-9.]+$'
 
