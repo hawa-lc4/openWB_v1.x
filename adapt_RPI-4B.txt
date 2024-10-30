@@ -79,4 +79,5 @@ Changes made to adapt openWB v1.9.x to fit my needs for installation on RPI-4B:
 ./web/status/status.php
     experimentell!!     #5d4d708
 
-    
+./web/tools/raspbian_ARM.php
+    modification to show reasonable info on RPI-4B board (line 4)
