@@ -940,10 +940,10 @@
 										<div class="form-row vaRow mb-1">
 											<label for="u1p3schaltparam" class="col-2 col-form-label valueLabel" suffix="Min"><?php echo $u1p3schaltparamold; ?> Min</label>
 											<div class="col-10">
-												<input type="range" class="form-control-range rangeInput" name="u1p3schaltparam" id="u1p3schaltparam" min="1" max="15" step="1" value="<?php echo $u1p3schaltparamold; ?>">
+												<input type="range" class="form-control-range rangeInput" name="u1p3schaltparam" id="u1p3schaltparam" min="5" max="20" step="1" value="<?php echo $u1p3schaltparamold; ?>">
 											</div>
 										</div>
-										<span class="form-text small">Im Automatikmodus wird die PV Ladung einphasig begonnen. Um zu viele Schaltungen zu vermeiden wird Anhand dieses Wertes definiert wann die Umschaltung erfolgen soll. Ist für durchgehend x Minuten die Maximalstromstärke erreicht, wird auf dreiphasige Ladung umgestellt. Ist die Ladung nur für ein Intervall unterhalb der Maximalstromstärke, beginnt der Counter für die Umschaltung erneut. Ist die Ladung im dreiphasigen Modus für 16 - x Minuten bei der Minimalstromstärke, wird wieder auf einphasige Ladung gewechselt. Standardmäßig ist dieser Wert bei 8 min, sprich nach 8 min Maximalstromstärke wird auf 3 Phasige Ladung umgestellt und nach 16 - 8 = 8 min bei Minimalstromstärke wird wieder auf einphasige Ladung gewechselt.</span>
+										<span class="form-text small">Im Automatikmodus wird die PV Ladung einphasig begonnen. Um zu viele Schaltungen zu vermeiden wird Anhand dieses Wertes definiert wann die Umschaltung erfolgen soll. Ist für durchgehend x Minuten die Maximalstromstärke erreicht, wird auf dreiphasige Ladung umgestellt. Ist die Ladung nur für ein Intervall unterhalb der Maximalstromstärke, beginnt der Counter für die Umschaltung erneut. Ist die Ladung im dreiphasigen Modus für x Minuten bei der Minimalstromstärke, wird wieder auf einphasige Ladung gewechselt. Standardmäßig ist dieser Wert bei 8 min, sprich nach 8 min Maximalstromstärke wird auf 3 Phasige Ladung umgestellt und nach 8 min bei Minimalstromstärke wird wieder auf einphasige Ladung gewechselt.</span>
 									</div>
 								</div>
 								<div class="form-row mb-1">

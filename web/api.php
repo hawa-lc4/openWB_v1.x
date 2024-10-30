@@ -50,6 +50,17 @@ if(isset($_GET["speicher"])) {
 	}
 }
 if(isset($_GET["get"])) {
+	if($_GET["get"] == "alive") {
+		$json = array(
+			"date"	=>	date('Y:m:d-H:i:s'),
+			"lademodus"	=>	explode(PHP_EOL, file_get_contents('/var/www/html/openWB/ramdisk/lademodus'))[0],
+			"minimalstromstaerke" => explode(PHP_EOL, $minimalstromstaerkeold)[0],
+			"maximalstromstaerke" => explode(PHP_EOL, $maximalstromstaerkeold)[0],
+			"llsoll"	=>	explode(PHP_EOL, file_get_contents('/var/www/html/openWB/ramdisk/llsoll'))[0]
+		);
+		header("Content-type: application/json");
+		echo json_encode($json);
+	}
 	if($_GET["get"] == "homekit") {
 		$json = array(
 			"date"	=>	date('Y:m:d-H:i:s'),

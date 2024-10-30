@@ -19,8 +19,8 @@ chmod 777 /var/www/html/openWB/ramdisk/mqttlastregelungaktiv
 pkill -u pi -f "$OPENWBBASEDIR/packages/legacy_run_server.py"
 
 # force lower case on releasetrain for comparison
-if [[ "${releasetrain,,}" == "stable" ]]; then
-	train=stable17
+if [[ "${releasetrain,,}" == "adapt_rpi-4b" ]]; then
+	train=adapt_RPI-4B
 else
 	train=$releasetrain
 fi

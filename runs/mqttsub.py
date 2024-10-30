@@ -936,7 +936,7 @@ def on_message(client: mqtt.Client, userdata, msg: mqtt.MQTTMessage):
             if (msg.topic == "openWB/set/system/releaseTrain"):
                 releaseTrain = msg.payload.decode("utf-8")
                 if (
-                    releaseTrain == "stable17" or releaseTrain == "master" or releaseTrain == "beta" or
+                    releaseTrain == "adapt_RPI-4B" or releaseTrain == "master-forked" or releaseTrain == "beta" or
                     releaseTrain.startswith("yc/")
                 ):
                     sendcommand = ["/var/www/html/openWB/runs/replaceinconfig.sh", "releasetrain=", releaseTrain]

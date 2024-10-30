@@ -54,8 +54,7 @@ Raspbian installieren aktuell werden in der Version 1.9 nur Stretch (bevorzugt) 
 
 In der Shell folgendes eingeben:
 
-	curl -s https://raw.githubusercontent.com/snaptec/openWB/master/openwb-install.sh | sudo bash
-
+	curl -s https://raw.githubusercontent.com/hawa-lc4/openWB_v1.x/adapt_RPI-4B/openwb-install.sh | sudo bash
 
 
 Crontab anpassen:

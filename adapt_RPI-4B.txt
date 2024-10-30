@@ -1,0 +1,82 @@
+Changes made to adapt openWB v1.9.x to fit my needs for installation on RPI-4B:
+(#<commit number>)
+
+./README.md
+    change doenload URL     #5d4d708
+
+./openwb-install.sh
+    change URL for install from my own adapted version (lines 41/42)     #0286884
+    fix potential typo in i2c config (line 27)       #9645f53
+    check for paho-mqttsub (line 105)    #74a190d
+
+./openwb.conf
+    working on installable version & pre-release of 1.9.304.1     #95cd471, #2642b2e
+
+./graphing.sh
+    get data for my own python data processing (lines 43, 44)     #ad308b9
+
+./u1p3p.sh
+    change u1p3p timing to same time in both ways and allow longer time (line 15)     #c7e37e1
+
+./regel.sh
+./modules/twcmanagerlp1/atrebootwbec.py
+./modules/twcmanagerlp1/main.sh
+./modules/twcmanagerlp1/readwbec.py
+./modules/twcmanagerlp1/set-currentwbec.py
+./modules/twcmanagerlp2/atrebootwbec.py
+./modules/twcmanagerlp1/main.sh
+./modules/twcmanagerlp2/readwbec.py
+./modules/twcmanagerlp2/set-currentwbec.py
+./runs/atreboot.sh
+./runs/cron5min.sh
+./runs/set-current.sh
+    Einbindung Heidelberg WB Energy Control mittels ModBusTCP durch Umbau der Vorlage TWCmanager      #ffa9333, #20ed70e
+    rework integration of wbec as twc module      #70108b7
+
+./packages/modules/smarthome/tasmota/on.py
+./packages/modules/smarthome/tasmota/off.py
+./packages/modules/smarthome/tasmota/watt.py
+      several modifications for current Tasmota versions used and fixes     #63db752, #690fd75, #894c027, #c446d0d, #e881c49
+
+./runs/u1p3pcheck.sh
+    add execution of u1p3pgoe.py (several lines)      #85adbe2
+
+./runs/u1p3pgoe.py
+    u1p3pgoe.py added (file added)      #85adbe2
+
+./runs/pubmqtt.sh
+    removed " | bc" entries causing lot's of error messages in openWB log files     #e6558bd
+
+./runs/mqttsub.py
+    changed values regarding releaseTrain     #e2c896e, #95cd471, #81c990d
+
+./runs/update.sh
+    change updates to this repository     #e2c896e, #95cd471, #2642b2e
+
+./runs/updateConfig.sh
+    replace releasetrain      #2642b2e, #3066029, #1e19f23
+
+./web/version
+    pre-release of 1.9.304.1      #2642b2e
+
+./web/api.php
+    prepare for cheching openWB status is alive (under construction!)     #793e1ce
+
+./web/settings/update.php
+    changes update control and URL; taken out original releases and added my adapted one     #0286884, #5d4d708, #e2c896e, #95cd471, #2642b2e, #a7bbf38
+
+./web/settings/settings.php
+    change u1p3p timing to same time in both ways and allow longer time (lines 943, 946)      #c7e37e1
+    
+./web/settings/smarthomeconfig.php
+    fix typo    #8fc3c6a
+
+./web/settings/systeminfo.php
+    adapt to hardware specific behavior     #6e0b808, #2642b2e
+
+./web/status/processAllMqttMsg.js
+./web/status/setupMqttServices.js
+./web/status/status.php
+    experimentell!!     #5d4d708
+
+    

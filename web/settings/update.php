@@ -48,8 +48,8 @@
 			$releasetrain = trim($releasetrain);
 
 			if ( $releasetrain == "" ) {
-				// if no releasetrain set, set stable
-				$releasetrain="stable";
+				// if no releasetrain set, set adapt_RPI-4B
+				$releasetrain="adapt_RPI-4B";
 			}
 
 			$updateinprogress = trim(file_get_contents('/var/www/html/openWB/ramdisk/updateinprogress'));
@@ -72,21 +72,21 @@
 					<div class="card-body">
 						<div class="form-group mb-0">
 							<div class="custom-control custom-radio">
-								<input class="custom-control-input" type="radio" name="releasetrainRadioBtn" id="radioBtnStable" value="stable" disabled>
-								<label class="custom-control-label vaRow" for="radioBtnStable">
-									Stable:
-									<span class="mx-1" id="availStableVersionSpan" data-version=""></span><span class="spinner-grow spinner-grow-sm" id="availStableVersionSpinner"></span>
+								<input class="custom-control-input" type="radio" name="releasetrainRadioBtn" id="radioBtnAdapt_RPI-4B" value="adapt_RPI-4B" disabled>
+								<label class="custom-control-label vaRow" for="radioBtnAdapt_RPI-4B">
+									Adapt_RPI-4B:
+									<span class="mx-1" id="availAdapt_RPI-4BVersionSpan" data-version=""></span><span class="spinner-grow spinner-grow-sm" id="availAdapt_RPI-4BVersionSpinner"></span>
 								</label>
 							</div>
-							<div class="custom-control custom-radio">
+							<!-- <div class="custom-control custom-radio">
 								<input class="custom-control-input" type="radio" name="releasetrainRadioBtn" id="radioBtnBeta" value="beta" disabled>
 								<label class="custom-control-label vaRow" for="radioBtnBeta">
 									Beta:
 									<span class="mx-1" id="availBetaVersionSpan" data-version=""></span><span class="spinner-grow spinner-grow-sm" id="availBetaVersionSpinner"></span>
 								</label>
-							</div>
+							</div> -->
 							<div class="custom-control custom-radio">
-								<input class="custom-control-input" type="radio" name="releasetrainRadioBtn" id="radioBtnNightly" value="master" disabled>
+								<input class="custom-control-input" type="radio" name="releasetrainRadioBtn" id="radioBtnNightly" value="master-forked" disabled>
 								<label class="custom-control-label vaRow" for="radioBtnNightly">
 									Nightly:
 									<span class="mx-1" id="availNightlyVersionSpan" data-version=""></span><span class="spinner-grow spinner-grow-sm" id="availNightlyVersionSpinner"></span>
@@ -123,18 +123,20 @@
 							<p class="alert alert-warning">
 								Für alle Versionen gilt: <span class="text-danger">Ein Downgrade auf eine ältere Version kann zu Fehlern führen!</span> Vor dem Update am Besten ein Backup erstellen und dieses im Zweifelsfall wieder einspielen, anstatt ein Downgrade durchzuführen.
 							</p>
-							<h2>Stable</h2>
+							<h2>Adapt_RPI-4B</h2>
 							<p>
-								Die Stable-Version ist die empfohlene. Sie wurde einschließlich aller Features ausgiebigen Tests unterzogen, dabei sind keine Fehler aufgefallen.
+								Die adapt_RPI-4B basiert auf der  Nightly-Version und beinhaltet Neuentwicklungen, die teils nur eingeschränkt getestet sind. Fehlverhalten ist wahrscheinlich.<br>
+								Diese Version ist speziell für die Hardware des Banana Pi RPI-4B Models mit Allwinnwer A31s CPU angepaßt.<br>
+								Alle Änderungen können auf <a href="https://github.com/hawa-lc4/openWB_v1.x/commits/adapt_RPI-4B">GitHub</a> eingesehen werden.
 							</p>
-							<h2>Beta</h2>
+							<!-- <h2>Beta</h2>
 							<p>
 								Die Beta-Version beinhaltet neue Features für zukünftige Stable-Versionen, befindet sich aber noch in der Testphase. Fehlverhalten ist nicht ausgeschlossen.
-							</p>
+							</p> -->
 							<h2>Nightly</h2>
 							<p>
-								Die Nightly-Version beinhaltet Neuentwicklungen, die teils nur eingeschränkt getestet sind. Fehlverhalten ist wahrscheinlich.<br>
-								Alle Änderungen können auf <a href="https://github.com/snaptec/openWB/commits/master">GitHub</a> eingesehen werden.
+								Die Nightly-Version ist die master-forked und beinhaltet Neuentwicklungen, die teils nur eingeschränkt getestet sind. Fehlverhalten ist wahrscheinlich.<br>
+								Alle Änderungen können auf <a href="https://github.com/hawa-lc4/openWB_v1.x/commits/master-forked">GitHub</a> eingesehen werden.
 							</p>
 						</div>
 					</div>
@@ -230,9 +232,9 @@
 				}
 
 				$(function getAllVersions() {
-					displayVersion("Stable", 'https://raw.githubusercontent.com/snaptec/openWB/stable17/web/version');
-					displayVersion("Beta", 'https://raw.githubusercontent.com/snaptec/openWB/beta/web/version');
-					displayVersion("Nightly", 'https://raw.githubusercontent.com/snaptec/openWB/master/web/version');
+					displayVersion("Adapt_RPI-4B", 'https://raw.githubusercontent.com/hawa-lc4/openWB_v1.x/adapt_RPI-4B/web/version');
+					// displayVersion("Beta", 'https://raw.githubusercontent.com/snaptec/openWB/beta/web/version');
+					displayVersion("Nightly", 'https://raw.githubusercontent.com/hawa-lc4/openWB_v1.x/master-forked/web/version');
 				});
 
 				$.get({
@@ -245,7 +247,8 @@
 					$("#modalInstalledVersionSpan").prepend(result);
 				});
 
-				if("<?php echo $releasetrain ?>" == "master") {
+				// if("<?php echo $releasetrain ?>" == "master-forked") {
+				if(true) {
 					$.get({
 						url: "/openWB/web/lastcommit",
 						cache: false
@@ -270,15 +273,15 @@
 						if ( releasetrains.includes("<?php echo $releasetrain?>") ) {
 							// check the box matching config file releasetrain
 							$("input[value='<?php echo $releasetrain?>']").prop('checked', true);
-						} else if ( releasetrains.includes("stable17") ) {
+						} else if ( releasetrains.includes("adapt_RPI-4B") ) {
 							// version from config file not availabe so select stable
-							$("input[value='stable17']").prop('checked', true);
+							$("input[value='adapt_RPI-4B']").prop('checked', true);
 						} else if ( releasetrains.includes("beta") ) {
 							// stable not availabe so select beta
 							$("input[value='beta']").prop('checked', true);
-						} else if ( releasetrains.includes("master") ) {
+						} else if ( releasetrains.includes("master-forked") ) {
 							// version from config file not availabe so check if stable can be selected
-							$("input[value='master']").prop('checked', true);
+							$("input[value='master-forked']").prop('checked', true);
 						}
 						$("#updateBtn").removeAttr("disabled");
 					}
@@ -290,13 +293,13 @@
 					var choice = $(".custom-control-input:checked").attr("value");
 					// and set text
 					switch (choice) {
-						case "stable":
-							$("#selectedVersionSpan").text( $("#availStableVersionSpan").data("version") );
+						case "adapt_RPI-4B":
+							$("#selectedVersionSpan").text( $("#availAdapt_RPI-4BVersionSpan").data("version") );
 							break;
 						case "beta":
 							$("#selectedVersionSpan").text( $("#availBetaVersionSpan").data("version") );
 							break;
-						case "master":
+						case "master-forked":
 							$("#selectedVersionSpan").text( $("#availNightlyVersionSpan").data("version") );
 							break;
 					}
