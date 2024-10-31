@@ -30,7 +30,7 @@ import sys
 from ipparser import ipparser
 from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.constants import Endian
-from pymodbus.client.sync import ModbusTcpClient
+from pymodbus.client import ModbusTcpClient
 
 from helpermodules.cli import run_using_positional_cli_args
 
@@ -58,49 +58,49 @@ class modbus:
         return self._client.read_holding_registers(address, count, **kwargs)
 
     def ReadUInt16(self, addr):
-        data = self._client.read_holding_registers(addr, 1, unit=71)
+        data = self._client.read_holding_registers(addr, 1, slave=71)
         UInt16register = BinaryPayloadDecoder.fromRegisters(
             data.registers, byteorder=Endian.Big, wordorder=Endian.Little)
         result = UInt16register.decode_16bit_uint()
         return(result)
 
     def ReadInt16(self, addr):
-        data = self._client.read_holding_registers(addr, 1, unit=71)
+        data = self._client.read_holding_registers(addr, 1, slave=71)
         Int16register = BinaryPayloadDecoder.fromRegisters(
             data.registers, byteorder=Endian.Big, wordorder=Endian.Little)
         result = Int16register.decode_16bit_int()
         return(result)
 
     def ReadUInt32(self, addr):
-        data = self._client.read_holding_registers(addr, 2, unit=71)
+        data = self._client.read_holding_registers(addr, 2, slave=71)
         UInt32register = BinaryPayloadDecoder.fromRegisters(
             data.registers, byteorder=Endian.Big, wordorder=Endian.Little)
         result = UInt32register.decode_32bit_uint()
         return(result)
 
     def ReadInt32(self, addr):
-        data = self._client.read_holding_registers(addr, 2, unit=71)
+        data = self._client.read_holding_registers(addr, 2, slave=71)
         Int32register = BinaryPayloadDecoder.fromRegisters(
             data.registers, byteorder=Endian.Big, wordorder=Endian.Little)
         result = Int32register.decode_32bit_int()
         return(result)
 
     def ReadFloat32(self, addr):
-        data = self._client.read_holding_registers(addr, 2, unit=71)
+        data = self._client.read_holding_registers(addr, 2, slave=71)
         Float32register = BinaryPayloadDecoder.fromRegisters(
             data.registers, byteorder=Endian.Big, wordorder=Endian.Little)
         result = Float32register.decode_32bit_float()
         return(result)
 
     def ReadUInt64(self, addr):
-        data = self._client.read_holding_registers(addr, 4, unit=71)
+        data = self._client.read_holding_registers(addr, 4, slave=71)
         UInt64register = BinaryPayloadDecoder.fromRegisters(
             data.registers, byteorder=Endian.Big, wordorder=Endian.Little)
         result = UInt64register.decode_64bit_uint()
         return(result)
 
     def ReadString(self, addr):
-        data = self._client.read_holding_registers(addr, 8, unit=71)
+        data = self._client.read_holding_registers(addr, 8, slave=71)
         Stringregister = BinaryPayloadDecoder.fromRegisters(
             data.registers, byteorder=Endian.Big, wordorder=Endian.Little)
         result = Stringregister.decode_string(8)

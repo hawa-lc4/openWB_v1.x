@@ -20,7 +20,7 @@ class SolaredgeMeterRegisters:
         # 40204: AC Frequency
         # 40205: AC Frequency Scale Factor
         self.frequency = 40204
-        # 40222/40223/40224: Power factor by phase (unit=%)
+        # 40222/40223/40224: Power factor by phase (slave=%)
         # 40225: AC Power Factor Scale Factor
         self.power_factors = 40222
         # 40226: Total Exported Real Energy

@@ -32,9 +32,9 @@ class AlphaEssBat:
         # keine Unterschiede zwischen den Versionen
 
         time.sleep(0.1)
-        voltage = self.__tcp_client.read_holding_registers(0x0100, ModbusDataType.INT_16, unit=unit_id)
+        voltage = self.__tcp_client.read_holding_registers(0x0100, ModbusDataType.INT_16, slave=unit_id)
         time.sleep(0.1)
-        current = self.__tcp_client.read_holding_registers(0x0101, ModbusDataType.INT_16, unit=unit_id)
+        current = self.__tcp_client.read_holding_registers(0x0101, ModbusDataType.INT_16, slave=unit_id)
 
         power = voltage * current * -1 / 100
         log.debug(
@@ -42,7 +42,7 @@ class AlphaEssBat:
             (power, voltage, current)
         )
         time.sleep(0.1)
-        soc_reg = self.__tcp_client.read_holding_registers(0x0102, ModbusDataType.INT_16, unit=unit_id)
+        soc_reg = self.__tcp_client.read_holding_registers(0x0102, ModbusDataType.INT_16, slave=unit_id)
         soc = int(soc_reg * 0.1)
 
         imported, exported = self.sim_counter.sim_count(power)

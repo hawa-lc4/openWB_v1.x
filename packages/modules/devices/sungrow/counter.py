@@ -31,28 +31,28 @@ class SungrowCounter:
         unit = self.__device_modbus_id
         if self.component_config.configuration.version == Version.SH:
             power = self.__tcp_client.read_input_registers(13009, ModbusDataType.INT_32,
-                                                           wordorder=Endian.Little, unit=unit) * -1
+                                                           wordorder=Endian.Little, slave=unit) * -1
             # no valid data for powers per phase
             # powers = self.__tcp_client.read_input_registers(5084, [ModbusDataType.INT_16] * 3,
-            #                                                 wordorder=Endian.Little, unit=unit)
+            #                                                 wordorder=Endian.Little, slave=unit)
             # powers = [power / 10 for power in powers]
             # log.info("power: " + str(power) + " powers?: " + str(powers))
         else:
             if pv_power != 0:
                 power = self.__tcp_client.read_input_registers(5082, ModbusDataType.INT_32,
-                                                               wordorder=Endian.Little, unit=unit)
+                                                               wordorder=Endian.Little, slave=unit)
             else:
                 power = self.__tcp_client.read_input_registers(5090, ModbusDataType.INT_32,
-                                                               wordorder=Endian.Little, unit=unit)
+                                                               wordorder=Endian.Little, slave=unit)
 
             # no valid data for powers per phase
             # powers = self.__tcp_client.read_input_registers(5084, [ModbusDataType.UINT_16] * 3,
-            #                                                 wordorder=Endian.Little, unit=unit)
+            #                                                 wordorder=Endian.Little, slave=unit)
             # powers = [power / 10 for power in powers]
             # log.info("power: " + str(power) + " powers?: " + str(powers))
-        frequency = self.__tcp_client.read_input_registers(5035, ModbusDataType.UINT_16, unit=unit) / 10
+        frequency = self.__tcp_client.read_input_registers(5035, ModbusDataType.UINT_16, slave=unit) / 10
         voltages = self.__tcp_client.read_input_registers(5018, [ModbusDataType.UINT_16] * 3,
-                                                          wordorder=Endian.Little, unit=unit)
+                                                          wordorder=Endian.Little, slave=unit)
         voltages = [voltage / 10 for voltage in voltages]
 
         imported, exported = self.sim_counter.sim_count(power)

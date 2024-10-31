@@ -18,7 +18,7 @@ class VartaCounter:
         self.component_info = ComponentInfo.from_component_config(self.component_config)
 
     def update(self, client: ModbusTcpClient_):
-        power = client.read_holding_registers(1078, ModbusDataType.INT_16, unit=1) * -1
+        power = client.read_holding_registers(1078, ModbusDataType.INT_16, slave=1) * -1
         imported, exported = self.sim_counter.sim_count(power)
 
         counter_state = CounterState(

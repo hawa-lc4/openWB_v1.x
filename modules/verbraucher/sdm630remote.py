@@ -7,7 +7,7 @@ import sys
 # import ConfigParser
 import struct
 # import binascii
-from pymodbus.client.sync import ModbusTcpClient
+from pymodbus.client import ModbusTcpClient
 
 #Args in var schreiben
 verbrauchernr = str(sys.argv[1])
@@ -17,7 +17,7 @@ sdmid = int(sys.argv[3])
 client = ModbusTcpClient(seradd, port=8899)
 
 #Phase 1 A
-resp = client.read_input_registers(0x06,2, unit=sdmid)
+resp = client.read_input_registers(0x06,2, slave=sdmid)
 al1 = struct.unpack('>f',struct.pack('>HH',*resp.registers))
 al1 = float("%.3f" % al1[0])
 al1string = "/var/www/html/openWB/ramdisk/verbraucher%s_a1" % (verbrauchernr)
@@ -26,7 +26,7 @@ f.write(str(al1))
 f.close()
 
 #Phase 2 A
-resp = client.read_input_registers(0x08,2, unit=sdmid)
+resp = client.read_input_registers(0x08,2, slave=sdmid)
 al2 = struct.unpack('>f',struct.pack('>HH',*resp.registers))
 al2= float("%.3f" % al2[0])
 al2string = "/var/www/html/openWB/ramdisk/verbraucher%s_a2" % (verbrauchernr)
@@ -35,7 +35,7 @@ f.write(str(al2))
 f.close()
 
 #Phase 3 A
-resp = client.read_input_registers(0x0A,2, unit=sdmid)
+resp = client.read_input_registers(0x0A,2, slave=sdmid)
 al3 = struct.unpack('>f',struct.pack('>HH',*resp.registers))
 al3 = float("%.3f" % al3[0])
 al3string = "/var/www/html/openWB/ramdisk/verbraucher%s_a3" % (verbrauchernr)
@@ -44,7 +44,7 @@ f.write(str(al3))
 f.close()
 
 #Phase 1 V
-resp = client.read_input_registers(0x00,2, unit=sdmid)
+resp = client.read_input_registers(0x00,2, slave=sdmid)
 vl1 = struct.unpack('>f',struct.pack('>HH',*resp.registers))
 vl1 = float("%.3f" % vl1[0])
 vl1string = "/var/www/html/openWB/ramdisk/verbraucher%s_v1" % (verbrauchernr)
@@ -53,7 +53,7 @@ f.write(str(vl1))
 f.close()
 
 #Phase 2 V
-resp = client.read_input_registers(0x02,2, unit=sdmid)
+resp = client.read_input_registers(0x02,2, slave=sdmid)
 vl2 = struct.unpack('>f',struct.pack('>HH',*resp.registers))
 vl2 = float("%.3f" % vl2[0])
 vl2string = "/var/www/html/openWB/ramdisk/verbraucher%s_v2" % (verbrauchernr)
@@ -62,7 +62,7 @@ f.write(str(vl2))
 f.close()
 
 #Phase 3 V
-resp = client.read_input_registers(0x04,2, unit=sdmid)
+resp = client.read_input_registers(0x04,2, slave=sdmid)
 vl3 = struct.unpack('>f',struct.pack('>HH',*resp.registers))
 vl3 = float("%.3f" % vl3[0])
 vl3string = "/var/www/html/openWB/ramdisk/verbraucher%s_v3" % (verbrauchernr)
@@ -71,7 +71,7 @@ f.write(str(vl3))
 f.close()
 
 #KWH Total Import
-resp = client.read_input_registers(0x0156,2, unit=sdmid)
+resp = client.read_input_registers(0x0156,2, slave=sdmid)
 vwh = struct.unpack('>f',struct.pack('>HH',*resp.registers))
 vwh2 = float("%.3f" % vwh[0]) * int(1000)
 vwh3 = str(vwh2)
@@ -82,7 +82,7 @@ f.close()
 
 #KWH Total Export
 #L1
-resp = client.read_input_registers(0x0160,2, unit=sdmid)
+resp = client.read_input_registers(0x0160,2, slave=sdmid)
 l1whe = struct.unpack('>f',struct.pack('>HH',*resp.registers))
 l1whe2 = float("%.3f" % l1whe[0]) * int(1000)
 l1whe3 = str(l1whe2)
@@ -92,7 +92,7 @@ f.write(str(l1whe3))
 f.close()
 
 #L2
-resp = client.read_input_registers(0x0162,2, unit=sdmid)
+resp = client.read_input_registers(0x0162,2, slave=sdmid)
 l2whe = struct.unpack('>f',struct.pack('>HH',*resp.registers))
 l2whe2 = float("%.3f" % l2whe[0]) * int(1000)
 l2whe3 = str(l2whe2)
@@ -102,7 +102,7 @@ f.write(str(l2whe3))
 f.close()
 
 #L3
-resp = client.read_input_registers(0x0164,2, unit=sdmid)
+resp = client.read_input_registers(0x0164,2, slave=sdmid)
 l3whe = struct.unpack('>f',struct.pack('>HH',*resp.registers))
 l3whe2 = float("%.3f" % l3whe[0]) * int(1000)
 l3whe3 = str(l3whe2)
@@ -119,7 +119,7 @@ f.write(str(whe))
 f.close()
 
 #Aktueller Verbrauch
-resp = client.read_input_registers(0x0034,2, unit=sdmid)
+resp = client.read_input_registers(0x0034,2, slave=sdmid)
 watt = struct.unpack('>f',struct.pack('>HH',*resp.registers))
 watt = int(watt[0])
 wattstring = "/var/www/html/openWB/ramdisk/verbraucher%s_watt" % (verbrauchernr)

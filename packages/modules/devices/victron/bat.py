@@ -27,8 +27,8 @@ class VictronBat:
     def update(self) -> None:
         modbus_id = self.component_config.configuration.modbus_id
         with self.__tcp_client:
-            power = self.__tcp_client.read_holding_registers(842, ModbusDataType.INT_16, unit=modbus_id)
-            soc = self.__tcp_client.read_holding_registers(843, ModbusDataType.UINT_16, unit=modbus_id)
+            power = self.__tcp_client.read_holding_registers(842, ModbusDataType.INT_16, slave=modbus_id)
+            soc = self.__tcp_client.read_holding_registers(843, ModbusDataType.UINT_16, slave=modbus_id)
 
         imported, exported = self.sim_counter.sim_count(power)
         bat_state = BatState(

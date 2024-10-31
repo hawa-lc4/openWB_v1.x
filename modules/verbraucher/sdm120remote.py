@@ -7,7 +7,7 @@ import sys
 # import ConfigParser
 import struct
 # import binascii
-from pymodbus.client.sync import ModbusTcpClient
+from pymodbus.client import ModbusTcpClient
 
 verbrauchernr = str(sys.argv[1])
 seradd = str(sys.argv[2])
@@ -15,7 +15,7 @@ sdmid = int(sys.argv[3])
 
 client = ModbusTcpClient(seradd, port=8899)
 
-resp = client.read_input_registers(0x0006,2, unit=sdmid)
+resp = client.read_input_registers(0x0006,2, slave=sdmid)
 al1 = struct.unpack('>f',struct.pack('>HH',*resp.registers))
 al1 = float("%.3f" % al1[0])
 al1string = "/var/www/html/openWB/ramdisk/verbraucher%s_a1" % (verbrauchernr)
@@ -23,7 +23,7 @@ f = open(al1string, 'w')
 f.write(str(al1))
 f.close()
 
-resp = client.read_input_registers(0x000C,2, unit=sdmid)
+resp = client.read_input_registers(0x000C,2, slave=sdmid)
 watt = struct.unpack('>f',struct.pack('>HH',*resp.registers))
 watt = int(watt[0])
 
@@ -32,7 +32,7 @@ f = open(wattstring, 'w')
 f.write(str(watt))
 f.close()
 
-resp = client.read_input_registers(0x0048,2, unit=sdmid)
+resp = client.read_input_registers(0x0048,2, slave=sdmid)
 vwh = struct.unpack('>f',struct.pack('>HH',*resp.registers))
 vwh2 = float("%.3f" % vwh[0]) * int(1000)
 vwh3 = str(vwh2)
@@ -41,7 +41,7 @@ f = open(vwhstring, 'w')
 f.write(str(vwh3))
 f.close()
 
-resp = client.read_input_registers(0x004a,2, unit=sdmid)
+resp = client.read_input_registers(0x004a,2, slave=sdmid)
 vwhe = struct.unpack('>f',struct.pack('>HH',*resp.registers))
 vwhe2 = float("%.3f" % vwhe[0]) * int(1000)
 vwhe3 = str(vwhe2)

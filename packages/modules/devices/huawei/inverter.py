@@ -29,7 +29,7 @@ class HuaweiInverter:
 
     def update(self) -> None:
         time.sleep(0.1)
-        power = self.__tcp_client.read_holding_registers(32064, ModbusDataType.INT_32, unit=self.__modbus_id) * -1
+        power = self.__tcp_client.read_holding_registers(32064, ModbusDataType.INT_32, slave=self.__modbus_id) * -1
 
         _, exported = self.sim_counter.sim_count(power)
         inverter_state = InverterState(

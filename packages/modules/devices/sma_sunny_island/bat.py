@@ -23,10 +23,10 @@ class SunnyIslandBat:
     def read(self) -> BatState:
         unit = 3
         with self.__tcp_client:
-            soc = self.__tcp_client.read_holding_registers(30845, ModbusDataType.INT_32, unit=unit)
+            soc = self.__tcp_client.read_holding_registers(30845, ModbusDataType.INT_32, slave=unit)
 
-            power = self.__tcp_client.read_holding_registers(30775, ModbusDataType.INT_32, unit=unit) * -1
-            imported, exported = self.__tcp_client.read_holding_registers(30595, [ModbusDataType.INT_32]*2, unit=unit)
+            power = self.__tcp_client.read_holding_registers(30775, ModbusDataType.INT_32, slave=unit) * -1
+            imported, exported = self.__tcp_client.read_holding_registers(30595, [ModbusDataType.INT_32]*2, slave=unit)
 
         return BatState(
             power=power,

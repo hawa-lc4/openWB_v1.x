@@ -24,14 +24,14 @@ class SiemensSentronCounter:
 
     def update(self):
         with self.__tcp_client:
-            imported = self.__tcp_client.read_holding_registers(801, ModbusDataType.FLOAT_64, unit=1)
-            exported = self.__tcp_client.read_holding_registers(809, ModbusDataType.FLOAT_64, unit=1)
-            power = self.__tcp_client.read_holding_registers(65, ModbusDataType.FLOAT_32, unit=1)
-            powers = self.__tcp_client.read_holding_registers(25, [ModbusDataType.FLOAT_32] * 3, unit=1)
-            frequency = self.__tcp_client.read_holding_registers(55, ModbusDataType.FLOAT_32, unit=1)
-            currents = self.__tcp_client.read_holding_registers(13, [ModbusDataType.FLOAT_32] * 3, unit=1)
-            voltages = self.__tcp_client.read_holding_registers(1, [ModbusDataType.FLOAT_32] * 3, unit=1)
-            power_factors = self.__tcp_client.read_holding_registers(37, [ModbusDataType.FLOAT_32] * 3, unit=1)
+            imported = self.__tcp_client.read_holding_registers(801, ModbusDataType.FLOAT_64, slave=1)
+            exported = self.__tcp_client.read_holding_registers(809, ModbusDataType.FLOAT_64, slave=1)
+            power = self.__tcp_client.read_holding_registers(65, ModbusDataType.FLOAT_32, slave=1)
+            powers = self.__tcp_client.read_holding_registers(25, [ModbusDataType.FLOAT_32] * 3, slave=1)
+            frequency = self.__tcp_client.read_holding_registers(55, ModbusDataType.FLOAT_32, slave=1)
+            currents = self.__tcp_client.read_holding_registers(13, [ModbusDataType.FLOAT_32] * 3, slave=1)
+            voltages = self.__tcp_client.read_holding_registers(1, [ModbusDataType.FLOAT_32] * 3, slave=1)
+            power_factors = self.__tcp_client.read_holding_registers(37, [ModbusDataType.FLOAT_32] * 3, slave=1)
 
         counter_state = CounterState(
             imported=imported,

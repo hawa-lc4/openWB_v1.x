@@ -21,8 +21,8 @@ class VartaBatModbus:
         self.set_state(self.get_state(client))
 
     def get_state(self, client: ModbusTcpClient_) -> BatState:
-        soc = client.read_holding_registers(1068, ModbusDataType.INT_16, unit=1)
-        power = client.read_holding_registers(1066, ModbusDataType.INT_16, unit=1)
+        soc = client.read_holding_registers(1068, ModbusDataType.INT_16, slave=1)
+        power = client.read_holding_registers(1066, ModbusDataType.INT_16, slave=1)
         return BatState(
             power=power,
             soc=soc,

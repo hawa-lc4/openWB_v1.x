@@ -28,7 +28,7 @@ class SolarmaxInverter:
 
     def update(self) -> None:
         with self.__tcp_client:
-            power = self.__tcp_client.read_holding_registers(4151, ModbusDataType.UINT_32, unit=self.__modbus_id) * -1
+            power = self.__tcp_client.read_holding_registers(4151, ModbusDataType.UINT_32, slave=self.__modbus_id) * -1
         power = power / 10
         _, exported = self.sim_counter.sim_count(power)
         inverter_state = InverterState(

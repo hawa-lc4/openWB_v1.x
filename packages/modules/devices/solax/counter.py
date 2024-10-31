@@ -28,17 +28,17 @@ class SolaxCounter:
     def update(self):
         with self.__tcp_client:
             power = self.__tcp_client.read_input_registers(70, ModbusDataType.INT_32, wordorder=Endian.Little,
-                                                           unit=self.__modbus_id) * -1
-            frequency = self.__tcp_client.read_input_registers(7, ModbusDataType.UINT_16, unit=self.__modbus_id) / 100
+                                                           slave=self.__modbus_id) * -1
+            frequency = self.__tcp_client.read_input_registers(7, ModbusDataType.UINT_16, slave=self.__modbus_id) / 100
             try:
                 powers = [-value for value in self.__tcp_client.read_input_registers(
-                    130, [ModbusDataType.INT_32] * 3, wordorder=Endian.Little, unit=self.__modbus_id
+                    130, [ModbusDataType.INT_32] * 3, wordorder=Endian.Little, slave=self.__modbus_id
                 )]
             except Exception:
                 powers = None
             exported, imported = [value * 10
                                   for value in self.__tcp_client.read_input_registers(
-                                      72, [ModbusDataType.UINT_32] * 2, wordorder=Endian.Little, unit=self.__modbus_id
+                                      72, [ModbusDataType.UINT_32] * 2, wordorder=Endian.Little, slave=self.__modbus_id
                                   )]
 
         counter_state = CounterState(

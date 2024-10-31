@@ -10,7 +10,7 @@ from enum import Enum
 from typing import Callable, Iterable, Union, overload, List
 
 import pymodbus
-from pymodbus.client.sync import ModbusTcpClient, ModbusSerialClient
+from pymodbus.client import ModbusTcpClient, ModbusSerialClient
 from pymodbus.constants import Endian
 from pymodbus.payload import BinaryPayloadDecoder
 from urllib3.util import parse_url

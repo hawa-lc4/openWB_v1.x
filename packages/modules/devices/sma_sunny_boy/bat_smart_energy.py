@@ -30,9 +30,9 @@ class SunnyBoySmartEnergyBat:
 
     def read(self) -> BatState:
         unit = 3
-        soc = self.__tcp_client.read_holding_registers(30845, ModbusDataType.UINT_32, unit=unit)
-        current = self.__tcp_client.read_holding_registers(30843, ModbusDataType.INT_32, unit=unit)/-1000
-        voltage = self.__tcp_client.read_holding_registers(30851, ModbusDataType.INT_32, unit=unit)/100
+        soc = self.__tcp_client.read_holding_registers(30845, ModbusDataType.UINT_32, slave=unit)
+        current = self.__tcp_client.read_holding_registers(30843, ModbusDataType.INT_32, slave=unit)/-1000
+        voltage = self.__tcp_client.read_holding_registers(30851, ModbusDataType.INT_32, slave=unit)/100
 
         if soc == self.SMA_INT32_NAN:
             # If the storage is empty and nothing is produced on the DC side, the inverter does not supply any values.

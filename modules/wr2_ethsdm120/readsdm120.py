@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import struct
-from pymodbus.client.sync import ModbusTcpClient
+from pymodbus.client import ModbusTcpClient
 from typing import List
 
 from helpermodules.cli import run_using_positional_cli_args
@@ -8,28 +8,28 @@ from helpermodules.cli import run_using_positional_cli_args
 
 def update(seradd: str, sdmid: int, ser2add: str, sdm2id: int):
     with ModbusTcpClient(seradd, port=8899) as client:
-        resp = client.read_input_registers(0x000C, 2, unit=sdmid)
+        resp = client.read_input_registers(0x000C, 2, slave=sdmid)
         watt = struct.unpack('>f', struct.pack('>HH', *resp.registers))
         watt1 = int(watt[0])
 
-        resp = client.read_input_registers(0x004a, 2, unit=sdmid)
+        resp = client.read_input_registers(0x004a, 2, slave=sdmid)
         vwh = struct.unpack('>f', struct.pack('>HH', *resp.registers))
         vwh1 = float("%.3f" % vwh[0])
-        resp = client.read_input_registers(0x0048, 2, unit=sdmid)
+        resp = client.read_input_registers(0x0048, 2, slave=sdmid)
         v1wh = struct.unpack('>f', struct.pack('>HH', *resp.registers))
         v1wh1 = float("%.3f" % v1wh[0])
 
     try:
         if sdm2id > 0:
             with ModbusTcpClient(ser2add, port=8899) as client2:
-                resp = client2.read_input_registers(0x000C, 2, unit=sdm2id)
+                resp = client2.read_input_registers(0x000C, 2, slave=sdm2id)
                 watt = struct.unpack('>f', struct.pack('>HH', *resp.registers))
                 watt2 = int(watt[0])
 
-                resp = client2.read_input_registers(0x004a, 2, unit=sdm2id)
+                resp = client2.read_input_registers(0x004a, 2, slave=sdm2id)
                 vwh = struct.unpack('>f', struct.pack('>HH', *resp.registers))
                 vwh2 = float("%.3f" % vwh[0])
-                resp = client2.read_input_registers(0x0048, 2, unit=sdm2id)
+                resp = client2.read_input_registers(0x0048, 2, slave=sdm2id)
                 v1wh = struct.unpack('>f', struct.pack('>HH', *resp.registers))
                 v1wh2 = float("%.3f" % v1wh[0])
         else:

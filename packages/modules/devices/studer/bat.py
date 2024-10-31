@@ -23,10 +23,10 @@ class StuderBat:
     def update(self) -> None:
         unit = 60
         with self.__tcp_client:
-            power = self.__tcp_client.read_input_registers(6, ModbusDataType.FLOAT_32, unit=unit)
-            imported = self.__tcp_client.read_input_registers(14, ModbusDataType.FLOAT_32, unit=unit) * 48
-            exported = self.__tcp_client.read_input_registers(16, ModbusDataType.FLOAT_32, unit=unit) * 48
-            soc = self.__tcp_client.read_input_registers(4, ModbusDataType.FLOAT_32, unit=unit)
+            power = self.__tcp_client.read_input_registers(6, ModbusDataType.FLOAT_32, slave=unit)
+            imported = self.__tcp_client.read_input_registers(14, ModbusDataType.FLOAT_32, slave=unit) * 48
+            exported = self.__tcp_client.read_input_registers(16, ModbusDataType.FLOAT_32, slave=unit) * 48
+            soc = self.__tcp_client.read_input_registers(4, ModbusDataType.FLOAT_32, slave=unit)
 
         bat_state = BatState(
             power=power,

@@ -13,30 +13,30 @@ class Mpm3pm(AbstractCounter):
 
     def get_voltages(self) -> List[float]:
         return [val / 10 for val in self.client.read_input_registers(
-            0x08, [ModbusDataType.UINT_32]*3, unit=self.id)]
+            0x08, [ModbusDataType.UINT_32]*3, slave=self.id)]
 
     def get_imported(self) -> float:
         # Faktorisierung anders als in der Dokumentation angegeben
-        return self.client.read_input_registers(0x0002, ModbusDataType.UINT_32, unit=self.id) * 10
+        return self.client.read_input_registers(0x0002, ModbusDataType.UINT_32, slave=self.id) * 10
 
     def get_power(self) -> Tuple[List[float], float]:
         powers = [val / 100 for val in self.client.read_input_registers(
-            0x14, [ModbusDataType.INT_32]*3, unit=self.id)]
-        power = self.client.read_input_registers(0x26, ModbusDataType.INT_32, unit=self.id) / 100
+            0x14, [ModbusDataType.INT_32]*3, slave=self.id)]
+        power = self.client.read_input_registers(0x26, ModbusDataType.INT_32, slave=self.id) / 100
         return powers, power
 
     def get_exported(self) -> float:
         # Faktorisierung anders als in der Dokumentation angegeben
-        return self.client.read_input_registers(0x0004, ModbusDataType.UINT_32, unit=self.id) * 10
+        return self.client.read_input_registers(0x0004, ModbusDataType.UINT_32, slave=self.id) * 10
 
     def get_power_factors(self) -> List[float]:
         # Faktorisierung anders als in der Dokumentation angegeben
         return [val / 10 for val in self.client.read_input_registers(
-            0x20, [ModbusDataType.UINT_32]*3, unit=self.id)]
+            0x20, [ModbusDataType.UINT_32]*3, slave=self.id)]
 
     def get_frequency(self) -> float:
-        return self.client.read_input_registers(0x2c, ModbusDataType.UINT_32, unit=self.id) / 100
+        return self.client.read_input_registers(0x2c, ModbusDataType.UINT_32, slave=self.id) / 100
 
     def get_currents(self) -> List[float]:
         return [val / 100 for val in self.client.read_input_registers(
-            0x0E, [ModbusDataType.UINT_32]*3, unit=self.id)]
+            0x0E, [ModbusDataType.UINT_32]*3, slave=self.id)]

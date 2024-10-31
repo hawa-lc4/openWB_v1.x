@@ -29,10 +29,10 @@ class HuaweiCounter:
 
     def update(self):
         time.sleep(0.1)
-        power = self.__tcp_client.read_holding_registers(37113, ModbusDataType.INT_32, unit=self.__modbus_id) * -1
+        power = self.__tcp_client.read_holding_registers(37113, ModbusDataType.INT_32, slave=self.__modbus_id) * -1
         time.sleep(0.1)
         currents = [val / -100 for val in self.__tcp_client.read_holding_registers(
-            37107, [ModbusDataType.INT_32] * 3, unit=self.__modbus_id)]
+            37107, [ModbusDataType.INT_32] * 3, slave=self.__modbus_id)]
 
         imported, exported = self.sim_counter.sim_count(power)
 

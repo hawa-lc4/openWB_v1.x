@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import sys
-from pymodbus.client.sync import ModbusSerialClient
+from pymodbus.client import ModbusSerialClient
 from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.constants import Endian
 # import math
@@ -67,9 +67,9 @@ client = ModbusSerialClient(method = "rtu", port=mb_port, baudrate=9600, stopbit
 for value in values:
     if value[1] is not None:
         if value[4] == 'U16':
-            result = client.read_holding_registers(value[1], 1, unit=mb_id)
+            result = client.read_holding_registers(value[1], 1, slave=mb_id)
         elif value[4] in ('U32', 'I32'):
-            result = client.read_holding_registers(value[1], 2, unit=mb_id)
+            result = client.read_holding_registers(value[1], 2, slave=mb_id)
         if result.isError():
             if debug == 1:
                 print('Could not read register {} ({})'.format(value[1], value[4]))

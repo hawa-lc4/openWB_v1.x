@@ -27,7 +27,7 @@ class SiemensCounter:
     def update(self):
 
         with self.__tcp_client:
-            power = self.__tcp_client.read_holding_registers(14, ModbusDataType.INT_32, unit=1)
+            power = self.__tcp_client.read_holding_registers(14, ModbusDataType.INT_32, slave=1)
 
         imported, exported = self.sim_counter.sim_count(power)
 

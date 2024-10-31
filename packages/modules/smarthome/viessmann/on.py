@@ -2,7 +2,7 @@
 import sys
 import os
 import time
-from pymodbus.client.sync import ModbusTcpClient
+from pymodbus.client import ModbusTcpClient
 named_tuple = time.localtime()  # getstruct_time
 time_string = time.strftime("%m/%d/%Y, %H:%M:%S viessmann on.py", named_tuple)
 devicenumber = str(sys.argv[1])
@@ -29,7 +29,7 @@ else:
 print('%s devicenr %s ipadr %s ueberschuss %6d try to connect (modbus)' %
       (time_string, devicenumber, ipadr, uberschuss), file=f)
 client = ModbusTcpClient(ipadr, port=502)
-rq = client.write_coil(16, True, unit=1)
+rq = client.write_coil(16, True, slave=1)
 print(rq, file=f)
 client.close()
 print('%s devicenr %s ipadr %s Einmalige Warmwasseraufbereitung aktiviert CO-17 = 1' %

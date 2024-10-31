@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 #from pymodbus.transaction import ModbusRtuFramer
-from pymodbus.client.sync import ModbusTcpClient
+from pymodbus.client import ModbusTcpClient
 from pymodbus.exceptions import ModbusIOException
 import sys
 
@@ -11,7 +11,7 @@ unit_id = 1
 #client = ModbusTcpClient(SERVER_HOST, SERVER_PORT, framer=ModbusRtuFramer)
 client = ModbusTcpClient(SERVER_HOST, SERVER_PORT)
 
-resp = client.read_input_registers(5, 14, unit=unit_id)
+resp = client.read_input_registers(5, 14, slave=unit_id)
 #logFile = open('/home/pi/PyRead.txt', 'a')
 #print(resp, file=logFile)
 #logFile.close()

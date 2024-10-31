@@ -44,7 +44,7 @@ class AlphaEssInverter:
 
     def __get_power(self, unit: int, reg_p: int) -> Number:
         powers = [
-            self.__tcp_client.read_holding_registers(address, ModbusDataType.INT_32, unit=unit)
+            self.__tcp_client.read_holding_registers(address, ModbusDataType.INT_32, slave=unit)
             for address in [reg_p, 0x041F, 0x0423, 0x0427]
         ]
         powers[0] = abs(powers[0])

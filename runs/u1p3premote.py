@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from pymodbus.client.sync import ModbusTcpClient
+from pymodbus.client import ModbusTcpClient
 import time
 import argparse
 
@@ -16,11 +16,11 @@ if(args.verbose):
 
 client = ModbusTcpClient(args.address, port=8899)
 if (args.phases == 1):
-    rq = client.write_register(0x0001, 256, unit=args.id)
+    rq = client.write_register(0x0001, 256, slave=args.id)
     time.sleep(args.duration)
-    rq = client.write_register(0x0001, 512, unit=args.id)
+    rq = client.write_register(0x0001, 512, slave=args.id)
 
 elif (args.phases == 3):
-    rq = client.write_register(0x0002, 256, unit=args.id)
+    rq = client.write_register(0x0002, 256, slave=args.id)
     time.sleep(args.duration)
-    rq = client.write_register(0x0002, 512, unit=args.id)
+    rq = client.write_register(0x0002, 512, slave=args.id)

@@ -29,7 +29,7 @@ class PowerdogCounter:
 
     def update(self):
         with self.__tcp_client:
-            home_consumption = self.__tcp_client.read_input_registers(40026, ModbusDataType.INT_32, unit=1)
+            home_consumption = self.__tcp_client.read_input_registers(40026, ModbusDataType.INT_32, slave=1)
         log.debug("Powerdog Hausverbrauch[W]: " + str(home_consumption))
         return home_consumption
 
