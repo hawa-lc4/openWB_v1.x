@@ -4,7 +4,7 @@ import sys
 # import time
 # import getopt
 import struct
-from pymodbus.client import ModbusTcpClient
+from pymodbus.client.sync import ModbusTcpClient
 
 ##PV Kit Defaults
 mbip='192.168.193.13'

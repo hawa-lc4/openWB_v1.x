@@ -6,7 +6,7 @@ import json
 import struct
 import codecs
 
-from pymodbus.client import ModbusTcpClient
+from pymodbus.client.sync import ModbusTcpClient
 named_tuple = time.localtime()  # getstruct_time
 time_string = time.strftime("%m/%d/%Y, %H:%M:%S vampair watty.py", named_tuple)
 devicenumber = str(sys.argv[1])
@@ -45,7 +45,7 @@ if count5 == 0:
     # aktuelle Leistung lesen
     client = ModbusTcpClient(ipadr, port=502)
     start = 2322
-    resp = client.read_input_registers(start, 2, slave=1)
+    resp = client.read_input_registers(start, 2, unit=1)
     value1 = resp.registers[0]
     all = format(value1, '04x')
     aktpower = int(struct.unpack('>h', codecs.decode(all, 'hex'))[0])
@@ -88,7 +88,7 @@ if count5 == 0:
                      modbuswrite), file=f)
     # modbus write
     if modbuswrite == 1:
-        client.write_registers(33409, [neupower], slave=1)
+        client.write_registers(33409, [neupower], unit=1)
         if count1 < 3:
             with open(file_string, 'a') as f:
                 print('%s devicenr %s ipadr %s device written by modbus ' %

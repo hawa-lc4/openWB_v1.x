@@ -2,7 +2,7 @@
 from typing import List
 import struct
 import codecs
-from pymodbus.client import ModbusTcpClient
+from pymodbus.client.sync import ModbusTcpClient
 
 from helpermodules.cli import run_using_positional_cli_args
 
@@ -10,7 +10,7 @@ from helpermodules.cli import run_using_positional_cli_args
 def update(ipaddress: str):
     with ModbusTcpClient(ipaddress, port=502) as client:
         # print "SoC batt"
-        resp = client.read_input_registers(1056, 2, slave=25)
+        resp = client.read_input_registers(1056, 2, unit=25)
         value1 = resp.registers[0]
         value2 = resp.registers[1]
         all = format(value1, '04x') + format(value2, '04x')
@@ -19,7 +19,7 @@ def update(ipaddress: str):
             f.write(str(final))
 
         # print "be-entladen watt"
-        resp = client.read_input_registers(1012, 2, slave=25)
+        resp = client.read_input_registers(1012, 2, unit=25)
         value1 = resp.registers[0]
         value2 = resp.registers[1]
         all = format(value1, '04x') + format(value2, '04x')

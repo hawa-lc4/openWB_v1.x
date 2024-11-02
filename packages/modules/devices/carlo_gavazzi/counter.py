@@ -30,13 +30,13 @@ class CarloGavazziCounter:
         unit = 1
         with self.__tcp_client:
             voltages = [val / 10 for val in self.__tcp_client.read_input_registers(
-                0x00, [ModbusDataType.INT_32] * 3, wordorder=Endian.Little, slave=unit)]
+                0x00, [ModbusDataType.INT_32] * 3, wordorder=Endian.Little, unit=unit)]
             powers = [val / 10 for val in self.__tcp_client.read_input_registers(
-                0x12, [ModbusDataType.INT_32] * 3, wordorder=Endian.Little, slave=unit)]
+                0x12, [ModbusDataType.INT_32] * 3, wordorder=Endian.Little, unit=unit)]
             power = sum(powers)
             currents = [(val / 1000) for val in self.__tcp_client.read_input_registers(
-                0x0C, [ModbusDataType.INT_32] * 3, wordorder=Endian.Little, slave=unit)]
-            frequency = self.__tcp_client.read_input_registers(0x33, ModbusDataType.INT_16, slave=unit) / 10
+                0x0C, [ModbusDataType.INT_32] * 3, wordorder=Endian.Little, unit=unit)]
+            frequency = self.__tcp_client.read_input_registers(0x33, ModbusDataType.INT_16, unit=unit) / 10
             if frequency > 100:
                 frequency = frequency / 10
 

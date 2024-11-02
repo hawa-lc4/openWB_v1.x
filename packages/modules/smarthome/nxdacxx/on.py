@@ -2,7 +2,7 @@
 import sys
 import logging
 from smarthome.smartlog import initlog
-from pymodbus.client import ModbusTcpClient
+from pymodbus.client.sync import ModbusTcpClient
 devicenumber = int(sys.argv[1])
 ipadr = str(sys.argv[2])
 uberschuss = int(sys.argv[3])
@@ -18,7 +18,7 @@ log.info('on devicenr %d ipadr %s dactyp %d' % (devicenumber, ipadr, dactyp))
 if dactyp == 2:
     client = ModbusTcpClient(ipadr, port=port)
     # DO1 einschalten um SGready zu aktivieren
-    rq = client.write_coil(0, True, slave=1)
+    rq = client.write_coil(0, True, unit=1)
 pvmodus = 1
 with open(file_stringpv, 'w') as f:
     f.write(str(pvmodus))

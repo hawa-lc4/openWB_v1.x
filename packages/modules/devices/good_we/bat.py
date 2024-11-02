@@ -24,12 +24,12 @@ class GoodWeBat:
 
     def update(self) -> None:
         with self.__tcp_client:
-            power = self.__tcp_client.read_holding_registers(35183, ModbusDataType.INT_16, slave=self.__modbus_id)*-1
-            soc = self.__tcp_client.read_holding_registers(37007, ModbusDataType.UINT_16, slave=self.__modbus_id)
+            power = self.__tcp_client.read_holding_registers(35183, ModbusDataType.INT_16, unit=self.__modbus_id)*-1
+            soc = self.__tcp_client.read_holding_registers(37007, ModbusDataType.UINT_16, unit=self.__modbus_id)
             imported = self.__tcp_client.read_holding_registers(
-                35206, ModbusDataType.UINT_32, slave=self.__modbus_id) * 100
+                35206, ModbusDataType.UINT_32, unit=self.__modbus_id) * 100
             exported = self.__tcp_client.read_holding_registers(
-                35209, ModbusDataType.UINT_32, slave=self.__modbus_id) * 100
+                35209, ModbusDataType.UINT_32, unit=self.__modbus_id) * 100
 
         bat_state = BatState(
             power=power,

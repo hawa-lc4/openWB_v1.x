@@ -6,7 +6,7 @@ import struct
 import codecs
 import logging
 from pymodbus.payload import BinaryPayloadBuilder
-from pymodbus.client import ModbusTcpClient
+from pymodbus.client.sync import ModbusTcpClient
 from smarthome.smartlog import initlog
 from smarthome.smartret import writeret
 #  fix for pymodbus endian class (changes once 2023 august to enum to uppercases only,

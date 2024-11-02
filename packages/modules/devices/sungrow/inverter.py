@@ -31,7 +31,7 @@ class SungrowInverter:
         power = self.__tcp_client.read_input_registers(5016,
                                                        ModbusDataType.UINT_32,
                                                        wordorder=Endian.Little,
-                                                       slave=unit) * -1
+                                                       unit=unit) * -1
 
         _, exported = self.sim_counter.sim_count(power)
 

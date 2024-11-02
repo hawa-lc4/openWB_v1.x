@@ -8,7 +8,7 @@ import json
 # import struct
 # import codecs
 # import binascii
-from pymodbus.client import ModbusTcpClient
+from pymodbus.client.sync import ModbusTcpClient
 from pymodbus.constants import Endian
 from pymodbus.payload import BinaryPayloadDecoder
 
@@ -21,7 +21,7 @@ ipaddress=str(sys.argv[2])
 client = ModbusTcpClient(ipaddress, port=502)
 
 # total energy 1036
-resp= client.read_holding_registers(1036,2,slave=255)
+resp= client.read_holding_registers(1036,2,unit=255)
 if (lpnumber ==1):
     f = open('/var/www/html/openWB/ramdisk/llkwh', 'w')
 else:
@@ -34,7 +34,7 @@ f.write(powerc)
 f.close()
 
 # active power 1020
-resp= client.read_holding_registers(1020,2,slave=255)
+resp= client.read_holding_registers(1020,2,unit=255)
 if (lpnumber ==1):
     f = open('/var/www/html/openWB/ramdisk/llaktuell', 'w')
 else:
@@ -47,7 +47,7 @@ f.write(power)
 f.close()
 
 # voltage l1 1040
-resp= client.read_holding_registers(1040,2,slave=255)
+resp= client.read_holding_registers(1040,2,unit=255)
 if (lpnumber ==1):
     f = open('/var/www/html/openWB/ramdisk/llv1', 'w')
 else:
@@ -60,7 +60,7 @@ f.write(v1)
 f.close()
 
 # voltage l2 1042
-resp= client.read_holding_registers(1042,2,slave=255)
+resp= client.read_holding_registers(1042,2,unit=255)
 if (lpnumber ==1):
     f = open('/var/www/html/openWB/ramdisk/llv2', 'w')
 else:
@@ -73,7 +73,7 @@ f.write(v2)
 f.close()
 
 # voltage l3 1044
-resp= client.read_holding_registers(1044,2,slave=255)
+resp= client.read_holding_registers(1044,2,unit=255)
 if (lpnumber ==1):
     f = open('/var/www/html/openWB/ramdisk/llv3', 'w')
 else:
@@ -86,7 +86,7 @@ f.write(v3)
 f.close()
 
 # amp l1 1008
-resp= client.read_holding_registers(1008,2,slave=255)
+resp= client.read_holding_registers(1008,2,unit=255)
 if (lpnumber ==1):
     f = open('/var/www/html/openWB/ramdisk/lla1', 'w')
 else:
@@ -99,7 +99,7 @@ f.write(a1)
 f.close()
 
 # amp l2 1010
-resp= client.read_holding_registers(1010,2,slave=255)
+resp= client.read_holding_registers(1010,2,unit=255)
 if (lpnumber ==1):
     f = open('/var/www/html/openWB/ramdisk/lla2', 'w')
 else:
@@ -112,7 +112,7 @@ f.write(a2)
 f.close()
 
 # amp l3 1012
-resp= client.read_holding_registers(1012,2,slave=255)
+resp= client.read_holding_registers(1012,2,unit=255)
 if (lpnumber ==1):
     f = open('/var/www/html/openWB/ramdisk/lla3', 'w')
 else:
@@ -125,7 +125,7 @@ f.write(a3)
 f.close()
 
 # charging state 1000
-resp= client.read_holding_registers(1000,2,slave=255)
+resp= client.read_holding_registers(1000,2,unit=255)
 if (lpnumber ==1):
     f = open('/var/www/html/openWB/ramdisk/chargestat', 'w')
 else:
@@ -141,7 +141,7 @@ f.write(str(chargestat))
 f.close()
 
 # cabel state 1004
-resp= client.read_holding_registers(1004,2,slave=255)
+resp= client.read_holding_registers(1004,2,unit=255)
 if (lpnumber ==1):
     f = open('/var/www/html/openWB/ramdisk/plugstat', 'w')
 else:
@@ -157,31 +157,31 @@ f.write(str(plugstat))
 f.close()
 
 # maxcurr 1100
-resp= client.read_holding_registers(1100,2,slave=255)
+resp= client.read_holding_registers(1100,2,unit=255)
 decoder = BinaryPayloadDecoder.fromRegisters(resp.registers,byteorder=Endian.Big,wordorder=Endian.Big)
 final2 = float( decoder.decode_32bit_uint()) / 1000
 maxcur = "%.f" % final2
 
 # max supported curr 1110
-resp= client.read_holding_registers(1110,2,slave=255)
+resp= client.read_holding_registers(1110,2,unit=255)
 decoder = BinaryPayloadDecoder.fromRegisters(resp.registers,byteorder=Endian.Big,wordorder=Endian.Big)
 final2 = float( decoder.decode_32bit_uint()) / 1000
 supcur = "%.f" % final2
 
 # hwinfo 1016
-resp= client.read_holding_registers(1016,2,slave=255)
+resp= client.read_holding_registers(1016,2,unit=255)
 decoder = BinaryPayloadDecoder.fromRegisters(resp.registers,byteorder=Endian.Big,wordorder=Endian.Big)
 final2 = float( decoder.decode_32bit_uint())
 hwinfo= "%.f" % final2
 
 # error info 1006
-resp= client.read_holding_registers(1006,2,slave=255)
+resp= client.read_holding_registers(1006,2,unit=255)
 decoder = BinaryPayloadDecoder.fromRegisters(resp.registers,byteorder=Endian.Big,wordorder=Endian.Big)
 final2 = float( decoder.decode_32bit_uint())
 errinfo= "%8X" % int(final2)
 
 # rfid info 1500
-resp= client.read_holding_registers(1500,2,slave=255)
+resp= client.read_holding_registers(1500,2,unit=255)
 decoder = BinaryPayloadDecoder.fromRegisters(resp.registers,byteorder=Endian.Big,wordorder=Endian.Big)
 final2 = float( decoder.decode_32bit_uint())
 rfidinfo= "%08X" % int(final2)
@@ -203,7 +203,7 @@ rfidinfo = '00' + rfidinfo
 #        rfidinfo = '000992DAA2'
 #rfid simulations end
 # firmware version
-resp= client.read_holding_registers(1018,2,slave=255)
+resp= client.read_holding_registers(1018,2,unit=255)
 decoder = BinaryPayloadDecoder.fromRegisters(resp.registers,byteorder=Endian.Big,wordorder=Endian.Big)
 final2 = float( decoder.decode_32bit_uint())
 firminfo= "%08X" % int(final2)

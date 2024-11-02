@@ -74,26 +74,26 @@ class Device(AbstractDevice):
             # try:
             #     # ToDo: convert to String
             #     manufacturer = self.client.read_holding_registers(40004, [modbus.ModbusDataType.UINT_32]*8,
-            #                                                       slave=component_config.configuration.modbus_id)
+            #                                                       unit=component_config.configuration.modbus_id)
             #     # ToDo: convert to String
             #     model = self.client.read_holding_registers(40020, [modbus.ModbusDataType.UINT_32]*8,
-            #                                                slave=component_config.configuration.modbus_id)
+            #                                                unit=component_config.configuration.modbus_id)
             #     # ToDo: convert to String
             #     version = self.client.read_holding_registers(40044, [modbus.ModbusDataType.UINT_16]*8,
-            #                                                  slave=component_config.configuration.modbus_id)
+            #                                                  unit=component_config.configuration.modbus_id)
             #     serial_number = self.client.read_holding_registers(40052, [modbus.ModbusDataType.UINT_32]*8,
-            #                                                        slave=component_config.configuration.modbus_id)
+            #                                                        unit=component_config.configuration.modbus_id)
             #     log.debug("Version: " + str(version))
             # except Exception as e:
             #     log.exception("Fehler beim Auslesen der Modbus-Register: " + str(e))
             #     pass
             if self.client.read_holding_registers(40121, modbus.ModbusDataType.UINT_16,
-                                                  slave=component_config.configuration.modbus_id
+                                                  unit=component_config.configuration.modbus_id
                                                   ) == synergy_unit_identifier:
                 log.debug("Synergy Units supported")
                 self.synergy_units = int(self.client.read_holding_registers(
                     40129, modbus.ModbusDataType.UINT_16,
-                    slave=component_config.configuration.modbus_id)) or 1
+                    unit=component_config.configuration.modbus_id)) or 1
                 log.debug("Synergy Units detected: %s", self.synergy_units)
             if component_type == "external_inverter" or component_type == "counter" or component_type == "inverter":
                 self.set_component_registers(self.components.values(), self.synergy_units)

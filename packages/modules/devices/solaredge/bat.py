@@ -47,9 +47,9 @@ class SolaredgeBat:
     def get_values(self) -> Tuple[float, float]:
         unit = self.component_config.configuration.modbus_id
         soc = self.__tcp_client.read_holding_registers(
-            62852, ModbusDataType.FLOAT_32, wordorder=Endian.Little, slave=unit)
+            62852, ModbusDataType.FLOAT_32, wordorder=Endian.Little, unit=unit)
         power = self.__tcp_client.read_holding_registers(
-            62836, ModbusDataType.FLOAT_32, wordorder=Endian.Little, slave=unit)
+            62836, ModbusDataType.FLOAT_32, wordorder=Endian.Little, unit=unit)
         if power == FLOAT32_UNSUPPORTED:
             power = 0
         return power, soc
