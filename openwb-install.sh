@@ -6,10 +6,15 @@
 
 echo "install required packages..."
 sudo apt update
-sudo apt -q -y install vim bc apache2 php php-gd php-curl php-xml php-json libapache2-mod-php jq raspberrypi-kernel-headers i2c-tools git mosquitto mosquitto-clients socat sshpass
+sudo apt -q -y install vim bc apache2 php php-gd php-curl php-xml php-json libapache2-mod-php jq raspberrypi-kernel-headers i2c-tools git mosquitto mosquitto-clients socat sshpass python3-lxml
+if [ ! -f /home/pi/ssl_patched ]; then
+	# sudo apt-get -qq install -y openssl libcurl3 curl libgcrypt20 libgnutls30 libssl1.1 libcurl3-gnutls libssl1.0.2 php7.0-cli php7.0-gd php7.0-opcache php7.0 php7.0-common php7.0-json php7.0-readline php7.0-xml php7.0-curl libapache2-mod-php7.0
+	sudo apt -q -y install openssl curl libgcrypt20 libgnutls30 libssl1.1 libcurl3-gnutls
+	touch /home/pi/ssl_patched
+fi
 echo "...done"
 
-# echo "check for timezone"
+echo "check for timezone"
 if  grep -Fxq "Europe/Berlin" /etc/timezone
 then
 	echo "...ok"
@@ -104,6 +109,11 @@ elif [ -d "/etc/php/8.2/" ]; then
 	sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/8.2/apache2/conf.d/20-uploadlimit.ini"
 	sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/8.2/apache2/conf.d/20-uploadlimit.ini"
 fi
+if ! grep -Fq "ServerName " /etc/apache2/apache2.conf
+then
+	sudo /bin/su -c "echo 'ServerName 127.0.0.1' >> /etc/apache2/apache2.conf"
+	sudo systemctl reload apache2.service
+fi
 echo "...limit fixed"
 
 echo "installing python packages and create Python virtual environment for openWB 1.9"
@@ -116,6 +126,7 @@ else
 	source /home/pi/openwb1-venv/bin/activate
 	cd /var/www/html/openWB
 	pip3 install -r python-requirements.txt
+	pip3 install --upgrade urllib3
 fi
 echo "...done"
 

@@ -35,12 +35,12 @@ at_reboot() {
 	) &
 
 	# check for outdated sources.list (Stretch only)
-	if grep -q -e "^deb http://raspbian.raspberrypi.org/raspbian/ stretch" /etc/apt/sources.list; then
-		echo "sources.list outdated! upgrading..."
-		sudo sed -i "s/^deb http:\/\/raspbian.raspberrypi.org\/raspbian\/ stretch/deb http:\/\/legacy.raspbian.org\/raspbian\/ stretch/g" /etc/apt/sources.list
-	else
-		echo "sources.list already updated"
-	fi
+	# if grep -q -e "^deb http://raspbian.raspberrypi.org/raspbian/ stretch" /etc/apt/sources.list; then
+	# 	echo "sources.list outdated! upgrading..."
+	# 	sudo sed -i "s/^deb http:\/\/raspbian.raspberrypi.org\/raspbian\/ stretch/deb http:\/\/legacy.raspbian.org\/raspbian\/ stretch/g" /etc/apt/sources.list
+	# else
+	# 	echo "sources.list already updated"
+	# fi
 
 	# read openwb.conf
 	echo "loading config"
@@ -52,7 +52,7 @@ at_reboot() {
 	. "$OPENWBBASEDIR/runs/updateConfig.sh"
 
 	boot_config_source="$OPENWBBASEDIR/web/files/boot_config.txt"
-	boot_config_target="/boot/config.txt"
+	boot_config_target="/boot/firmware/config.txt"
 	echo "checking init in $boot_config_target..."
 	if versionMatch "$boot_config_source" "$boot_config_target"; then
 		echo "already up to date"
@@ -212,28 +212,30 @@ at_reboot() {
 	fi
 
 	# check for needed packages
-	echo "packages 1..."
-	if python -c "import evdev" &>/dev/null; then
-		echo 'evdev for python2 installed...'
-	else
-		sudo pip install evdev
-	fi
-	if ! [ -x "$(command -v sshpass)" ]; then
-		sudo apt-get -qq update
-		sleep 1
-		sudo apt-get -qq install -y sshpass
-	fi
-	if [ "$(dpkg-query -W -f='${Status}' php-gd 2>/dev/null | grep -c "ok installed")" -eq 0 ]; then
-		sudo apt-get -qq update
-		sleep 1
-		sudo apt-get -qq install -y php-gd php7.0-xml
-	fi
-	# required package for soc_vwid
-	if [ "$(dpkg-query -W -f='${Status}' libxslt1-dev 2>/dev/null | grep -c "ok installed")" -eq 0 ]; then
-		sudo apt-get -qq update
-		sleep 1
-		sudo apt-get -qq install -y libxslt1-dev
-	fi
+	# do NOT check, all needed packages shall be installed by openwb-install.sh only!
+	#
+	# echo "packages 1..."
+	# if python -c "import evdev" &>/dev/null; then
+	# 	echo 'evdev for python2 installed...'
+	# else
+	# 	sudo pip install evdev
+	# fi
+	# if ! [ -x "$(command -v sshpass)" ]; then
+	# 	sudo apt-get -qq update
+	# 	sleep 1
+	# 	sudo apt-get -qq install -y sshpass
+	# fi
+	# if [ "$(dpkg-query -W -f='${Status}' php-gd 2>/dev/null | grep -c "ok installed")" -eq 0 ]; then
+	# 	sudo apt-get -qq update
+	# 	sleep 1
+	# 	sudo apt-get -qq install -y php-gd php7.0-xml
+	# fi
+	# # required package for soc_vwid
+	# if [ "$(dpkg-query -W -f='${Status}' libxslt1-dev 2>/dev/null | grep -c "ok installed")" -eq 0 ]; then
+	# 	sudo apt-get -qq update
+	# 	sleep 1
+	# 	sudo apt-get -qq install -y libxslt1-dev
+	# fi
 
 	# update old ladelog
 	"$OPENWBBASEDIR/runs/transferladelog.sh"
@@ -244,25 +246,26 @@ at_reboot() {
 		sudo /home/pi/openwb1-venv/bin/python "$OPENWBBASEDIR/runs/leds.py" startup
 	fi
 
-	# setup timezone
-	echo "timezone..."
-	sudo cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+	# setup timezone; also here: all to be done in openwb-install.sh!
+	# echo "timezone..."
+	# sudo cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
-	if [ ! -f /home/pi/ssl_patched ]; then
-		sudo apt-get -qq update
-		sleep 1
-		sudo apt-get -qq install -y openssl libcurl3 curl libgcrypt20 libgnutls30 libssl1.1 libcurl3-gnutls libssl1.0.2 php7.0-cli php7.0-gd php7.0-opcache php7.0 php7.0-common php7.0-json php7.0-readline php7.0-xml php7.0-curl libapache2-mod-php7.0
-		touch /home/pi/ssl_patched
-	fi
+	# if [ ! -f /home/pi/ssl_patched ]; then
+	# 	sudo apt-get -qq update
+	# 	sleep 1
+	# 	# sudo apt-get -qq install -y openssl libcurl3 curl libgcrypt20 libgnutls30 libssl1.1 libcurl3-gnutls libssl1.0.2 php7.0-cli php7.0-gd php7.0-opcache php7.0 php7.0-common php7.0-json php7.0-readline php7.0-xml php7.0-curl libapache2-mod-php7.0
+	# 	sudo apt -qq install -y openssl curl libgcrypt20 libgnutls30 libssl1.1 libcurl3-gnutls
+	# 	touch /home/pi/ssl_patched
+	# fi
 
 	# check for mosquitto packages
-	echo "mosquitto..."
-	if [ ! -f /etc/mosquitto/mosquitto.conf ]; then
-		sudo apt-get -qq update
-		sleep 1
-		sudo apt-get -qq install -y mosquitto mosquitto-clients
-		sudo service mosquitto start
-	fi
+	# echo "mosquitto..."
+	# if [ ! -f /etc/mosquitto/mosquitto.conf ]; then
+	# 	sudo apt-get -qq update
+	# 	sleep 1
+	# 	sudo apt-get -qq install -y mosquitto mosquitto-clients
+	# 	sudo service mosquitto start
+	# fi
 
 	# check for mosquitto configuration
 	if [ ! -f /etc/mosquitto/conf.d/openwb.conf ] || ! sudo grep -Fq "persistent_client_expiration" /etc/mosquitto/mosquitto.conf; then
@@ -276,13 +279,13 @@ at_reboot() {
 	python3 -u "$OPENWBBASEDIR/runs/installPythonPackages.py"
 
 	#Prepare for lxml used in soc module libvwid in Python
-	if python3 -c "import lxml" &>/dev/null; then
-		echo 'lxml installed...'
-	else
-		sudo apt-get -qq update
-		sleep 1
-		sudo apt-get -qq install -y python3-lxml
-	fi
+	# if python3 -c "import lxml" &>/dev/null; then
+	# 	echo 'lxml installed...'
+	# else
+	# 	sudo apt-get -qq update
+	# 	sleep 1
+	# 	sudo apt-get -qq install -y python3-lxml
+	# fi
 
 	#Prepare for secrets used in soc module libvwid in Python
 	VWIDMODULEDIR="$OPENWBBASEDIR/modules/soc_vwid"
@@ -299,13 +302,13 @@ at_reboot() {
 		fi
 	fi
 	# update outdated urllib3 for Tesla Powerwall
-	pip3 install --upgrade urllib3
+	# pip3 install --upgrade urllib3
 
 	# update version
-	echo "version..."
-	uuid=$(</sys/class/net/end0/address)
-	owbv=$(<"$OPENWBBASEDIR/web/version")
-	curl --connect-timeout 10 -d "update=\"${releasetrain}${uuid}vers${owbv}\"" -H "Content-Type: application/x-www-form-urlencoded" -X POST https://openwb.de/tools/update.php
+	# echo "version..."
+	# uuid=$(</sys/class/net/end0/address)
+	# owbv=$(<"$OPENWBBASEDIR/web/version")
+	# curl --connect-timeout 10 -d "update=\"${releasetrain}${uuid}vers${owbv}\"" -H "Content-Type: application/x-www-form-urlencoded" -X POST https://openwb.de/tools/update.php
 
 	# all done, remove warning in display
 	echo "clear warning..."
@@ -375,37 +378,37 @@ at_reboot() {
 
 	# set upload limit in php
 	#prepare for Buster or whatever
-	echo -n "fix upload limit..."
-	if [ -d "/etc/php/7.0/" ]; then
-		echo "OS Stretch (Debian 9)"
-		sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
-		sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
-	elif [ -d "/etc/php/7.3/" ]; then
-		echo "OS Buster (Debian 10)"
-		sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
-		sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
-	elif [ -d "/etc/php/7.4/" ]; then
-		echo "OS Bullseye (Debian 11)"
-		sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.4/apache2/conf.d/20-uploadlimit.ini"
-		sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.4/apache2/conf.d/20-uploadlimit.ini"
-	elif [ -d "/etc/php/8.1/" ]; then
-		echo "OS Bullseye (Debian 11)"
-		sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/8.1/apache2/conf.d/20-uploadlimit.ini"
-		sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/8.1/apache2/conf.d/20-uploadlimit.ini"
-	elif [ -d "/etc/php/8.2/" ]; then
-		echo "OS Bookworm (Debian 12)"
-		sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/8.2/apache2/conf.d/20-uploadlimit.ini"
-		sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/8.2/apache2/conf.d/20-uploadlimit.ini"
-	fi
+	# echo -n "fix upload limit..."
+	# if [ -d "/etc/php/7.0/" ]; then
+	# 	echo "OS Stretch (Debian 9)"
+	# 	sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
+	# 	sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
+	# elif [ -d "/etc/php/7.3/" ]; then
+	# 	echo "OS Buster (Debian 10)"
+	# 	sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
+	# 	sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
+	# elif [ -d "/etc/php/7.4/" ]; then
+	# 	echo "OS Bullseye (Debian 11)"
+	# 	sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.4/apache2/conf.d/20-uploadlimit.ini"
+	# 	sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.4/apache2/conf.d/20-uploadlimit.ini"
+	# elif [ -d "/etc/php/8.1/" ]; then
+	# 	echo "OS Bullseye (Debian 11)"
+	# 	sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/8.1/apache2/conf.d/20-uploadlimit.ini"
+	# 	sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/8.1/apache2/conf.d/20-uploadlimit.ini"
+	# elif [ -d "/etc/php/8.2/" ]; then
+	# 	echo "OS Bookworm (Debian 12)"
+	# 	sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/8.2/apache2/conf.d/20-uploadlimit.ini"
+	# 	sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/8.2/apache2/conf.d/20-uploadlimit.ini"
+	# fi
 
-	sudo /usr/sbin/apachectl -k graceful
+	# sudo /usr/sbin/apachectl -k graceful
 
 	# all done, remove boot and update status
-	echo "$(date +"%Y-%m-%d %H:%M:%S:") boot done :-)"
 	echo 0 >"$OPENWBBASEDIR/ramdisk/bootinprogress"
 	echo 0 >"$OPENWBBASEDIR/ramdisk/updateinprogress"
 	mosquitto_pub -t openWB/system/updateInProgress -r -m "0"
 	mosquitto_pub -t openWB/system/reloadDisplay -m "1"
+	echo "$(date +"%Y-%m-%d %H:%M:%S:") boot done :-)"
 }
 
 openwbRunLoggingOutput at_reboot

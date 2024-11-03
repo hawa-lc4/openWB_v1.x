@@ -93,3 +93,6 @@ Individual special changes made to adapt openWB v1.9.x to fit my needs for insta
 
 ./web/tools/raspbian_ARM.php
     modification to show reasonable info on RPI-4B board (line 4)
+
+./web/files/boot_config.txt
+    reduce GPIOs used

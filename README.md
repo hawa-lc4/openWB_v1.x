@@ -56,7 +56,8 @@ Vorausgesetzt wird das ein Benutzer 'pi' mit der Gruppe 'pi' eingerichtet ist.
 
 Als dieser Benutzer anmelden und in der Shell folgendes eingeben:
 
-	curl -s https://raw.githubusercontent.com/hawa-lc4/openWB_v1.x/adapt_RPI-4B/openwb-install.sh | sudo bash
+	cd ~ && curl -s https://raw.githubusercontent.com/hawa-lc4/openWB_v1.x/adapt_RPI-4B/openwb-install.sh > openwb-install.sh
+	chmod +x openwb-install.sh && ./openwb-install.sh
 
 
 Crontab anpassen:
