@@ -21,7 +21,7 @@ else
 fi
 
 echo "check for i2c bus"
-echo "enabling and access to i2c bus is done by raspi-config!"
+echo "enabling and access to i2c bus components is done by raspi-config!"
 # if grep -Fxq "i2c-bcm2835" /etc/modules
 # then
 # 	echo "...ok"

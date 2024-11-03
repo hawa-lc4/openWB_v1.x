@@ -52,13 +52,17 @@ Raspbian installieren aktuell werden in der Version 1.9 nur Stretch (bevorzugt) 
 
 	http://downloads.raspberrypi.org/raspbian_full/images/
 
-In der Shell folgendes eingeben:
+Vorausgesetzt wird das ein Benutzer 'pi' mit der Gruppe 'pi' eingerichtet ist.
+
+Als dieser Benutzer anmelden und in der Shell folgendes eingeben:
 
 	curl -s https://raw.githubusercontent.com/hawa-lc4/openWB_v1.x/adapt_RPI-4B/openwb-install.sh | sudo bash
 
 
 Crontab anpassen:
+
 	crontab -e
+
 hier einfügen:
 
 	* * * * * /var/www/html/openWB/regel.sh >> /var/log/openWB.log 2>&1 
