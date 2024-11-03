@@ -13,4 +13,4 @@ fi
 set -o nounset
 
 # call module
-sudo python3 "$MODULEDIR/awattarcapgetprices.py" "$debug"
+sudo /home/pi/openwb1-venv/bin/python3 "$MODULEDIR/awattarcapgetprices.py" "$debug"

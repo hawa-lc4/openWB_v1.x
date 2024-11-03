@@ -23,6 +23,7 @@
 #     along with openWB.  If not, see <https://www.gnu.org/licenses/>.
 #
 #####
+source /home/pi/openwb1-venv/bin/activate
 OPENWBBASEDIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 
 set -o pipefail
@@ -263,7 +264,7 @@ if (( cpunterbrechunglp1 == 1 )); then
 							mosquitto_pub -r -t openWB/set/isss/Cpulp1 -h $chargep1ip -m "1"
 						else
 							openwbDebugLog "MAIN" 0 "Dauer der Unterbrechung: ${cpunterbrechungdauerlp1}s"
-							sudo python runs/cpulp1.py -d "$cpunterbrechungdauerlp1"
+							sudo /home/pi/openwb1-venv/bin/python runs/cpulp1.py -d "$cpunterbrechungdauerlp1"
 						fi
 						echo 1 > ramdisk/cpulp1waraktiv
 						date +%s > ramdisk/cpulp1timestamp # Timestamp in epoch der CP Unterbrechung
@@ -301,7 +302,7 @@ if (( cpunterbrechunglp2 == 1 )); then
 							mosquitto_pub -r -t openWB/set/isss/Cpulp1 -h $chargep2ip -m "1"
 						else
 							openwbDebugLog "MAIN" 0 "Dauer der Unterbrechung: ${cpunterbrechungdauerlp2}s"
-							sudo python runs/cpulp2.py -d "$cpunterbrechungdauerlp2"
+							sudo /home/pi/openwb1-venv/bin/python runs/cpulp2.py -d "$cpunterbrechungdauerlp2"
 						fi
 						echo 1 > ramdisk/cpulp2waraktiv
 						date +%s > ramdisk/cpulp2timestamp # Timestamp in epoch der CP Unterbrechung

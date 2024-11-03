@@ -15,4 +15,4 @@ fi
 # Set the ramdisk path here (and don´t hard code it in the python script)
 ramdiskpath="/var/www/html/openWB/ramdisk"
 
-sudo python /var/www/html/openWB/modules/fsm63a3modbusll/readfsm63a3.py $fsm63a3modbusllsource $fsm63a3modbusllid $ramdiskpath
+sudo /home/pi/openwb1-venv/bin/python /var/www/html/openWB/modules/fsm63a3modbusll/readfsm63a3.py $fsm63a3modbusllsource $fsm63a3modbusllid $ramdiskpath

@@ -1,4 +1,16 @@
-Changes made to adapt openWB v1.9.x to fit my needs for installation on RPI-4B:
+Major changes done here:
+    - Python 3.11.2 is installed in a virtual environment together with all Python packages needed
+    - certain shell scripts have been modified to include the Python virtual environment
+        atreboot.sh, services.sh, loadvars.sh, regel.sh, legacy_run_server.sh, cronnightly.sh, initRamdisk.sh,
+        pubmqtt.sh, sendmonthgraphdatav1.sh, sendyeargraphdatav1.sh, transferladelog.sh, pushButtonsHelper.sh,
+        rfidHelper.sh,rseHelper.sh plus several main.sh files
+        plus 47 further files changed 'sudo python' into 'sudo /home/pi/openwb1-venv/bin/python'; applies to python3 as well.
+    - certain shell scripts have been modified to respect the change of network interface names in current linux (https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/)
+        openwb.conf, atreboot.sh, services.sh, setvirtips.sh, updateconfig.sh, network.php, programmloggerinfo.php, wlan.php
+
+
+
+Individual special changes made to adapt openWB v1.9.x to fit my needs for installation on RPI-4B:
 (#<commit number>)
 
 ./README.md

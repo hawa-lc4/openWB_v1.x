@@ -16,7 +16,7 @@ fi
 
 if [[ $sdm120modbusllid1s2 != "254" ]] && [[ $sdm120modbusllid2s2 != "254" ]] && [[ $sdm120modbusllid3s2 != "254" ]] ; then
 	n=0
-	output=$(sudo python /var/www/html/openWB/modules/sdm120modbuslls2/readsdm3.py $sdm120lp3source $sdm120modbusllid1s2 $sdm120modbusllid2s2 $sdm120modbusllid3s2)
+	output=$(sudo /home/pi/openwb1-venv/bin/python /var/www/html/openWB/modules/sdm120modbuslls2/readsdm3.py $sdm120lp3source $sdm120modbusllid1s2 $sdm120modbusllid2s2 $sdm120modbusllid3s2)
 	while read -r line; do
 		if (( $n == 0 )); then
 			llv1=$(echo "$line" |  cut -c2- )
@@ -97,7 +97,7 @@ if [[ $sdm120modbusllid1s2 != "254" ]] && [[ $sdm120modbusllid2s2 != "254" ]] &&
 else
 	if [[ $sdm120modbusllid2s2 != "254" ]] ; then
 		n=0
-		output=$(sudo python /var/www/html/openWB/modules/sdm120modbuslls2/readsdm3.py $sdm120lp3source $sdm120modbusllid1s2 $sdm120modbusllid2s2)
+		output=$(sudo /home/pi/openwb1-venv/bin/python /var/www/html/openWB/modules/sdm120modbuslls2/readsdm3.py $sdm120lp3source $sdm120modbusllid1s2 $sdm120modbusllid2s2)
 		while read -r line; do
 			if (( $n == 0 )); then
 				llv1=$(echo "$line" |  cut -c2- )
@@ -154,6 +154,6 @@ else
 			echo $llaktuell > /var/www/html/openWB/ramdisk/llaktuells2
 		fi
 	else
-		sudo python /var/www/html/openWB/modules/sdm120modbuslls2/readsdm1.py $sdm120lp3source $sdm120modbusllid1s2
+		sudo /home/pi/openwb1-venv/bin/python /var/www/html/openWB/modules/sdm120modbuslls2/readsdm1.py $sdm120lp3source $sdm120modbusllid1s2
 	fi
 fi

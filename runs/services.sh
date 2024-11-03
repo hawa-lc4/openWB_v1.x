@@ -1,4 +1,6 @@
 #!/bin/bash
+source /home/pi/openwb1-venv/bin/activate
+
 OPENWBBASEDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 
 declare -F "openwbDebugLog" >/dev/null || . "$OPENWBBASEDIR/helperFunctions.sh"
@@ -104,10 +106,10 @@ start() {
 	if ((isss == 0)); then
 		# not in isss mode, setup virtual IPs
 		local eth_state
-		eth_state=$(</sys/class/net/eth0/carrier)
+		eth_state=$(</sys/class/net/end0/carrier)
 		if ((eth_state == 1)); then
 			# network cable detected, setup eth nethwork
-			sudo ifconfig eth0:0 "$virtual_ip_eth0" netmask 255.255.255.0 up
+			sudo ifconfig end0:0 "$virtual_ip_end0" netmask 255.255.255.0 up
 			if [ -d "/sys/class/net/wlan0" ]; then
 				# remove wifi network
 				sudo ifconfig wlan0:0 "$virtual_ip_wlan0" netmask 255.255.255.0 down
@@ -123,11 +125,11 @@ start() {
 			if [ -d "/sys/class/net/wlan0" ]; then
 				sudo ifconfig wlan0:0 "$virtual_ip_wlan0" netmask 255.255.255.0 up
 			fi
-			sudo ifconfig eth0:0 "$virtual_ip_eth0" netmask 255.255.255.0 down
+			sudo ifconfig end0:0 "$virtual_ip_end0" netmask 255.255.255.0 down
 		fi
 	else
 		# in isss mode, remove virtual IPs
-		sudo ifconfig eth0:0 "$virtual_ip_eth0" netmask 255.255.255.0 down
+		sudo ifconfig end0:0 "$virtual_ip_end0" netmask 255.255.255.0 down
 		if [ -d /sys/class/net/wlan0 ]; then
 			sudo ifconfig wlan0:0 "$virtual_ip_wlan0" netmask 255.255.255.0 down
 		fi

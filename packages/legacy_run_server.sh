@@ -38,7 +38,7 @@ echo "Starting legacy run server"
 # run the server as user "pi", so that the socket file is always accessible for other scripts running as that user.
 # (and of course because such scripts should not run as root in general)
 (
-	sudo -u pi python3 "$legacy_run_python_file" 2>&1 | while read -r line
+	sudo -u pi /home/pi/openwb1-venv/bin/python3 "$legacy_run_python_file" 2>&1 | while read -r line
 	do
 		# Multiple processes are writing to `openWB.log`, so we can't just write to that file all the time. Instead we
 		# only open, write and close the file on each new line

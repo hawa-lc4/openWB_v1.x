@@ -11,7 +11,7 @@ else
 	echo "echo" > /dev/null
 fi
 n=0
-output=$(sudo python /var/www/html/openWB/modules/sdm630modbuswr/readsdm.py $sdm630modbuswrsource $sdm630modbuswrid)
+output=$(sudo /home/pi/openwb1-venv/bin/python /var/www/html/openWB/modules/sdm630modbuswr/readsdm.py $sdm630modbuswrsource $sdm630modbuswrid)
 while read -r line; do
 	if (( $n == 0 )); then
 		echo "$line" |  cut -c2- |sed 's/\..*$//' > /var/www/html/openWB/ramdisk/wra1

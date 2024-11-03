@@ -1,4 +1,5 @@
 #!/bin/bash
+source /home/pi/openwb1-venv/bin/activate
 
 OPENWBBASEDIR=$(cd `dirname $0`/../../ && pwd)
 RAMDISKDIR="$OPENWBBASEDIR/ramdisk"

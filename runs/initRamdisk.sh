@@ -1,5 +1,6 @@
 #!/bin/bash
 # Ramdisk mit initialen Werten befüllen nach Neustart
+source /home/pi/openwb1-venv/bin/activate
 
 initRamdisk(){
 	RamdiskPath="/var/www/html/openWB/ramdisk"

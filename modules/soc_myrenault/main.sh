@@ -83,7 +83,7 @@ if (( soctimer < 60 )); then
 else
 	echo 0 > $soctimerfile
 	openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: Requesting SoC"
-	sudo python /var/www/html/openWB/modules/soc_myrenault/zoensoc.py $username $password $location $country $vin $CHARGEPOINT
+	sudo /home/pi/openwb1-venv/bin/python /var/www/html/openWB/modules/soc_myrenault/zoensoc.py $username $password $location $country $vin $CHARGEPOINT
 	soc=$(<$socfile)
 	openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: SoC from Server: $soc"
 	dtime=$(date +"%T")
@@ -91,6 +91,6 @@ else
 	if [[ $lstate == "1" ]] && [[ $chagerstatus == "0" ]] && [[ $plugstatus == "1" ]] && [[ $charging == '-1' ]] && [[ $soc -ne 100 ]] && [[ $wakeup == "1" ]] ; then
 		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: zoe ladung remote gestartet"
 		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: zoe lstate(wallbox) $lstate plugged(Wallbox) $plugstatus charging(Wallbox) $chagerstatus charging(Zoe) $charging scheduler(zoe) $scheduler soc $soc "
-		sudo python /var/www/html/openWB/modules/soc_myrenault/zoenwake.py $username $password $location $country $vin $CHARGEPOINT
+		sudo /home/pi/openwb1-venv/bin/python /var/www/html/openWB/modules/soc_myrenault/zoenwake.py $username $password $location $country $vin $CHARGEPOINT
 	fi
 fi

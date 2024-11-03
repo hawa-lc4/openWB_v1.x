@@ -97,12 +97,12 @@
 						break;
 					case 'virtip':
 						// change virtual IPs
-						$cmd = "sudo /var/www/html/openWB/runs/setvirtips.sh " . escapeshellarg( $_POST['virtual_ip_eth0'] ) . " " . escapeshellarg( $_POST['virtual_ip_wlan0'] );
+						$cmd = "sudo /var/www/html/openWB/runs/setvirtips.sh " . escapeshellarg( $_POST['virtual_ip_end0'] ) . " " . escapeshellarg( $_POST['virtual_ip_wlan0'] );
 						exec( $cmd, $output, $returnval );
 						?>
 						<div class="col alert alert-success" role="alert">
 							Das virtuelles Netzwerk wurde angepasst.<br>
-							eth0: <?php echo $_POST['virtual_ip_eth0']; ?><br>
+							end0: <?php echo $_POST['virtual_ip_end0']; ?><br>
 							wlan0: <?php echo $_POST['virtual_ip_wlan0']; ?><br>
 							Die openWB wird jetzt neu gestartet.
 						</div>
@@ -169,9 +169,9 @@
 					<form action="./settings/network.php" method="POST">
 						<div class="card-body">
 							<div class="row form-group">
-								<label for="" class="col-md-4 col-form-label">eth0</label>
+								<label for="" class="col-md-4 col-form-label">end0</label>
 								<div class="col">
-									<input type="text" name="virtual_ip_eth0" id="virtual_ip_eth0" value="<?php echo $virtual_ip_eth0old; ?>" aria-describedby="virtualIpEth0HelpBlock" class="form-control" required="required" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$">
+									<input type="text" name="virtual_ip_end0" id="virtual_ip_end0" value="<?php echo $virtual_ip_end0old; ?>" aria-describedby="virtualIpEth0HelpBlock" class="form-control" required="required" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$">
 									<span id="virtualIpEth0HelpBlock" class="form-text small">
 										Hier kann die IP des virtuellen Netzwerkadapters angepasst werden.<br>
 										<span class="text-danger">

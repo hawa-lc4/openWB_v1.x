@@ -34,7 +34,7 @@
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
 	</head>
 		<?php 
-			$ethstate = file_get_contents('/sys/class/net/eth0/carrier');
+			$ethstate = file_get_contents('/sys/class/net/end0/carrier');
 			if ( $ethstate == 1 ) {
 				header('Location:/openWB/web/index.php');
 			}

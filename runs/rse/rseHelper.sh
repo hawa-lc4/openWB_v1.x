@@ -1,4 +1,6 @@
 #!/bin/bash
+source /home/pi/openwb1-venv/bin/activate
+
 if [[ -z "$OPENWBBASEDIR" ]]; then
 	OPENWBBASEDIR=$(cd "$(dirname "$0")/../../" && pwd)
 fi

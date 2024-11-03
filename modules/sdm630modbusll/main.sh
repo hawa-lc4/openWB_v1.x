@@ -11,7 +11,7 @@ else
 	echo "echo" > /dev/null
 fi
 n=0
-output=$(sudo python /var/www/html/openWB/modules/sdm630modbusll/readsdm.py $sdm630modbusllsource $sdm630modbusllid)
+output=$(sudo /home/pi/openwb1-venv/bin/python /var/www/html/openWB/modules/sdm630modbusll/readsdm.py $sdm630modbusllsource $sdm630modbusllid)
 while read -r line; do
 	if (( $n == 0 )); then
 		lla1=$(echo "$line" |  cut -c2- )

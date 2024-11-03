@@ -1,4 +1,6 @@
 #!/bin/bash
+source /home/pi/openwb1-venv/bin/activate
+
 OPENWBBASEDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 LOGFILE="/var/log/openWB.log"
 # always check for existing log file!
@@ -121,24 +123,24 @@ at_reboot() {
 	# standard socket - activated after reboot due to RASPI init defaults so we need to disable it as soon as we can
 	if [[ $standardSocketInstalled == "1" ]]; then
 		echo "turning off standard socket ..."
-		sudo python "$OPENWBBASEDIR/runs/standardSocket.py" off
+		sudo /home/pi/openwb1-venv/bin/python "$OPENWBBASEDIR/runs/standardSocket.py" off
 	fi
 
 	# initialize automatic phase switching
 	if ((u1p3paktiv == 1)); then
 		echo "triginit..."
 		# quick init of phase switching with default pause duration (2s)
-		sudo python "$OPENWBBASEDIR/runs/triginit.py"
+		sudo /home/pi/openwb1-venv/bin/python "$OPENWBBASEDIR/runs/triginit.py"
 	fi
 
 	# check if tesla wall connector is configured and start daemon
 	if [[ $evsecon == twcmanager ]]; then
 		echo "twcmanager1..."
-		# sudo python3 "$OPENWBBASEDIR/modules/twcmanagerlp1/atrebootwbec.py" $twcmanagerlp1ip $twcmanagerlp1port
+		# sudo /home/pi/openwb1-venv/bin/python3 "$OPENWBBASEDIR/modules/twcmanagerlp1/atrebootwbec.py" $twcmanagerlp1ip $twcmanagerlp1port
 	fi
 	if [[ $evsecons1 == twcmanager ]]; then
 		echo "twcmanager2..."
-		# sudo python3 "$OPENWBBASEDIR/modules/twcmanagerlp2/atrebootwbec.py" $twcmanagerlp2ip $twcmanagerlp2port
+		# sudo /home/pi/openwb1-venv/bin/python3 "$OPENWBBASEDIR/modules/twcmanagerlp2/atrebootwbec.py" $twcmanagerlp2ip $twcmanagerlp2port
 	fi
 
 	# display setup
@@ -239,7 +241,7 @@ at_reboot() {
 	# check for led handler
 	if ((ledsakt == 1)); then
 		echo "led..."
-		sudo python "$OPENWBBASEDIR/runs/leds.py" startup
+		sudo /home/pi/openwb1-venv/bin/python "$OPENWBBASEDIR/runs/leds.py" startup
 	fi
 
 	# setup timezone
@@ -301,7 +303,7 @@ at_reboot() {
 
 	# update version
 	echo "version..."
-	uuid=$(</sys/class/net/eth0/address)
+	uuid=$(</sys/class/net/end0/address)
 	owbv=$(<"$OPENWBBASEDIR/web/version")
 	curl --connect-timeout 10 -d "update=\"${releasetrain}${uuid}vers${owbv}\"" -H "Content-Type: application/x-www-form-urlencoded" -X POST https://openwb.de/tools/update.php
 
@@ -372,17 +374,30 @@ at_reboot() {
 	fi
 
 	# set upload limit in php
-	#prepare for Buster
+	#prepare for Buster or whatever
 	echo -n "fix upload limit..."
 	if [ -d "/etc/php/7.0/" ]; then
-		echo "OS Stretch"
+		echo "OS Stretch (Debian 9)"
 		sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
 		sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
 	elif [ -d "/etc/php/7.3/" ]; then
-		echo "OS Buster"
+		echo "OS Buster (Debian 10)"
 		sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
 		sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
+	elif [ -d "/etc/php/7.4/" ]; then
+		echo "OS Bullseye (Debian 11)"
+		sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.4/apache2/conf.d/20-uploadlimit.ini"
+		sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.4/apache2/conf.d/20-uploadlimit.ini"
+	elif [ -d "/etc/php/8.1/" ]; then
+		echo "OS Bullseye (Debian 11)"
+		sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/8.1/apache2/conf.d/20-uploadlimit.ini"
+		sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/8.1/apache2/conf.d/20-uploadlimit.ini"
+	elif [ -d "/etc/php/8.2/" ]; then
+		echo "OS Bookworm (Debian 12)"
+		sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/8.2/apache2/conf.d/20-uploadlimit.ini"
+		sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/8.2/apache2/conf.d/20-uploadlimit.ini"
 	fi
+
 	sudo /usr/sbin/apachectl -k graceful
 
 	# all done, remove boot and update status

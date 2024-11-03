@@ -31,5 +31,5 @@ case $CHARGEPOINT in
 esac
 
 openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: Starting Python module"
-sudo python /var/www/html/openWB/modules/soc_leaf/soc.py $username $password $CHARGEPOINT
+sudo /home/pi/openwb1-venv/bin/python /var/www/html/openWB/modules/soc_leaf/soc.py $username $password $CHARGEPOINT
 openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: Done"

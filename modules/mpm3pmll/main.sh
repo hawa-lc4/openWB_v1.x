@@ -1,4 +1,5 @@
 #!/bin/bash
+source /home/pi/openwb1-venv/bin/activate
 
 if [[ $mpm3pmllsource = *virtual* ]]
 then

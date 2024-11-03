@@ -1,0 +1,12 @@
+evdev
+paho-mqtt<2.0.0
+docopt
+certifi
+aiohttp
+pymodbus==2.5.2
+requests
+jq
+ipparser
+bs4
+pkce
+Adafruit_MCP4725

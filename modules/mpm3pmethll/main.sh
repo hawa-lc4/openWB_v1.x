@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo python /var/www/html/openWB/modules/mpm3pmethll/readmpm3pm.py 
+sudo /home/pi/openwb1-venv/bin/python /var/www/html/openWB/modules/mpm3pmethll/readmpm3pm.py 

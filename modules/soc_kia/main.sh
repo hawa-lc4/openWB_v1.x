@@ -84,4 +84,4 @@ ARGS+='}'
 
 ARGSB64=`echo -n $ARGS | base64 --wrap=0`
 
-sudo python3 "$MODULEDIR/main.py" "$ARGSB64" &>> $LOGFILE &
+sudo /home/pi/openwb1-venv/bin/python3 "$MODULEDIR/main.py" "$ARGSB64" &>> $LOGFILE &

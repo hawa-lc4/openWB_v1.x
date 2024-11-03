@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo python /var/www/html/openWB/modules/mpm3pmtripple/readmpm3pm.py /dev/ttyUSB0 105
+sudo /home/pi/openwb1-venv/bin/python /var/www/html/openWB/modules/mpm3pmtripple/readmpm3pm.py /dev/ttyUSB0 105

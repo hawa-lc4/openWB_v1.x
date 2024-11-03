@@ -1,4 +1,6 @@
 #!/bin/bash
+source /home/pi/openwb1-venv/bin/activate
+
 TOKENPASSWORD='#TokenInUse#'
 response=''
 

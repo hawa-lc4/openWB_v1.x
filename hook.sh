@@ -155,28 +155,28 @@ hook(){
 		fi
 		if [[ $verbraucher1_typ == "mpm3pm" ]]; then
 			if [[ $verbraucher1_source == *"dev"* ]]; then
-				sudo python modules/verbraucher/mpm3pmlocal.py 1 $verbraucher1_source $verbraucher1_id &
+				sudo /home/pi/openwb1-venv/bin/python modules/verbraucher/mpm3pmlocal.py 1 $verbraucher1_source $verbraucher1_id &
 				verbraucher1_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher1_watt)
 			else
-				sudo python modules/verbraucher/mpm3pmremote.py 1 $verbraucher1_source $verbraucher1_id &
+				sudo /home/pi/openwb1-venv/bin/python modules/verbraucher/mpm3pmremote.py 1 $verbraucher1_source $verbraucher1_id &
 				verbraucher1_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher1_watt)
 			fi
 		fi
 		if [[ $verbraucher1_typ == "sdm630" ]]; then
 			if [[ $verbraucher1_source == *"dev"* ]]; then
-				sudo python modules/verbraucher/sdm630local.py 1 $verbraucher1_source $verbraucher1_id &
+				sudo /home/pi/openwb1-venv/bin/python modules/verbraucher/sdm630local.py 1 $verbraucher1_source $verbraucher1_id &
 				verbraucher1_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher1_watt)
 			else
-				sudo python modules/verbraucher/sdm630remote.py 1 $verbraucher1_source $verbraucher1_id &
+				sudo /home/pi/openwb1-venv/bin/python modules/verbraucher/sdm630remote.py 1 $verbraucher1_source $verbraucher1_id &
 				verbraucher1_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher1_watt)
 			fi
 		fi
 		if [[ $verbraucher1_typ == "sdm120" ]]; then
 			if [[ $verbraucher1_source == *"dev"* ]]; then
-				sudo python modules/verbraucher/sdm120local.py 1 $verbraucher1_source $verbraucher1_id &
+				sudo /home/pi/openwb1-venv/bin/python modules/verbraucher/sdm120local.py 1 $verbraucher1_source $verbraucher1_id &
 				verbraucher1_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher1_watt)
 			else
-				sudo python modules/verbraucher/sdm120remote.py 1 $verbraucher1_source $verbraucher1_id &
+				sudo /home/pi/openwb1-venv/bin/python modules/verbraucher/sdm120remote.py 1 $verbraucher1_source $verbraucher1_id &
 				verbraucher1_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher1_watt)
 			fi
 		fi
@@ -216,26 +216,26 @@ hook(){
 		fi
 		if [[ $verbraucher2_typ == "mpm3pm" ]]; then
 			if [[ $verbraucher2_source == *"dev"* ]]; then
-				sudo python modules/verbraucher/mpm3pmlocal.py 2 $verbraucher2_source $verbraucher2_id &
+				sudo /home/pi/openwb1-venv/bin/python modules/verbraucher/mpm3pmlocal.py 2 $verbraucher2_source $verbraucher2_id &
 			else
-				sudo python modules/verbraucher/mpm3pmremote.py 2 $verbraucher2_source $verbraucher2_id &
+				sudo /home/pi/openwb1-venv/bin/python modules/verbraucher/mpm3pmremote.py 2 $verbraucher2_source $verbraucher2_id &
 			fi
 		fi
 		if [[ $verbraucher2_typ == "sdm630" ]]; then
 			if [[ $verbraucher2_source == *"dev"* ]]; then
-				sudo python modules/verbraucher/sdm630local.py 2 $verbraucher2_source $verbraucher2_id &
+				sudo /home/pi/openwb1-venv/bin/python modules/verbraucher/sdm630local.py 2 $verbraucher2_source $verbraucher2_id &
 				verbraucher2_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher2_watt)
 			else
-				sudo python modules/verbraucher/sdm630remote.py 2 $verbraucher2_source $verbraucher2_id &
+				sudo /home/pi/openwb1-venv/bin/python modules/verbraucher/sdm630remote.py 2 $verbraucher2_source $verbraucher2_id &
 				verbraucher2_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher2_watt)
 			fi
 		fi
 		if [[ $verbraucher2_typ == "sdm120" ]]; then
 			if [[ $verbraucher2_source == *"dev"* ]]; then
-				sudo python modules/verbraucher/sdm120local.py 2 $verbraucher2_source $verbraucher2_id &
+				sudo /home/pi/openwb1-venv/bin/python modules/verbraucher/sdm120local.py 2 $verbraucher2_source $verbraucher2_id &
 				verbraucher2_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher2_watt)
 			else
-				sudo python modules/verbraucher/sdm120remote.py 2 $verbraucher2_source $verbraucher2_id &
+				sudo /home/pi/openwb1-venv/bin/python modules/verbraucher/sdm120remote.py 2 $verbraucher2_source $verbraucher2_id &
 				verbraucher2_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher2_watt)
 			fi
 		fi

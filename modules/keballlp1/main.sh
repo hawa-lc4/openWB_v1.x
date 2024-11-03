@@ -11,11 +11,11 @@ case $CHARGEPOINT in
 		# defaults to first charge point for backward compatibility
 		;;
 esac
-sudo python3 /var/www/html/openWB/modules/keballlp1/check502.py $ipadr >> /var/www/html/openWB/ramdisk/port.log 2>&1
+sudo /home/pi/openwb1-venv/bin/python3 /var/www/html/openWB/modules/keballlp1/check502.py $ipadr >> /var/www/html/openWB/ramdisk/port.log 2>&1
 modbus=$(</var/www/html/openWB/ramdisk/port_502_$ipadr)
 if [[ "$modbus" ==  "1" ]] ; then
 	#echo "startet kebanow $CHARGEPOINT $ipadr "  >> /var/www/html/openWB/ramdisk/port.log
-	sudo python3 /var/www/html/openWB/modules/keballlp1/info.py $CHARGEPOINT $ipadr >> /var/www/html/openWB/ramdisk/port.log 2>&1
+	sudo /home/pi/openwb1-venv/bin/python3 /var/www/html/openWB/modules/keballlp1/info.py $CHARGEPOINT $ipadr >> /var/www/html/openWB/ramdisk/port.log 2>&1
 else
 	# echo " modbus aus / chargepoint both"
 	rekwh='^[-+]?[0-9]+\.?[0-9]*$'

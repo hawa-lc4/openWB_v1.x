@@ -11,6 +11,6 @@ then
 else
 	echo "echo" > /dev/null
 fi
-sudo python /var/www/html/openWB/modules/mpm3pmpv/readmpm3pm.py $mpm3pmpvsource $mpm3pmpvid
+sudo /home/pi/openwb1-venv/bin/python /var/www/html/openWB/modules/mpm3pmpv/readmpm3pm.py $mpm3pmpvsource $mpm3pmpvid
 pvwatt=$(</var/www/html/openWB/ramdisk/pvwatt)
 echo $pvwatt

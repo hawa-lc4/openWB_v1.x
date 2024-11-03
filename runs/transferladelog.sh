@@ -1,4 +1,6 @@
 #!/bin/bash
+source /home/pi/openwb1-venv/bin/activate
+
 OPENWBBASEDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 
 if [ -e "$OPENWBBASEDIR/web/ladelog" ]; then

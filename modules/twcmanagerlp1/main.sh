@@ -9,7 +9,7 @@ if (( $stb >= 4 )); then
   exit 4
 fi
 
-output=$(sudo python3 /var/www/html/openWB/modules/twcmanagerlp1/readwbec.py $wbeclp1ip $wbeclp1port)
+output=$(sudo /home/pi/openwb1-venv/bin/python3 /var/www/html/openWB/modules/twcmanagerlp1/readwbec.py $wbeclp1ip $wbeclp1port)
 
 if [ -z "${output}" ]; then
   stb=$((stb + 1))
