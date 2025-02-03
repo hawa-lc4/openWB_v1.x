@@ -376,11 +376,11 @@ function impExpShow(mqttpayload, variable) {
 	$(variable).text(valueStr);
 }
 
-// show value as kilo
+// show value as kilo with 2 fraction digits
 function kShow(mqttpayload, variable) {
 	var value = parseFloat(mqttpayload);
 	value = (value / 1000);
-	var valueStr = value.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+	var valueStr = value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 	$(variable).text(valueStr);
 }
 
@@ -397,7 +397,7 @@ function fractionDigitsShow(mqttpayload, variable) {
 	if (isNaN(value)) {
 		value = 0;
 	}
-	var valueStr = value.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+	var valueStr = value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 	$(variable).text(valueStr);
 }
 
