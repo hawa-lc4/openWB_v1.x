@@ -194,6 +194,7 @@ initRamdisk(){
 	touch $RamdiskPath/llog
 	touch $RamdiskPath/llogs1
 	touch $RamdiskPath/llogs2
+	echo 0 > $RamdiskPath/llstandby
 
 	# SmartHome 2.0
 	echo 0 > $RamdiskPath/device1_temp0
@@ -220,24 +221,45 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/smarthome_device_minhaus_7
 	echo 0 > $RamdiskPath/smarthome_device_minhaus_8
 	echo 0 > $RamdiskPath/smarthome_device_minhaus_9
-	echo 0 > $RamdiskPath/smarthome_device_manual_1
-	echo 0 > $RamdiskPath/smarthome_device_manual_2
-	echo 0 > $RamdiskPath/smarthome_device_manual_3
-	echo 0 > $RamdiskPath/smarthome_device_manual_4
-	echo 0 > $RamdiskPath/smarthome_device_manual_5
-	echo 0 > $RamdiskPath/smarthome_device_manual_6
-	echo 0 > $RamdiskPath/smarthome_device_manual_7
-	echo 0 > $RamdiskPath/smarthome_device_manual_8
-	echo 0 > $RamdiskPath/smarthome_device_manual_9
-	echo 0 > $RamdiskPath/smarthome_device_manual_control_1
-	echo 0 > $RamdiskPath/smarthome_device_manual_control_2
-	echo 0 > $RamdiskPath/smarthome_device_manual_control_3
-	echo 0 > $RamdiskPath/smarthome_device_manual_control_4
-	echo 0 > $RamdiskPath/smarthome_device_manual_control_5
-	echo 0 > $RamdiskPath/smarthome_device_manual_control_6
-	echo 0 > $RamdiskPath/smarthome_device_manual_control_7
-	echo 0 > $RamdiskPath/smarthome_device_manual_control_8
-	echo 0 > $RamdiskPath/smarthome_device_manual_control_9
+	dev_top_base_get="openWB/config/get/SmartHome/Devices"
+	for devNum in {1..9}; do
+		devResp=`mosquitto_sub -h localhost -C 1 -W 1 -t $dev_top_base_get/$devNum/device_configured 2>/dev/null`
+		if [[ "$devResp" == "1" ]]; then
+			devResp=`mosquitto_sub -h localhost -C 1 -W 1 -t $dev_top_base_get/$devNum/mode 2>/dev/null`
+			if [[ "$devResp" == "" ]]; then
+				echo 0 > $RamdiskPath/smarthome_device_manual_$devNum
+			else
+				echo "$devResp" > $RamdiskPath/smarthome_device_manual_$devNum
+			fi
+			devResp=`mosquitto_sub -h localhost -C 1 -W 1 -t $dev_top_base_get/$devNum/device_manual_control 2>/dev/null`
+			if [[ "$devResp" == "" ]];then
+				echo 0 > $RamdiskPath/smarthome_device_manual_control_$devNum
+			else
+				echo "$devResp" > $RamdiskPath/smarthome_device_manual_control_$devNum
+			fi
+		else
+			echo 0 > $RamdiskPath/smarthome_device_manual_$devNum
+			echo 0 > $RamdiskPath/smarthome_device_manual_control_$devNum
+		fi
+	done
+	# echo 0 > $RamdiskPath/smarthome_device_manual_1
+	# echo 0 > $RamdiskPath/smarthome_device_manual_2
+	# echo 0 > $RamdiskPath/smarthome_device_manual_3
+	# echo 0 > $RamdiskPath/smarthome_device_manual_4
+	# echo 0 > $RamdiskPath/smarthome_device_manual_5
+	# echo 0 > $RamdiskPath/smarthome_device_manual_6
+	# echo 0 > $RamdiskPath/smarthome_device_manual_7
+	# echo 0 > $RamdiskPath/smarthome_device_manual_8
+	# echo 0 > $RamdiskPath/smarthome_device_manual_9
+	# echo 0 > $RamdiskPath/smarthome_device_manual_control_1
+	# echo 0 > $RamdiskPath/smarthome_device_manual_control_2
+	# echo 0 > $RamdiskPath/smarthome_device_manual_control_3
+	# echo 0 > $RamdiskPath/smarthome_device_manual_control_4
+	# echo 0 > $RamdiskPath/smarthome_device_manual_control_5
+	# echo 0 > $RamdiskPath/smarthome_device_manual_control_6
+	# echo 0 > $RamdiskPath/smarthome_device_manual_control_7
+	# echo 0 > $RamdiskPath/smarthome_device_manual_control_8
+	# echo 0 > $RamdiskPath/smarthome_device_manual_control_9
 	echo 0 > $RamdiskPath/smarthomehandlermaxbatterypower
 	echo 0 > $RamdiskPath/smarthomehandlerloglevel
 

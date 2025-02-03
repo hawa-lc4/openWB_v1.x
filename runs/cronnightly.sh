@@ -146,6 +146,8 @@ do
 	fi
 	((owbpro_num++))
 done
+# schreibe die SmartHome Konfiguration in Datei
+"$OPENWBBASEDIR/runs/backupsmarthomeconf.sh"
 
 # monthly . csv updaten
 echo "Trigger update of logfiles..."
