@@ -35,7 +35,6 @@ while read -r line; do
         echo 0 > /var/www/html/openWB/ramdisk/chargestats1
         ;;
     esac
-
   fi
   if (( $n == 1 )); then
     echo "$line" > /var/www/html/openWB/ramdisk/llas11
