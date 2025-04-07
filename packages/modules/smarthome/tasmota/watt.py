@@ -14,8 +14,8 @@ jsonurl1 = "http://"+str(ipadr)+"/cm?cmnd=Status"
 jsonurl2 = "http://"+str(ipadr)+"/cm?cmnd=Status%208"
 jsonpow = ".Status.Power"
 
+answer = json.loads(str(urllib.request.urlopen(jsonurl1, timeout=3).read().decode("utf-8")))
 try:
-    answer = json.loads(str(urllib.request.urlopen(jsonurl1, timeout=3).read().decode("utf-8")))
     p_status = jq.compile(jsonpow).input(answer).first()
     if type(p_status) is int:
         relais = p_status % 2
@@ -26,13 +26,17 @@ try:
 except Exception:
     relais = 0
 
+answer = json.loads(str(urllib.request.urlopen(jsonurl2, timeout=3).read().decode("utf-8")))
 try:
-    answer = json.loads(str(urllib.request.urlopen(jsonurl2, timeout=3).read().decode("utf-8")))
     aktpower = int(answer['StatusSNS']['ANALOG']['CTEnergy']['Power'])
     powerc = int((answer['StatusSNS']['ANALOG']['CTEnergy']['Energy']) * 1000)
 except Exception:
-    aktpower = 0
-    powerc = 0
+    try:
+        aktpower = int(answer['StatusSNS']['ENERGY']['Power'])
+        powerc = int((answer['StatusSNS']['ENERGY']['Total']) * 1000)
+    except Exception:
+        aktpower = 0
+        powerc = 0
 
 answer = '{"power":' + str(aktpower) + ',"powerc":' + str(powerc) + ',"on":' + str(relais) + '} '
 f1 = open('/var/www/html/openWB/ramdisk/smarthome_device_ret' + str(devicenumber), 'w')
