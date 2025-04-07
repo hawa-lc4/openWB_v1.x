@@ -1,4 +1,6 @@
 #!/bin/bash
+#set -x
+#trap read debug
 
 if [[ "$1" == "" ]]; then
         get_host="localhost"
