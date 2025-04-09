@@ -81,7 +81,9 @@ sofortlademodus(){
 							exit 0
 						fi
 						if (( llalt == minimalstromstaerke )); then
-							openwbDebugLog "MAIN" 1 "Sofort ladung bei minimal A $minimalstromstaerke Ladeleistung zu gering"
+							llneu=$llalt
+							runs/set-current.sh $llneu m
+							openwbDebugLog "MAIN" 1 "Sofort ladung bleibt bei $llneu bei minimal A $minimalstromstaerke Ladeleistung zu gering"
 							exit 0
 						fi
 						if (( llalt < minimalstromstaerke )); then
