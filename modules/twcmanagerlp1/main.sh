@@ -25,14 +25,26 @@ while read -r line; do
       4 | 5)
         echo 1 > /var/www/html/openWB/ramdisk/plugstat
         echo 0 > /var/www/html/openWB/ramdisk/chargestat
+        sudo sunxi-pio -m PG10=0,1
+        sudo sunxi-pio -m PG11=1,1
         ;;
-      6 | 7)
+      6)
         echo 1 > /var/www/html/openWB/ramdisk/plugstat
         echo 1 > /var/www/html/openWB/ramdisk/chargestat
+        sudo sunxi-pio -m PG10=0,1
+        sudo sunxi-pio -m PG11=1,1
+        ;;
+      7)
+        echo 1 > /var/www/html/openWB/ramdisk/plugstat
+        echo 1 > /var/www/html/openWB/ramdisk/chargestat
+        sudo sunxi-pio -m PG10=1,1
+        sudo sunxi-pio -m PG11=1,1
         ;;
       *)
         echo 0 > /var/www/html/openWB/ramdisk/plugstat
         echo 0 > /var/www/html/openWB/ramdisk/chargestat
+        sudo sunxi-pio -m PG10=0,1
+        sudo sunxi-pio -m PG11=0,1
         ;;
     esac
   fi
