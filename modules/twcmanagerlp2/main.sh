@@ -4,6 +4,8 @@ wbeclp2ip=$twcmanagerlp2ip
 wbeclp2port=$twcmanagerlp2port
 rekwh='^[-+]?[0-9]+\.?[0-9]*$'
 stb=`cat /var/www/html/openWB/ramdisk/llstandby`
+LEDplugstat='4'
+LEDchargestat='5'
 
 if (( $stb >= 4 )); then
   exit 4
@@ -25,26 +27,26 @@ while read -r line; do
       4 | 5)
         echo 1 > /var/www/html/openWB/ramdisk/plugstats1
         echo 0 > /var/www/html/openWB/ramdisk/chargestats1
-        sudo sunxi-pio -m PG10=0,1
-        sudo sunxi-pio -m PG11=1,1
+        pinctrl set $LEDplugstat op pn dh
+        pinctrl set $LEDchargestat op pn dl
         ;;
       6)
         echo 1 > /var/www/html/openWB/ramdisk/plugstats1
         echo 1 > /var/www/html/openWB/ramdisk/chargestats1
-        sudo sunxi-pio -m PG10=0,1
-        sudo sunxi-pio -m PG11=1,1
+        pinctrl set $LEDplugstat op pn dh
+        pinctrl set $LEDchargestat op pn dl
         ;;
       7)
         echo 1 > /var/www/html/openWB/ramdisk/plugstats1
         echo 1 > /var/www/html/openWB/ramdisk/chargestats1
-        sudo sunxi-pio -m PG10=1,1
-        sudo sunxi-pio -m PG11=1,1
+        pinctrl set $LEDplugstat op pn dh
+        pinctrl set $LEDchargestat op pn dh
         ;;
       *)
         echo 0 > /var/www/html/openWB/ramdisk/plugstats1
         echo 0 > /var/www/html/openWB/ramdisk/chargestats1
-        sudo sunxi-pio -m PG10=0,1
-        sudo sunxi-pio -m PG11=0,1
+        pinctrl set $LEDplugstat op pn dl
+        pinctrl set $LEDchargestat op pn dl
         ;;
     esac
   fi
