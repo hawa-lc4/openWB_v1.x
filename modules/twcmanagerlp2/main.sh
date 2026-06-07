@@ -2,8 +2,9 @@
 
 wbeclp2ip=$twcmanagerlp2ip
 wbeclp2port=$twcmanagerlp2port
+wbeclp2id=2
 rekwh='^[-+]?[0-9]+\.?[0-9]*$'
-stb=`cat /var/www/html/openWB/ramdisk/llstandby`
+stb=`cat /var/www/html/openWB/ramdisk/llstandbys1`
 LEDplugstat='PB03'
 LEDchargestat='PB04'
 
@@ -11,14 +12,14 @@ if (( $stb >= 4 )); then
   exit 4
 fi
 
-output=$(sudo python3 /var/www/html/openWB/modules/twcmanagerlp1/readwbec.py $wbeclp1ip $wbeclp1port)
+output=$(sudo python3 /var/www/html/openWB/modules/twcmanagerlp2/readwbec.py $wbeclp2ip $wbeclp2port $wbeclp2id)
 
 if [ -z "${output}" ]; then
   stb=$((stb + 1))
-  echo "$stb" > /var/www/html/openWB/ramdisk/llstandby
+  echo "$stb" > /var/www/html/openWB/ramdisk/llstandbys1
   exit 2
 fi
-echo 0 > /var/www/html/openWB/ramdisk/llstandby
+echo 0 > /var/www/html/openWB/ramdisk/llstandbys1
 
 n=0
 while read -r line; do
@@ -31,20 +32,20 @@ while read -r line; do
         sudo sunxi-pio -m $LEDchargestat=0,1
         ;;
       6)
-        echo 1 > /var/www/html/openWB/ramdisk/plugstat
-        echo 1 > /var/www/html/openWB/ramdisk/chargestat
+        echo 1 > /var/www/html/openWB/ramdisk/plugstats1
+        echo 1 > /var/www/html/openWB/ramdisk/chargestats1
         sudo sunxi-pio -m $LEDplugstat=1,1
         sudo sunxi-pio -m $LEDchargestat=0,1
         ;;
       7)
-        echo 1 > /var/www/html/openWB/ramdisk/plugstat
-        echo 1 > /var/www/html/openWB/ramdisk/chargestat
+        echo 1 > /var/www/html/openWB/ramdisk/plugstats1
+        echo 1 > /var/www/html/openWB/ramdisk/chargestats1
         sudo sunxi-pio -m $LEDplugstat=1,1
         sudo sunxi-pio -m $LEDchargestat=1,1
         ;;
       *)
-        echo 0 > /var/www/html/openWB/ramdisk/plugstat
-        echo 0 > /var/www/html/openWB/ramdisk/chargestat
+        echo 0 > /var/www/html/openWB/ramdisk/plugstats1
+        echo 0 > /var/www/html/openWB/ramdisk/chargestats1
         sudo sunxi-pio -m $LEDplugstat=0,1
         sudo sunxi-pio -m $LEDchargestat=0,1
         ;;

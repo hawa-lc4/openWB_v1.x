@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+# this script is called from runs/set-current.sh
+
 #from pymodbus.transaction import ModbusRtuFramer
 from pymodbus.client.sync import ModbusTcpClient
 from pymodbus.exceptions import ModbusIOException
@@ -7,7 +9,7 @@ import sys
 SERVER_HOST = str(sys.argv[1])
 SERVER_PORT = int(sys.argv[2])
 SET_CURRENT = int(sys.argv[3]) * 10
-unit_id = 1
+unit_id = int(sys.argv[4])
 
 #client = ModbusTcpClient(SERVER_HOST, SERVER_PORT, framer=ModbusRtuFramer)
 client = ModbusTcpClient(SERVER_HOST, SERVER_PORT)

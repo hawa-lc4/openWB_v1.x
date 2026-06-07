@@ -2,6 +2,7 @@
 
 wbeclp1ip=$twcmanagerlp1ip
 wbeclp1port=$twcmanagerlp1port
+wbeclp1id=1
 rekwh='^[-+]?[0-9]+\.?[0-9]*$'
 stb=`cat /var/www/html/openWB/ramdisk/llstandby`
 LEDplugstat='PG11'
@@ -11,7 +12,7 @@ if (( $stb >= 4 )); then
   exit 4
 fi
 
-output=$(sudo python3 /var/www/html/openWB/modules/twcmanagerlp1/readwbec.py $wbeclp1ip $wbeclp1port)
+output=$(sudo python3 /var/www/html/openWB/modules/twcmanagerlp1/readwbec.py $wbeclp1ip $wbeclp1port $wbeclp1id)
 
 if [ -z "${output}" ]; then
   stb=$((stb + 1))
