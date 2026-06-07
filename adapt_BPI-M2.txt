@@ -2,7 +2,7 @@ Changes made to adapt openWB v1.9.x to fit my needs for installation on BPI-M2:
 (#<commit number>)
 
 ./README.md
-    change doenload URL     #5d4d708
+    change download URL     #5d4d708
 
 ./openwb-install.sh
     change URL for install from my own adapted version (lines 41/42)     #0286884
