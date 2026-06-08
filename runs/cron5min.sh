@@ -292,7 +292,8 @@ hausdailyyield=$(echo "scale=2;$bezugdailyyield + $pvdailyyield - $lladailyyield
 echo "$hausdailyyield" >"$RAMDISKDIR/daily_hausverbrauchkwh"
 
 # get our current ip address (prepared for Buster)
-ip route get 1 | awk '{print $7;exit}' >"$RAMDISKDIR/ipaddress"
+# ip route get 1 | awk '{print $7;exit}' >"$RAMDISKDIR/ipaddress"
+ip route | head -1 | awk '{print $9;exit}' >"$RAMDISKDIR/ipaddress"
 openwbDebugLog "MAIN" 1 "current ip: $(<"$RAMDISKDIR/ipaddress")"
 
 # Make sure all services are running (restart crashed services etc.):
