@@ -446,6 +446,24 @@ updateConfig(){
 	if ! grep -Fq "twcmanagerlp2httpcontrol=" $ConfigFile; then
 		echo "twcmanagerlp2httpcontrol=0" >> $ConfigFile
 	fi
+	if ! grep -Fq "wbeclp1ip=" $ConfigFile; then
+		echo "wbeclp1ip='192.168.0.15'" >> $ConfigFile
+	fi
+	if ! grep -Fq "wbeclp1port=" $ConfigFile; then
+		echo "wbeclp1port=8080" >> $ConfigFile
+	fi
+	if ! grep -Fq "wbeclp1mbid=" $ConfigFile; then
+		echo "wbeclp1mbid=1" >> $ConfigFile
+	fi
+	if ! grep -Fq "wbeclp2ip=" $ConfigFile; then
+		echo "wbeclp2ip='192.168.0.15'" >> $ConfigFile
+	fi
+	if ! grep -Fq "wbeclp2port=" $ConfigFile; then
+		echo "wbeclp2port=8080" >> $ConfigFile
+	fi
+	if ! grep -Fq "wbeclp2mbid=" $ConfigFile; then
+		echo "wbeclp2mbid=1" >> $ConfigFile
+	fi
 	if ! grep -Fq "mpm3pmpvsource=" $ConfigFile; then
 		echo "mpm3pmpvsource=/dev/ttyUSB0" >> $ConfigFile
 	fi

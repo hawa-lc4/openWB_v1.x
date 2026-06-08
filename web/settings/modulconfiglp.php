@@ -92,6 +92,7 @@
 										<option <?php if($evseconold == "nrgkick") echo "selected" ?> value="nrgkick">NRGKick + Connect</option>
 										<option <?php if($evseconold == "simpleevsewifi") echo "selected" ?> value="simpleevsewifi">SimpleEVSEWifi / smartWB</option>
 										<option <?php if($evseconold == "twcmanager") echo "selected" ?> value="twcmanager">Tesla TWC mit TWCManager</option>
+										<option <?php if($evseconold == "wbec") echo "selected" ?> value="wbec">Heidelberg Energy Control über modbus-TCP</option>
 									</optgroup>
 									<optgroup label="generische Module">
 										<option <?php if($evseconold == "dac") echo "selected" ?> value="dac">DAC</option>
@@ -416,6 +417,35 @@
 									visibility_twcmanagerlp1_connection();
 							});
 						</script>
+
+						<div id="evseconwbec" class="hide">
+							<input type="hidden" name="ladeleistungmodul" value="wbeclp1">
+							<div class="form-group">
+								<div class="form-row mb-1">
+									<label for="wbeclp1ip" class="col-md-4 col-form-label">IP Adresse</label>
+									<div class="col">
+										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="wbeclp1ip" id="wbeclp1ip" value="<?php echo $wbeclp1ipold ?>">
+										<span class="form-text small">
+											Gültige Werte IP Adresse im Format: 192.168.0.12
+										</span>
+									</div>
+								</div>
+								<div class="form-row mb-1 input-port">
+									<label for="wbeclp1port" class="col-md-4 col-form-label">Port</label>
+									<div class="col">
+										<input class="form-control" type="number" min="80" max="10000" step="1" name="wbeclp1port" id="wbeclp1port" value="<?php echo $wbeclp1portold ?>">
+										<span class="form-text small">Port des HTTP Control Interface. Standard: 8080</span>
+									</div>
+								</div>
+								<div class="form-row mb-1 input-mbid">
+									<label for="wbeclp1mbid" class="col-md-4 col-form-label">Geräte ID</label>
+									<div class="col">
+										<input class="form-control" type="number" min="1" max="9" step="1" name="wbeclp1mbid" id="wbeclp1mbid" value="<?php echo $wbeclp1mbidold ?>">
+										<span class="form-text small">Modbus ID der Heidelberg Energy Control. Standard: 1</span>
+									</div>
+								</div>
+							</div>
+						</div>
 
 						<div id="evsecongoe" class="hide">
 							<input type="hidden" name="ladeleistungmodul" value="goelp1">
@@ -2246,6 +2276,7 @@
 							hideSection('#openwb12v2mid');
 							hideSection('#evseconhttp');
 							hideSection('#evsecontwcmanager');
+							hideSection('#evseconwbec');
 							hideSection('#evseconipevseV1');
 							hideSection('#evseconipevseV2');
 							hideSection('#openwbbuchse');
@@ -2330,6 +2361,9 @@
 							}
 							if($('#evsecon').val() == 'twcmanager') {
 								showSection('#evsecontwcmanager');
+							}
+							if($('#evsecon').val() == 'wbec') {
+								showSection('#evseconwbec');
 							}
 							if($('#evsecon').val() == 'ipevse') {
 								showSection('#evseconipevse');
@@ -2588,6 +2622,7 @@
 										<option <?php if($evsecons1old == "nrgkick") echo "selected" ?> value="nrgkick">NRGKick + Connect</option>
 										<option <?php if($evsecons1old == "simpleevsewifi") echo "selected" ?> value="simpleevsewifi">SimpleEVSEWifi</option>
 										<option <?php if($evsecons1old == "twcmanager") echo "selected" ?> value="twcmanager">Tesla TWC mit TWCManager</option>
+										<option <?php if($evsecons1old == "wbec") echo "selected" ?> value="wbec">Heidelberg Energy Control über modbus-TCP</option>
 									</optgroup>
 									<optgroup label="generische Module">
 										<option <?php if($evsecons1old == "dac") echo "selected" ?> value="dac">DAC</option>
@@ -2819,6 +2854,7 @@
 								<span class="text-info">openWB/set/lp/2/chargeStat</span> Status, ob gerade geladen wird, nur 0 (nein) oder 1 (ja)
 							</div>
 						</div>
+
 						<div id="evsecontwcmanagers1" class="hide">
 							<input type="hidden" name="ladeleistungs1modul" value="twcmanagerlp2">
 							<div class="form-group">
@@ -2879,6 +2915,36 @@
 								visibility_twcmanagerlp2_connection();
 							});
 						</script>
+
+						<div id="evseconwbecs1" class="hide">
+							<input type="hidden" name="ladeleistungs1modul" value="wbeclp2">
+							<div class="form-group">
+								<div class="form-row mb-1">
+									<label for="wbeclp2ip" class="col-md-4 col-form-label">IP Adresse</label>
+									<div class="col">
+										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="wbeclp2ip" id="wbeclp2ip" value="<?php echo $wbeclp2ipold ?>">
+										<span class="form-text small">
+											Gültige Werte IP Adresse im Format: 192.168.0.12
+										</span>
+									</div>
+								</div>
+								<div class="form-row mb-1 input-port">
+									<label for="wbeclp2port" class="col-md-4 col-form-label">Port</label>
+									<div class="col">
+										<input class="form-control" type="number" min="80" max="10000" step="1" name="wbeclp2port" id="wbeclp2port" value="<?php echo $wbeclp2portold ?>">
+										<span class="form-text small">Port des HTTP Control Interface. Standard: 8080</span>
+									</div>
+								</div>
+								<div class="form-row mb-1 input-mbid">
+									<label for="wbeclp2mbid" class="col-md-4 col-form-label">Geräte ID</label>
+									<div class="col">
+										<input class="form-control" type="number" min="1" max="9" step="1" name="wbeclp2mbid" id="wbeclp2mbid" value="<?php echo $wbeclp2mbidold ?>">
+										<span class="form-text small">Modbus ID der Heidelberg Energy Control. Standard: 2</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
 						<div id="evsecoslaveeth" class="hide">
 							<input type="hidden" name="ladeleistungs1modul" value="mpm3pmethll">
 							<div class="card-text alert alert-info">
@@ -4352,6 +4418,7 @@
 							hideSection('#evseconipevselp2V2');
 							hideSection('#evseconmqtts1');
 							hideSection('#evsecontwcmanagers1');
+							hideSection('#evseconwbecs1');
 
 							if($('#evsecons1').val() == 'modbusevse') {
 								switch( $("#evsecons1 option:selected").attr('data-id') ){
@@ -4416,6 +4483,9 @@
 							}
 							if($('#evsecons1').val() == 'twcmanager') {
 								showSection('#evsecontwcmanagers1');
+							}
+							if($('#evsecons1').val() == 'wbec') {
+								showSection('#evseconwbecs1');
 							}
 						}
 

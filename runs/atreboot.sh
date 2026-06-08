@@ -133,12 +133,20 @@ at_reboot() {
 
 	# check if tesla wall connector is configured and start daemon
 	if [[ $evsecon == twcmanager ]]; then
-		echo "twcmanager1..."
-		# sudo python3 "$OPENWBBASEDIR/modules/twcmanagerlp1/atrebootwbec.py" $twcmanagerlp1ip $twcmanagerlp1port
+		echo "twcmanager..."
+		if [[ $twcmanagerlp1ip == "localhost/TWC" ]]; then
+			screen -dm -S TWCManager /var/www/html/TWC/TWCManager.py &
+		fi
 	fi
-	if [[ $evsecons1 == twcmanager ]]; then
-		echo "twcmanager2..."
-		# sudo python3 "$OPENWBBASEDIR/modules/twcmanagerlp2/atrebootwbec.py" $twcmanagerlp2ip $twcmanagerlp2port
+
+	# check if Heidelberg Energy Control WB is configured and initialize
+	if [[ $evsecon == wbec ]]; then
+		echo "wbec1..."
+		sudo python3 "$OPENWBBASEDIR/modules/wbeclp1/atrebootwbec.py" $wbeclp1ip $wbeclp1port $wbeclp1mbid
+	fi
+	if [[ $evsecons1 == wbec ]]; then
+		echo "wbec2..."
+		sudo python3 "$OPENWBBASEDIR/modules/wbeclp2/atrebootwbec.py" $wbeclp2ip $wbeclp2port $wbeclp2mbid
 	fi
 
 	# display setup

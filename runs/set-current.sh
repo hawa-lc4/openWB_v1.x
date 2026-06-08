@@ -342,6 +342,9 @@ function setChargingCurrent () {
 	if [[ $evsecon == "twcmanager" ]]; then
 		setChargingCurrenttwcmanager "$current" "$twcmanagerlp1ip" "$twcmanagerlp1port" "$twcmanagerlp1httpcontrol"
 	fi
+	if [[ $evsecon == "wbec" ]]; then
+		sudo python3 /var/www/html/openWB/modules/wbeclp1/set-currentwbec.py $wbeclp1ip $wbeclp1port $current $wbeclp1mbid
+	fi
 	if [[ $evsecon == "ipevse" ]]; then
 		setChargingCurrentIpModbus "$current" "$evseip" "$ipevseid"
 	fi
@@ -495,6 +498,9 @@ if [[ $lastmanagement == "1" ]]; then
 		twcmanagerlp1ip=$twcmanagerlp2ip
 		twcmanagerlp1port=$twcmanagerlp2port
 		twcmanagerlp1httpcontrol=$twcmanagerlp2httpcontrol
+		wbeclp1ip=$wbeclp2ip
+		wbeclp1port=$wbeclp2port
+		wbeclp1mbid=$wbeclp2mbid
 		owbpro1ip=$owbpro2ip
 		# dirty call (no parameters, all is set above...)
 		if (( lp2enabled == 0 )); then
