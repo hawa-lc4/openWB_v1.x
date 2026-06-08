@@ -1,83 +1,51 @@
 #!/bin/bash
+re='^[-+]?[0-9]+\.?[0-9]*$'
 
-wbeclp2ip=$twcmanagerlp2ip
-wbeclp2port=$twcmanagerlp2port
-wbeclp2id=2
-rekwh='^[-+]?[0-9]+\.?[0-9]*$'
-stb=`cat /var/www/html/openWB/ramdisk/llstandbys1`
-LEDplugstat='PB03'
-LEDchargestat='PB04'
+if [[ $twcmanagerlp2httpcontrol -eq 1 ]]; then
+	slave=$(curl --connect-timeout 3 -s "http://$twcmanagerlp2ip:$twcmanagerlp2port/api/getSlaveTWCs")
+	status=$(curl --connect-timeout 3 -s "http://$twcmanagerlp2ip:$twcmanagerlp2port/api/getStatus")
+	amps=$(echo "$slave" | jq 'first(.[].reportedAmpsActual)' | sed -e 's/^"//' -e 's/"$//')
+	watts=$(echo "$status" | jq .chargerLoadWatts | sed -e 's/^"//' -e 's/"$//')
+	watt=$(echo "scale=0;$watts" | bc | sed 's/\..*$//')
 
-if (( $stb >= 4 )); then
-  exit 4
+	volt1=$(echo "$slave" | jq 'first(.[].voltsPhaseA)')
+	volt2=$(echo "$slave" | jq 'first(.[].voltsPhaseB)')
+	volt3=$(echo "$slave" | jq 'first(.[].voltsPhaseC)')
+	kwh_total=$(echo "$slave" | jq '.total.lifetimekWh')
+
+	echo $volt1 > /var/www/html/openWB/ramdisk/llvs11
+	echo $volt2 > /var/www/html/openWB/ramdisk/llvs12
+	echo $volt3 > /var/www/html/openWB/ramdisk/llvs13
+	echo $kwh_total > /var/www/html/openWB/ramdisk/llkwhs1
+
+	if [[ $watt -lt 4000 ]]; then
+		twcmanagerlp2phasen=1
+	elif [[ $watt -lt 8000 ]]; then
+		twcmanagerlp2phasen=2
+	else
+		twcmanagerlp2phasen=3
+	fi
+else
+	amps=$(curl --connect-timeout 3 -s "http://$twcmanagerlp2ip/index.php" | grep Charging | sed 's/^.*\(Charging at.*A\).*$/\1/' | cut -c 13- | tr -d A)
+	watt=$(echo "scale=0;$amps * 230  * $twcmanagerlp2phasen" | bc | sed 's/\..*$//')
 fi
 
-output=$(sudo python3 /var/www/html/openWB/modules/twcmanagerlp2/readwbec.py $wbeclp2ip $wbeclp2port $wbeclp2id)
-
-if [ -z "${output}" ]; then
-  stb=$((stb + 1))
-  echo "$stb" > /var/www/html/openWB/ramdisk/llstandbys1
-  exit 2
+if ! [[ $amps =~ $re ]] ; then
+	amps="0"
 fi
-echo 0 > /var/www/html/openWB/ramdisk/llstandbys1
 
-n=0
-while read -r line; do
-  if (( $n == 0 )); then
-    case "$line" in
-      4 | 5)
-        echo 1 > /var/www/html/openWB/ramdisk/plugstats1
-        echo 0 > /var/www/html/openWB/ramdisk/chargestats1
-        sudo sunxi-pio -m $LEDplugstat=1,1
-        sudo sunxi-pio -m $LEDchargestat=0,1
-        ;;
-      6)
-        echo 1 > /var/www/html/openWB/ramdisk/plugstats1
-        echo 1 > /var/www/html/openWB/ramdisk/chargestats1
-        sudo sunxi-pio -m $LEDplugstat=1,1
-        sudo sunxi-pio -m $LEDchargestat=0,1
-        ;;
-      7)
-        echo 1 > /var/www/html/openWB/ramdisk/plugstats1
-        echo 1 > /var/www/html/openWB/ramdisk/chargestats1
-        sudo sunxi-pio -m $LEDplugstat=1,1
-        sudo sunxi-pio -m $LEDchargestat=1,1
-        ;;
-      *)
-        echo 0 > /var/www/html/openWB/ramdisk/plugstats1
-        echo 0 > /var/www/html/openWB/ramdisk/chargestats1
-        sudo sunxi-pio -m $LEDplugstat=0,1
-        sudo sunxi-pio -m $LEDchargestat=0,1
-        ;;
-    esac
-  fi
-  if (( $n == 1 )); then
-    echo "$line" > /var/www/html/openWB/ramdisk/llas11
-  fi
-  if (( $n == 2 )); then
-    echo "$line" > /var/www/html/openWB/ramdisk/llas12
-  fi
-  if (( $n == 3 )); then
-    echo "$line" > /var/www/html/openWB/ramdisk/llas13
-  fi
-  if (( $n == 4 )); then
-    echo "$line" > /var/www/html/openWB/ramdisk/llvs11
-  fi
-  if (( $n == 5 )); then
-    echo "$line" > /var/www/html/openWB/ramdisk/llvs12
-  fi
-  if (( $n == 6 )); then
-    echo "$line" > /var/www/html/openWB/ramdisk/llvs13
-  fi
-  if (( $n == 7 )); then
-    echo "$line" > /var/www/html/openWB/ramdisk/llaktuells1
-  fi
-  if (( $n == 8 )); then
-    llkwhs1=$(echo "$line")
-    if [[ $llkwhs1 =~ $rekwh ]]; then
-      echo $llkwhs1 > /var/www/html/openWB/ramdisk/llkwhs1
-    fi
-  fi
+if (( twcmanagerlp2phasen == 1 )); then
+	echo $amps > /var/www/html/openWB/ramdisk/llas11
+	echo 0 > /var/www/html/openWB/ramdisk/llas12
+	echo 0 > /var/www/html/openWB/ramdisk/llas13
+elif (( twcmanagerlp2phasen == 2 )); then
+	echo $amps > /var/www/html/openWB/ramdisk/llas11
+	echo $amps > /var/www/html/openWB/ramdisk/llas12
+	echo 0 > /var/www/html/openWB/ramdisk/llas13
+elif (( twcmanagerlp2phasen == 3 )); then
+	echo $amps > /var/www/html/openWB/ramdisk/llas11
+	echo $amps > /var/www/html/openWB/ramdisk/llas12
+	echo $amps > /var/www/html/openWB/ramdisk/llas13
+fi
 
-  n=$((n + 1))
-done <<< "$output"
+echo $watt > /var/www/html/openWB/ramdisk/llaktuells1
