@@ -1,7 +1,7 @@
 Changes made to adapt openWB v1.9.x to fit my needs for installation on BPI-M2:
 (#<commit number> || danach suchen mit: https://github.com/hawa-lc4/openWB_v1.x/commit/<commit number>)
 
-Neue patch-Version 1.9.304.2
+Neue patch-Version 1.9.304.2        #2c7eda9b
 
 ./README.md
     change download URL     #5d4d708
@@ -21,15 +21,15 @@ Neue patch-Version 1.9.304.2
     change u1p3p timing to same time in both ways and allow longer time (line 15)     #c7e37e1
 
 ./regel.sh
-./runs/atreboot.sh          #675654b6
-./runs/cron5min.sh          #f821dbb1, #675654b6
-./runs/set-current.sh       #675654b6
-./runs/updateConfig.sh      #675654b6
+./runs/atreboot.sh          #ada6c777
+./runs/cron5min.sh          #26e719d7, #ada6c777
+./runs/set-current.sh       #ada6c777
+./runs/updateConfig.sh      #ada6c777
     Einbindung Heidelberg WB Energy Control mittels ModBusTCP durch Umbau der Vorlage TWCmanager      #ffa9333, #20ed70e
     rework integration of wbec as twc module      #70108b7
-    Diese Einbindung aufgehoben und rückgängig gemacht      #8c5832b3
+    Diese Einbindung aufgehoben und rückgängig gemacht      #c92bb7b4
 
-Einbindung der Heidelberg WB Energy Control als eigenes Modul:  ./modules/wbeclp1 & ./modules/wbeclp2       #675654b6
+Einbindung der Heidelberg WB Energy Control als eigenes Modul:  ./modules/wbeclp1 & ./modules/wbeclp2       #ada6c777
 
 ./packages/modules/smarthome/tasmota/on.py
 ./packages/modules/smarthome/tasmota/off.py
