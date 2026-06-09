@@ -171,8 +171,8 @@
 							<div class="row form-group">
 								<label for="" class="col-md-4 col-form-label">end0</label>
 								<div class="col">
-									<input type="text" name="virtual_ip_end0" id="virtual_ip_end0" value="<?php echo $virtual_ip_end0old; ?>" aria-describedby="virtualIpEth0HelpBlock" class="form-control" required="required" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$">
-									<span id="virtualIpEth0HelpBlock" class="form-text small">
+									<input type="text" name="virtual_ip_end0" id="virtual_ip_end0" value="<?php echo $virtual_ip_end0old; ?>" aria-describedby="virtualIpEnd0HelpBlock" class="form-control" required="required" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$">
+									<span id="virtualIpEnd0HelpBlock" class="form-text small">
 										Hier kann die IP des virtuellen Netzwerkadapters angepasst werden.<br>
 										<span class="text-danger">
 											Achtung!<br>
