@@ -123,24 +123,32 @@ at_reboot() {
 	# standard socket - activated after reboot due to RASPI init defaults so we need to disable it as soon as we can
 	if [[ $standardSocketInstalled == "1" ]]; then
 		echo "turning off standard socket ..."
-		sudo /home/pi/openwb1-venv/bin/python "$OPENWBBASEDIR/runs/standardSocket.py" off
+		python "$OPENWBBASEDIR/runs/standardSocket.py" off
 	fi
 
 	# initialize automatic phase switching
 	if ((u1p3paktiv == 1)); then
 		echo "triginit..."
 		# quick init of phase switching with default pause duration (2s)
-		sudo /home/pi/openwb1-venv/bin/python "$OPENWBBASEDIR/runs/triginit.py"
+		python "$OPENWBBASEDIR/runs/triginit.py"
 	fi
 
 	# check if tesla wall connector is configured and start daemon
 	if [[ $evsecon == twcmanager ]]; then
-		echo "twcmanager1..."
-		# sudo /home/pi/openwb1-venv/bin/python3 "$OPENWBBASEDIR/modules/twcmanagerlp1/atrebootwbec.py" $twcmanagerlp1ip $twcmanagerlp1port
+		echo "twcmanager..."
+		if [[ $twcmanagerlp1ip == "localhost/TWC" ]]; then
+			screen -dm -S TWCManager /var/www/html/TWC/TWCManager.py &
+		fi
 	fi
-	if [[ $evsecons1 == twcmanager ]]; then
-		echo "twcmanager2..."
-		# sudo /home/pi/openwb1-venv/bin/python3 "$OPENWBBASEDIR/modules/twcmanagerlp2/atrebootwbec.py" $twcmanagerlp2ip $twcmanagerlp2port
+
+	# check if Heidelberg Energy Control WB is configured and initialize
+	if [[ $evsecon == wbec ]]; then
+		echo "wbec1..."
+		python3 "$OPENWBBASEDIR/modules/wbeclp1/atrebootwbec.py" $wbeclp1ip $wbeclp1port $wbeclp1mbid
+	fi
+	if [[ $evsecons1 == wbec ]]; then
+		echo "wbec2..."
+		python3 "$OPENWBBASEDIR/modules/wbeclp2/atrebootwbec.py" $wbeclp2ip $wbeclp2port $wbeclp2mbid
 	fi
 
 	# display setup
@@ -243,7 +251,8 @@ at_reboot() {
 	# check for led handler
 	if ((ledsakt == 1)); then
 		echo "led..."
-		sudo /home/pi/openwb1-venv/bin/python "$OPENWBBASEDIR/runs/leds.py" startup
+		python "$OPENWBBASEDIR/runs/leds.py" startup
+		python "$OPENWBBASEDIR/runs/ledss1.py" startup
 	fi
 
 	# setup timezone; also here: all to be done in openwb-install.sh!

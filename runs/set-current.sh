@@ -22,6 +22,8 @@
 #
 #####
 
+source /home/pi/openwb1-venv/bin/activate
+
 # set charging current in EVSE
 #
 # Parameters:
@@ -54,7 +56,7 @@ function setChargingCurrentDAC () {
 	dacregister=$2
 	# set desired charging current
 	# INFO: needs new dac.py to accept current and use translation table
-	sudo /home/pi/openwb1-venv/bin/python /var/www/html/openWB/runs/dac.py "$current" "$dacregister"
+	python /var/www/html/openWB/runs/dac.py "$current" "$dacregister"
 }
 
 # function for setting the current - extopenwb
@@ -94,13 +96,13 @@ function setChargingCurrentModbus () {
 	modbusevsesource=$2
 	modbusevseid=$3
 	# set desired charging current
-	sudo PYTHONPATH=/var/www/html/openWB/packages python3 /var/www/html/openWB/runs/evsewritemodbus.py "$modbusevsesource" "$modbusevseid" "$current"
+	PYTHONPATH=/var/www/html/openWB/packages python3 /var/www/html/openWB/runs/evsewritemodbus.py "$modbusevsesource" "$modbusevseid" "$current"
 }
 
 function setChargingCurrentBuchse () {
 	current=$1
 	# set desired charging current
-	#sudo /home/pi/openwb1-venv/bin/python /var/www/html/openWB/runs/evsewritemodbus.py $modbusevsesource $modbusevseid $current
+	#python /var/www/html/openWB/runs/evsewritemodbus.py $modbusevsesource $modbusevseid $current
 	# Is handled in buchse.py
 }
 
@@ -120,27 +122,27 @@ function setChargingCurrentIpModbus () {
 	evseip=$2
 	ipevseid=$3
 	# set desired charging current
-	sudo /home/pi/openwb1-venv/bin/python /var/www/html/openWB/runs/evseipwritemodbus.py "$current" "$evseip" "$ipevseid"
+	python /var/www/html/openWB/runs/evseipwritemodbus.py "$current" "$evseip" "$ipevseid"
 }
 
 # function for openwb slave kit
 function setChargingCurrentSlaveeth () {
 	current=$1
 	# set desired charging current
-	sudo /home/pi/openwb1-venv/bin/python /var/www/html/openWB/runs/evseslavewritemodbus.py "$current"
+	python /var/www/html/openWB/runs/evseslavewritemodbus.py "$current"
 }
 
 function setChargingCurrentMasterethframer () {
 	current=$1
 	# set desired charging current
-	sudo /home/pi/openwb1-venv/bin/python /var/www/html/openWB/runs/evsemasterethframerwritemodbus.py "$current"
+	python /var/www/html/openWB/runs/evsemasterethframerwritemodbus.py "$current"
 }
 
 # function for openwb third kit
 function setChargingCurrentThirdeth () {
 	current=$1
 	# set desired charging current
-	sudo /home/pi/openwb1-venv/bin/python /var/www/html/openWB/runs/evsethirdwritemodbus.py "$current"
+	python /var/www/html/openWB/runs/evsethirdwritemodbus.py "$current"
 }
 
 # function for setting the current - WiFi
@@ -176,9 +178,14 @@ function setChargingCurrentWifi () {
 
 function setChargingCurrenttwcmanager () {
 	if [[ $evsecon == "twcmanager" ]]; then
-	stb=`cat ramdisk/llstandby`
-		if [[ $twcmanagerlp1httpcontrol -eq 1 && $stb -eq 0 ]]; then
-			sudo /home/pi/openwb1-venv/bin/python3 /var/www/html/openWB/modules/twcmanagerlp1/set-currentwbec.py $twcmanagerlp1ip $twcmanagerlp1port $current
+		if [[ $twcmanagerlp1httpcontrol -eq 1 ]]; then
+			if [[ $current -eq 0 ]]; then
+				curl -s --connect-timeout 3 -X POST -d "" "http://$twcmanagerlp1ip:$twcmanagerlp1port/api/cancelChargeNow" > /dev/null
+			else
+				curl -s --connect-timeout 3 -X POST -d "{ \"chargeNowRate\": $current, \"chargeNowDuration\": 86400 }" "http://$twcmanagerlp1ip:$twcmanagerlp1port/api/chargeNow" > /dev/null
+			fi
+		else
+			curl -s --connect-timeout 3 "http://$twcmanagerlp1ip/index.php?&nonScheduledAmpsMax=$current&submit=Save" > /dev/null
 		fi
 	fi
 }
@@ -232,7 +239,7 @@ function setChargingCurrentgoe () {
 # 2: goeiplp1
 function setChargingCurrentkeba () {
 	if [[ $evsecon == "keba" ]]; then
-		sudo /home/pi/openwb1-venv/bin/python3 /var/www/html/openWB/modules/keballlp1/check502.py "$kebaiplp1" >> /var/www/html/openWB/ramdisk/port.log 2>&1
+		python3 /var/www/html/openWB/modules/keballlp1/check502.py "$kebaiplp1" >> /var/www/html/openWB/ramdisk/port.log 2>&1
 		modbus=$(<"/var/www/html/openWB/ramdisk/port_502_$kebaiplp1" )
 		if [[ $modbus == "0" ]] ; then
 			#modbus 0 means udp interface
@@ -246,7 +253,7 @@ function setChargingCurrentkeba () {
 			fi
 		else
 			#modbus 1 means modbus interface 
-			sudo /home/pi/openwb1-venv/bin/python3 /var/www/html/openWB/modules/keballlp1/setcurrkeba.py "$kebaiplp1" "$current" >> /var/www/html/openWB/ramdisk/port.log 2>&1
+			python3 /var/www/html/openWB/modules/keballlp1/setcurrkeba.py "$kebaiplp1" "$current" >> /var/www/html/openWB/ramdisk/port.log 2>&1
 		fi
 	fi
 }
@@ -341,6 +348,9 @@ function setChargingCurrent () {
 	fi
 	if [[ $evsecon == "twcmanager" ]]; then
 		setChargingCurrenttwcmanager "$current" "$twcmanagerlp1ip" "$twcmanagerlp1port" "$twcmanagerlp1httpcontrol"
+	fi
+	if [[ $evsecon == "wbec" ]]; then
+		python3 /var/www/html/openWB/modules/wbeclp1/set-currentwbec.py $wbeclp1ip $wbeclp1port $current $wbeclp1mbid
 	fi
 	if [[ $evsecon == "ipevse" ]]; then
 		setChargingCurrentIpModbus "$current" "$evseip" "$ipevseid"
@@ -495,6 +505,9 @@ if [[ $lastmanagement == "1" ]]; then
 		twcmanagerlp1ip=$twcmanagerlp2ip
 		twcmanagerlp1port=$twcmanagerlp2port
 		twcmanagerlp1httpcontrol=$twcmanagerlp2httpcontrol
+		wbeclp1ip=$wbeclp2ip
+		wbeclp1port=$wbeclp2port
+		wbeclp1mbid=$wbeclp2mbid
 		owbpro1ip=$owbpro2ip
 		# dirty call (no parameters, all is set above...)
 		if (( lp2enabled == 0 )); then

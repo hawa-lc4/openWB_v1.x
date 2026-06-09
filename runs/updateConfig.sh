@@ -446,6 +446,24 @@ updateConfig(){
 	if ! grep -Fq "twcmanagerlp2httpcontrol=" $ConfigFile; then
 		echo "twcmanagerlp2httpcontrol=0" >> $ConfigFile
 	fi
+	if ! grep -Fq "wbeclp1ip=" $ConfigFile; then
+		echo "wbeclp1ip='192.168.0.15'" >> $ConfigFile
+	fi
+	if ! grep -Fq "wbeclp1port=" $ConfigFile; then
+		echo "wbeclp1port=8080" >> $ConfigFile
+	fi
+	if ! grep -Fq "wbeclp1mbid=" $ConfigFile; then
+		echo "wbeclp1mbid=1" >> $ConfigFile
+	fi
+	if ! grep -Fq "wbeclp2ip=" $ConfigFile; then
+		echo "wbeclp2ip='192.168.0.15'" >> $ConfigFile
+	fi
+	if ! grep -Fq "wbeclp2port=" $ConfigFile; then
+		echo "wbeclp2port=8080" >> $ConfigFile
+	fi
+	if ! grep -Fq "wbeclp2mbid=" $ConfigFile; then
+		echo "wbeclp2mbid=1" >> $ConfigFile
+	fi
 	if ! grep -Fq "mpm3pmpvsource=" $ConfigFile; then
 		echo "mpm3pmpvsource=/dev/ttyUSB0" >> $ConfigFile
 	fi
@@ -594,7 +612,7 @@ updateConfig(){
 		echo "soc_ovms_intervall=120" >> $ConfigFile
 	fi
 	if ! grep -Fq "releasetrain=" $ConfigFile; then
-		echo "releasetrain=adapt_RPI-4B" >> $ConfigFile
+		echo "releasetrain=adapt_BPI-M2" >> $ConfigFile
 	fi
 	if ! grep -Fq "wrkostalpikoip=" $ConfigFile; then
 		echo "wrkostalpikoip=192.168.0.10" >> $ConfigFile
@@ -2311,8 +2329,8 @@ updateConfig(){
 	if grep -Fq "socmodul1=soc_bluelinklp2" $ConfigFile; then
 		sed -i "s/^socmodul1=soc_bluelinklp2/socmodul1=soc_kialp2/g" $ConfigFile
 	fi
-	if ! grep -Fq "virtual_ip_end0=" $ConfigFile; then
-		echo "virtual_ip_end0='192.168.193.5'" >> $ConfigFile
+	if ! grep -Fq "virtual_ip_eth0=" $ConfigFile; then
+		echo "virtual_ip_eth0='192.168.193.5'" >> $ConfigFile
 	fi
 	if ! grep -Fq "virtual_ip_wlan0=" $ConfigFile; then
 		echo "virtual_ip_wlan0='192.168.193.6'" >> $ConfigFile

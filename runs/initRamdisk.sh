@@ -195,6 +195,7 @@ initRamdisk(){
 	touch $RamdiskPath/llogs1
 	touch $RamdiskPath/llogs2
 	echo 0 > $RamdiskPath/llstandby
+	echo 0 > $RamdiskPath/llstandbys1
 
 	# SmartHome 2.0
 	echo 0 > $RamdiskPath/device1_temp0
