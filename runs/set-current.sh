@@ -176,9 +176,14 @@ function setChargingCurrentWifi () {
 
 function setChargingCurrenttwcmanager () {
 	if [[ $evsecon == "twcmanager" ]]; then
-	stb=`cat ramdisk/llstandby`
-		if [[ $twcmanagerlp1httpcontrol -eq 1 && $stb -eq 0 ]]; then
-			sudo python3 /var/www/html/openWB/modules/twcmanagerlp1/set-currentwbec.py $twcmanagerlp1ip $twcmanagerlp1port $current
+		if [[ $twcmanagerlp1httpcontrol -eq 1 ]]; then
+			if [[ $current -eq 0 ]]; then
+				curl -s --connect-timeout 3 -X POST -d "" "http://$twcmanagerlp1ip:$twcmanagerlp1port/api/cancelChargeNow" > /dev/null
+			else
+				curl -s --connect-timeout 3 -X POST -d "{ \"chargeNowRate\": $current, \"chargeNowDuration\": 86400 }" "http://$twcmanagerlp1ip:$twcmanagerlp1port/api/chargeNow" > /dev/null
+			fi
+		else
+			curl -s --connect-timeout 3 "http://$twcmanagerlp1ip/index.php?&nonScheduledAmpsMax=$current&submit=Save" > /dev/null
 		fi
 	fi
 }
