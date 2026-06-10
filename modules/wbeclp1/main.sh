@@ -1,4 +1,5 @@
 #!/bin/bash
+# this script is called from loadvars.sh 
 
 rekwh='^[-+]?[0-9]+\.?[0-9]*$'
 stb=`cat /var/www/html/openWB/ramdisk/llstandby`
@@ -9,7 +10,7 @@ if (( $stb >= 4 )); then
   exit 4
 fi
 
-output=$(sudo python3 /var/www/html/openWB/modules/wbeclp1/readwbec.py $wbeclp1ip $wbeclp1port $wbeclp1mbid)
+output=$(python3 /var/www/html/openWB/modules/wbeclp1/readwbec.py $wbeclp1ip $wbeclp1port $wbeclp1mbid)
 
 if [ -z "${output}" ]; then
   stb=$((stb + 1))

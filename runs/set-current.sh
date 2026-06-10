@@ -348,7 +348,7 @@ function setChargingCurrent () {
 		setChargingCurrenttwcmanager "$current" "$twcmanagerlp1ip" "$twcmanagerlp1port" "$twcmanagerlp1httpcontrol"
 	fi
 	if [[ $evsecon == "wbec" ]]; then
-		sudo python3 /var/www/html/openWB/modules/wbeclp1/set-currentwbec.py $wbeclp1ip $wbeclp1port $current $wbeclp1mbid
+		python3 /var/www/html/openWB/modules/wbeclp1/set-currentwbec.py $wbeclp1ip $wbeclp1port $current $wbeclp1mbid
 	fi
 	if [[ $evsecon == "ipevse" ]]; then
 		setChargingCurrentIpModbus "$current" "$evseip" "$ipevseid"

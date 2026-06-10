@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 # this script is called from runs/atreboot.sh
 
-#from pymodbus.transaction import ModbusRtuFramer
 from pymodbus.client.sync import ModbusTcpClient
 import sys
 
@@ -9,7 +8,6 @@ SERVER_HOST = str(sys.argv[1])
 SERVER_PORT = int(sys.argv[2])
 UNIT_ID = int(sys.argv[3])
 
-#client = ModbusTcpClient(SERVER_HOST, SERVER_PORT, framer=ModbusRtuFramer)
 client = ModbusTcpClient(SERVER_HOST, SERVER_PORT)
 
 # Register 257: ModBus-Master WatchDog Timeout in ms
