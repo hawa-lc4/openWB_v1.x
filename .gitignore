@@ -4,6 +4,7 @@ web/logging/data/
 *.log
 *.pyc
 *.bak
+*.code-workspace
 /ramdisk/
 .DS_Store
 .ftp*
