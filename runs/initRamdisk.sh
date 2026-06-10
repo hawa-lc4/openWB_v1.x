@@ -457,11 +457,11 @@ initRamdisk(){
 	# Bezug/Einspeisung
 	echo 0 > $RamdiskPath/temp_wattbezug
 	# Gesamte AC-Leistung des Speichers am WR 1 + 2
-	echo 0 > $RamdiskPath/temp_peicherleistung
+	echo 0 > $RamdiskPath/temp_speicherleistung
 	# AC-Leistung des Speichers am WR 1
-	echo 0 > $RamdiskPath/temp_peicherleistung1
+	echo 0 > $RamdiskPath/temp_speicherleistung1
 	# AC-Leistung des Speichers am WR 2
-	echo 0 > $RamdiskPath/temp_peicherleistung2
+	echo 0 > $RamdiskPath/temp_speicherleistung2
 	# SoC des Speichers am WR 1
 	echo 0 > $RamdiskPath/temp_speichersoc
 	# Strom auf den jeweiligen Phasen
