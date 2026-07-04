@@ -1,54 +1,57 @@
-# openWB
+# Das Original
+
+finden Sie hier: https://github.com/snaptec/openWB
+Weitere Infos unter https://openwb.de
+Aktuelle openWB gibt es unter 
+
+	https://openwb.de/shop/
 
 
+
+# openWB  Anpassungen zur Version 1.9
 
 
 Die Software steht frei für jeden zur Verfügung, siehe GPLv3 Bedingungen.
 
-	Unterstützung ist gerne gesehen!
-	Sei es in Form von Code oder durch Spenden
-	Spenden bitte an spenden@openwb.de
-
-Anfragen für Supportverträge an info@openwb.de
-Weitere Infos unter https://openwb.de
 
 # Haftungsausschluss
 Es wird mit Kleinspannung aber auch 230V beim Anschluss der EVSE gearbeitet. 
-Dies darf nur geschultes Personal. Die Anleitung ist ohne Gewähr und jegliches Handeln basiert auf eigene Gefahr.
-Eine Fehlkonfiguration der Software kann höchstens ein nicht geladenes Auto bedeuten.
-Falsch zusammengebaute Hardware kann lebensgefährlich sein. Im Zweifel diesen Part von einem Elektriker durchführen lassen.
+Dies darf nur geschultes Personal.
+Die Anleitung ist ohne Gewähr und jegliches Handeln geschieht auf eigene Gefahr.
+Eine Fehlkonfiguration der Software kann möglicherweise auch einen massiven Schaden am Fahrzeug bedeuten!
+(Hier ist speziell die Umschaltung der Phasenanzahl 1P3P gemeint)
+Falsch zusammengebaute Hardware kann lebensgefährlich sein.
+Im Zweifel diesen Part von einem Elektriker durchführen lassen!!
 Keine Gewährleistung für die Software - use at your own RISK!
+
 
 # Wofür?
 Steuerung einer EVSE DIN oder anderer Ladepunkte für sofortiges laden, Überwachung der Ladung, PV Überschussladung und Lastmanagement mehrerer WB.
-
 Unterstützt wird jedes EV das den AC Ladestandard unterstützt.
 
-
-
-
-
-# Bezug
-openWB gibt es unter 
-
-	https://openwb.de/shop/
+Besonderheit dieser Installation ist die Einbindung der Wallbox Heidelberg Energy Control als eigenes Modul.
+Die Kommunikation erfolgt über Modbus-TCP mittels einer ESP32 basierten Modbus-TCP-Bridge (siehe Tasmota) für zwei Wallboxen dieses Typs.
 
 
 
 # Installation
 
 
-Bei fertigen openWB vorinstalliert
-
-
-
 Software:
 
-Installiertes Raspbian auf einem Raspberry pi 3.
+Installiertes Raspbian (Debian) auf einem Raspberry Pi 4B.
 
 Installationsanleitung für Windows: http://openwb.de/main/wp-content/uploads/2019/07/install_openWB_v2.pdf
 
 Raspbian installieren aktuell werden in der Version 1.9 nur Stretch (bevorzugt) und Buster unterstützt.
+Diese Variante nutzt Debian 12 (bookworm).
+Die entscheidende Anpassung ist das Python3 in der Version 3.11.2 für den Benutzer pi in einem virtuellen environment installiert ist.
+In diesem virt. env. werden dann auch alle von openWB benötigten Python Pakete in älteren Versionen installiert.
+Die Basis Pakete installiert die "openwb-install.sh"; falls man eigene Pakete zur Verwendung in openWB installieren möchte müssen diese ebenfalls in dieses virtuelle env. installiert werden.
+Dieses Vorgehen erfordert dann noch geringe Anpassungen in allen shell-Skripten die python Kommandos aufrufen.
+OpenWB 1.9.304 läuft dann grundsätzlich aber ohne weitere Anpassungen in den Python Skripten.
+
+Raspian:
 
 	http://downloads.raspberrypi.org/raspbian_full/images/
 
@@ -74,32 +77,11 @@ hier einfügen:
 	* * * * * sleep 50 && /var/www/html/openWB/regel.sh >> /var/log/openWB.log 2>&1 
 
 
-
  
+Der Raspberry funktioniert zuverlässig mit gutem WLAN. Kabel-Lan ist zu bevorzugen.
 
-
-# Extras
-
- Bei Nutzung von einem USR-TCP232-410 Lan to Modbus Converter folgende Konfiguration verwenden:
-
-	Baud Rate: 9600
-	Data Size: 8 Bit
-	Parity: None
-	Stop Bits: 1
-	Flow COntrol and RS485: RS485
-	Local Port Number: 26
-	Remote Port Number: 26
-	Work Mode: TCP Server None
-	TCP Server detail: default Type
-	Timeout: 0
-	UART packet Time: 10 ms
-	UART packet length: 512 chars
-
-
-Der Raspberry funktioniert zuverlässig mit gutem WLAN. Lan Kabel ist zu bevorzugen.
-
-Taster am Raspberry zur Einstellung des Lademodi
-
+Taster am Raspberry zur Einstellung des Lademodi:
+(diese Komponente wurde hier nicht angepasst; erfordert also Eigeninitiative wenn sie verwendet werden soll)
 Der Lademodi kann nicht nur über die Weboberfläche sondern auch an der openWB direkt eingestellt werden.
 Hierzu müssen schließende Taster von GND (Pin 34) nach Gpio X  angeschlossen werden.
 
@@ -112,7 +94,9 @@ Hierzu müssen schließende Taster von GND (Pin 34) nach Gpio X  angeschlossen w
 	Aus Gpio 13, Pin 33
 	
 
-
+Ebenso ist es möglich die Ladezutände der Wallbox(en) nicht nur durch ein Display oder Web-UI anzuzeigen
+sondern auch über LEDs. Dazu die Skripte runs/leds.py bzw. runs/ledss1.py anpassen entsprechend konfigurieren.
+(Diese Komponente ist nuch eine Baustelle!)
 
 
 # Module erstellen
@@ -184,4 +168,8 @@ Fronius bietet eine Json API an. Diese wird hier auf die Werte die gebraucht wer
 	#Dieser Wert wird nun in die ramdisk gespeichert
 	echo $pv_kwh > /var/www/html/openWB/ramdisk/pvkwh
 
+
+
+
+P.S. openWB 2.x ist für mich leider KEINE Option mehr; siehe Nutzungsbedingungen. :(
 
