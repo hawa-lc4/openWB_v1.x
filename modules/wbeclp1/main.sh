@@ -3,8 +3,16 @@
 
 rekwh='^[-+]?[0-9]+\.?[0-9]*$'
 stb=`cat /var/www/html/openWB/ramdisk/llstandby`
-LEDplugstat='PG11'
-LEDchargestat='PG10'
+nbl=`cat /var/www/html/openWB/ramdisk/lp1enabled`
+LEDenablestat='PB07'
+LEDplugstat='PE06'
+LEDchargestat='PE07'
+
+if (( $nbl == 1 )); then
+  sudo sunxi-pio -m $LEDenablestat=0,1
+else
+  sudo sunxi-pio -m $LEDenablestat=1,1
+fi
 
 if (( $stb >= 4 )); then
   exit 4
