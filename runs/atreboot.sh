@@ -322,7 +322,8 @@ at_reboot() {
 	"$OPENWBBASEDIR/runs/services.sh" restart
 
 	# get local ip
-	ip route get 1 | awk '{print $7;exit}' >"$OPENWBBASEDIR/ramdisk/ipaddress"
+	#ip route get 1 | awk '{print $7;exit}' >"$OPENWBBASEDIR/ramdisk/ipaddress"
+	ip route | head -1 | awk '{print $9;exit}' >"$RAMDISKDIR/ipaddress"
 
 	# update our local version
 	sudo git -C "$OPENWBBASEDIR" show --pretty='format:%ci [%h]' | head -n1 >"$OPENWBBASEDIR/web/lastcommit"
