@@ -324,6 +324,9 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/speichersoc
 	echo 0 > $RamdiskPath/speichersoc2
 
+	# prepare for EverHome EcoTracker emulation controlled by openWB
+	echo '{"power":0,"powerAvg":0,"energyCounterIn":0,"energyCounterOut":0}' > $RamdiskPath/v1_json
+
 	# temp mqtt
 	echo -1 > $RamdiskPath/mqttdurchslp2
 	echo -1 > $RamdiskPath/mqttdurchslp3
