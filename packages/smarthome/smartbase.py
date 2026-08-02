@@ -81,7 +81,7 @@ class Sbase(Sbase0):
             if (manverz < timesince):
                 log.info("(" + str(self.device_nummer) + ") von Manuell "
                          + "auf Automatisch gestellt oder startup,"
-                         + " Uebergangsfrist abgelaufen" +
+                         + " Uebergangsfrist abgelaufen " +
                          self.c_mantime_f)
                 self.c_mantime_f = 'N'
             else:
