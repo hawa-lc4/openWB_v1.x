@@ -315,14 +315,26 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/yearly_pvkwhk2
 
 	# bat
+	if [[ $speichermodul_2 == "none" ]]; then
+		echo 0 > $RamdiskPath/speicherB2
+	else
+		echo 1 > $RamdiskPath/speicherB2
+	fi
 	echo 0 > $RamdiskPath/speicher
 	echo 0 > $RamdiskPath/speicherekwh
+	echo 0 > $RamdiskPath/speicherekwh1
+	echo 0 > $RamdiskPath/speicherekwh2
 	echo 0 > $RamdiskPath/speicherikwh
+	echo 0 > $RamdiskPath/speicherikwh1
+	echo 0 > $RamdiskPath/speicherikwh2
 	echo 0 > $RamdiskPath/speicherleistung
 	echo 0 > $RamdiskPath/speicherleistung1
 	echo 0 > $RamdiskPath/speicherleistung2
 	echo 0 > $RamdiskPath/speichersoc
+	echo 0 > $RamdiskPath/speichersoc1
 	echo 0 > $RamdiskPath/speichersoc2
+	echo 0 > $RamdiskPath/speicheriDwh2
+	echo 0 > $RamdiskPath/speichereDwh2
 
 	# prepare for EverHome EcoTracker emulation controlled by openWB
 	echo '{"power":0,"powerAvg":0,"energyCounterIn":0,"energyCounterOut":0}' > $RamdiskPath/v1_json
@@ -351,6 +363,7 @@ initRamdisk(){
 	echo -1 > $RamdiskPath/mqttllsolls2
 	echo -1 > $RamdiskPath/mqttsoc1
 	echo -1 > $RamdiskPath/mqttspeicherleistung
+	echo -1 > $RamdiskPath/mqttspeicherleistung1
 	echo -1 > $RamdiskPath/mqttspeichervorhanden
 	echo -1 > $RamdiskPath/mqttlastmanagement
 	echo -1 > $RamdiskPath/mqttlastmanagements1
@@ -361,6 +374,7 @@ initRamdisk(){
 	echo -1 > $RamdiskPath/mqttlastmanagementlp7
 	echo -1 > $RamdiskPath/mqttlastmanagementlp8
 	echo -1 > $RamdiskPath/mqttspeichersoc
+	echo -1 > $RamdiskPath/mqttspeichersoc1
 	echo -1 > $RamdiskPath/mqttrfidlasttag
 	echo -1 > $RamdiskPath/mqttrfidlp1
 	echo -1 > $RamdiskPath/mqttrfidlp2

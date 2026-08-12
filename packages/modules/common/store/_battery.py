@@ -6,6 +6,7 @@ from modules.common.store._broker import pub_to_broker
 from modules.common.store._util import process_error
 from modules.common.store.ramdisk import files
 
+cap1Vcap2 = 0.145
 
 class BatteryValueStoreRamdisk(ValueStore[BatState]):
     def __init__(self, component_num: int) -> None:
@@ -13,10 +14,24 @@ class BatteryValueStoreRamdisk(ValueStore[BatState]):
 
     def set(self, bat_state: BatState):
         try:
-            files.battery.power.write(bat_state.power)
-            files.battery.soc.write(bat_state.soc)
-            files.battery.energy_imported.write(bat_state.imported)
-            files.battery.energy_exported.write(bat_state.exported)
+            files.battery.power1.write(bat_state.power)
+            files.battery.soc1.write(bat_state.soc)
+            files.battery.energy_imported1.write(bat_state.imported)
+            files.battery.energy_exported1.write(bat_state.exported)
+            if files.battery.bat2_present.read() == 1:
+                pwrB2 = files.battery.power2.read()
+                socB2 = files.battery.soc2.read()
+                e_inB2 = files.battery.energy_imported2.read()
+                e_outB2 = files.battery.energy_exported2.read()
+                files.battery.power.write(pwrB2 + bat_state.power)
+                files.battery.soc.write((bat_state.soc + (socB2 * cap1Vcap2)) / (1 + cap1Vcap2))
+                files.battery.energy_imported.write(e_inB2 + bat_state.imported)
+                files.battery.energy_exported.write(e_outB2 + bat_state.exported)
+            else:
+                files.battery.power.write(bat_state.power)
+                files.battery.soc.write(bat_state.soc)
+                files.battery.energy_imported.write(bat_state.imported)
+                files.battery.energy_exported.write(bat_state.exported)
         except Exception as e:
             process_error(e)
 

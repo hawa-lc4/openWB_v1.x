@@ -544,6 +544,9 @@ updateConfig(){
 	if ! grep -Fq "speichermodul=" $ConfigFile; then
 		echo "speichermodul=none" >> $ConfigFile
 	fi
+	if ! grep -Fq "speichermodul_2=" $ConfigFile; then
+		echo "speichermodul_2=none" >> $ConfigFile
+	fi
 	if ! grep -Fq "displaytheme=" $ConfigFile; then
 		echo "displaytheme=0" >> $ConfigFile
 	fi

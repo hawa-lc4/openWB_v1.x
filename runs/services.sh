@@ -10,7 +10,7 @@ declare -F "openwbDebugLog" >/dev/null || . "$OPENWBBASEDIR/helperFunctions.sh"
 
 stop() {
 	openwbDebugLog "MAIN" 0 "Stopping OpenWB services"
-	local service_pattern='^python.*/(modbusserver|smarthomehandler|smarthomemq|mqttsub|isss|buchse|legacy_run_server|rseDaemon|pushButtonsDaemon|rfidDaemon|readrfid)\.py'
+	local service_pattern='^python.*/(modbusserver|smarthomehandler|smarthomemq|mqttsub|mqttsubB2|isss|buchse|legacy_run_server|rseDaemon|pushButtonsDaemon|rfidDaemon|readrfid)\.py'
 	sudo pkill -f "$service_pattern"
 	# Wait until all services terminated (max 10 seconds)
 	pgrep -f "$service_pattern" | timeout 10 xargs -n1 -I'{}' tail -f --pid="{}" /dev/null
@@ -28,12 +28,24 @@ start() {
 		sudo nohup python3 "$OPENWBBASEDIR/runs/modbusserver/modbusserver.py" >>"$OPENWBBASEDIR/ramdisk/openWB.log" 2>&1 &
 	fi
 
-	openwbDebugLog "MAIN" 1 "Starting MQTT handler..."
+	openwbDebugLog "MAIN" 1 "Starting MQTT main handler..."
 	if pgrep -f '^python.*/mqttsub.py' >/dev/null; then
-		openwbDebugLog "MAIN" 1 "mqtt handler is already running"
+		openwbDebugLog "MAIN" 1 "mqtt main handler is already running"
 	else
-		openwbDebugLog "MAIN" 0 "mqtt handler not running! restarting process"
-		nohup python3 "$OPENWBBASEDIR/runs/mqttsub.py" >>"$OPENWBBASEDIR/ramdisk/openWB.log" 2>&1 &
+		openwbDebugLog "MAIN" 0 "mqtt main handler not running! restarting process"
+		nohup python3 "$OPENWBBASEDIR/runs/mqttsub.py" "$speichermodul_2" >>"$OPENWBBASEDIR/ramdisk/openWB.log" 2>&1 &
+	fi
+
+	if [[ "$speichermodul_2" == "speicher_hoymiles" ]]; then
+		openwbDebugLog "MAIN" 1 "Starting MQTT B2 handler..."
+		if pgrep -f '^python.*/mqttsubB2.py' >/dev/null; then
+			openwbDebugLog "MAIN" 1 "mqtt B2 handler is already running"
+		else
+			openwbDebugLog "MAIN" 0 "mqtt B2 handler not running! restarting process"
+			nohup python3 "$OPENWBBASEDIR/runs/mqttsubB2.py" >>"$OPENWBBASEDIR/ramdisk/openWB.log" 2>&1 &
+		fi
+	else
+		openwbDebugLog "MAIN" 0 "mqtt B2 handler is not needed"
 	fi
 
 	openwbDebugLog "MAIN" 1 "smart home handler..."

@@ -30,7 +30,7 @@ run_soc_module() {
 	fi
 }
 
-loadvars(){
+loadvars() {
 	#reload mqtt vars
 	renewmqtt=$(</var/www/html/openWB/ramdisk/renewmqtt)
 	if ((renewmqtt == 1)); then
@@ -57,6 +57,7 @@ loadvars(){
 	ollaktuells1=$(<ramdisk/mqttladeleistungs1)
 	ollaktuells2=$(<ramdisk/mqttladeleistungs2)
 	ospeicherleistung=$(<ramdisk/mqttspeicherleistung)
+	ospeicherleistung1=$(<ramdisk/mqttspeicherleistung1)
 	oladestatus=$(<ramdisk/mqttlastladestatus)
 	olademodus=$(<ramdisk/mqttlastlademodus)
 	osoc=$(<ramdisk/mqttsoc)
@@ -70,6 +71,7 @@ loadvars(){
 	ostopchargeafterdisclp7=$(<ramdisk/mqttstopchargeafterdisclp7)
 	ostopchargeafterdisclp8=$(<ramdisk/mqttstopchargeafterdisclp8)
 	ospeichersoc=$(<ramdisk/mqttspeichersoc)
+	ospeichersoc1=$(<ramdisk/mqttspeichersoc1)
 	ladestatus=$(</var/www/html/openWB/ramdisk/ladestatus)
 	odailychargelp1=$(<ramdisk/mqttdailychargelp1)
 	odailychargelp2=$(<ramdisk/mqttdailychargelp2)
@@ -536,8 +538,12 @@ loadvars(){
 		fi
 		speicherleistung=$(</var/www/html/openWB/ramdisk/speicherleistung)
 		speicherleistung=${speicherleistung//.*/}
+		speicherleistung1=$(</var/www/html/openWB/ramdisk/speicherleistung1)
+		speicherleistung1=${speicherleistung1//.*/}
 		speichersoc=$(</var/www/html/openWB/ramdisk/speichersoc)
 		speichersoc=${speichersoc//.*/}
+		speichersoc1=$(</var/www/html/openWB/ramdisk/speichersoc1)
+		speichersoc1=${speichersoc1//.*/}
 		speichervorhanden="1"
 		echo 1 > /var/www/html/openWB/ramdisk/speichervorhanden
 		if [[ $speichermodul == "speicher_e3dc" ]] ; then
@@ -1319,9 +1325,17 @@ loadvars(){
 		tempPubList="${tempPubList}\nopenWB/housebattery/W=${speicherleistung}"
 		echo "$speicherleistung" > ramdisk/mqttspeicherleistung
 	fi
+	if [[ "$ospeicherleistung1" != "$speicherleistung1" ]]; then
+		tempPubList="${tempPubList}\nopenWB/housebattery/W1=${speicherleistung1}"
+		echo "$speicherleistung1" > ramdisk/mqttspeicherleistung1
+	fi
 	if [[ "$ospeichersoc" != "$speichersoc" ]]; then
 		tempPubList="${tempPubList}\nopenWB/housebattery/%Soc=${speichersoc}"
 		echo "$speichersoc" > ramdisk/mqttspeichersoc
+	fi
+	if [[ "$ospeichersoc1" != "$speichersoc1" ]]; then
+		tempPubList="${tempPubList}\nopenWB/housebattery/%Soc1=${speichersoc1}"
+		echo "$speichersoc1" > ramdisk/mqttspeichersoc1
 	fi
 	if [[ "$osoc" != "$soc" ]]; then
 		tempPubList="${tempPubList}\nopenWB/lp/1/%Soc=${soc}"

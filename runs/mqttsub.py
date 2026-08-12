@@ -44,6 +44,10 @@ def get_config_value(key):
                 return line.split("=", 1)[1]
         return
 
+if str(sys.argv[1]) == "speicher_hoymiles":
+    B2_id1 = get_config_value("speicher_hoymiles_id1").strip()
+    B2_top1 = "homeassistant/select/" + B2_id1 + "/ems_mode/command"
+    B2_top2 = "homeassistant/sensor/" + B2_id1 + "/device/state"
 
 def get_serial():
     # Extract serial from cpuinfo file
@@ -249,9 +253,13 @@ smart_home_device_config_handler = create_smart_home_device_config_handler()
 
 # connect to broker and subscribe to set topics
 def on_connect(client: mqtt.Client, userdata, flags: dict, rc: int):
-    log.info("Connected")
+    log.info("Connected.   2. Batterie: " + str(sys.argv[1]))
     client.subscribe("openWB/set/#", 2)
     client.subscribe("openWB/config/set/#", 2)
+    if str(sys.argv[1]) == "speicher_hoymiles":
+        # log.info (B2_id1 + " xxx " + B2_top1 + " xxx " + B2_top2)
+        client.subscribe(B2_top1, 2)
+        client.subscribe(B2_top2, 2)
 
 
 # handle each set topic
@@ -1269,6 +1277,39 @@ def on_message(client: mqtt.Client, userdata, msg: mqtt.MQTTMessage):
                     client.publish("openWB/housebattery/faultState", msg.payload.decode("utf-8"), qos=0, retain=True)
             if (msg.topic == "openWB/set/houseBattery/faultStr"):
                 client.publish("openWB/housebattery/faultStr", msg.payload.decode("utf-8"), qos=0, retain=True)
+            if (msg.topic == "openWB/set/houseBattery/W1"):
+                if (float(msg.payload) >= -30000 and float(msg.payload) <= 30000):
+                    f = open('/var/www/html/openWB/ramdisk/speicherleistung1', 'w')
+                    f.write(msg.payload.decode("utf-8"))
+                    f.close()
+            if (msg.topic == "openWB/set/houseBattery/%Soc1"):
+                if (float(msg.payload) >= 0 and float(msg.payload) <= 100):
+                    f = open('/var/www/html/openWB/ramdisk/speichersoc1', 'w')
+                    f.write(msg.payload.decode("utf-8"))
+                    f.close()
+            # start with messages related to 2nd Battery Hoymiles HiBattery 1920 AC
+            if (msg.topic == B2_top1):
+                setTopicCleared = True
+                payload = msg.payload.decode("utf-8")
+                if payload != 'mqtt_ctrl':
+                    client.publish(B2_top1, "mqtt_ctrl", qos=2, retain=True)
+            if (msg.topic == B2_top2):
+                setTopicCleared = True
+                payload = msg.payload.decode("utf-8")
+                json_payload = json_loads(str(payload))
+                f = open('/var/www/html/openWB/ramdisk/speicheriDwh2', 'w')
+                f.write(str(json_payload['grid'][0]['ein']))
+                f.close()
+                f = open('/var/www/html/openWB/ramdisk/speichereDwh2', 'w')
+                f.write(str(json_payload['grid'][0]['eout']))
+                f.close()
+                f = open('/var/www/html/openWB/ramdisk/speicherikwh2', 'w')
+                f.write(str(json_payload['grid'][0]['etin']))
+                f.close()
+                f = open('/var/www/html/openWB/ramdisk/speicherekwh2', 'w')
+                f.write(str(json_payload['grid'][0]['etout']))
+                f.close()
+            # end messages related to 2nd Battery Hoymiles HiBattery 1920 AC
             if (msg.topic == "openWB/set/evu/W"):
                 if (float(msg.payload) >= -100000 and float(msg.payload) <= 100000):
                     f = open('/var/www/html/openWB/ramdisk/wattbezug', 'w')

@@ -425,41 +425,6 @@
 					</div>
 				<?php } ?>
 
-				<!-- Speicher -->
-				<div class="card border-warning hide" id="speicher">
-					<div class="card-header bg-warning">
-						Speicher
-					</div>
-					<div class="card-body">
-						<div class="table-responsive">
-							<table class="table">
-								<tbody>
-									<tr id="faultStrBatRow" class="hide">
-										<th scope="row">Störungsbeschreibung</th>
-										<td><div id="faultStrBat"></div></td>
-									</tr>
-									<tr id="geladenRow">
-										<th scope="row">geladen [kWh]</th>
-										<td><div id="speicherikwhdiv"></div></td>
-									</tr>
-									<tr id="entladenRow">
-										<th scope="row">entladen [kWh]</th>
-										<td><div id="speicherekwhdiv"></div></td>
-									</tr>
-									<tr id="wBatRow">
-										<th scope="row">Leistung [W]</th>
-										<td><div id="wBatDiv"></div></td>
-									</tr>
-									<tr id="socBatRow">
-										<th scope="row">SoC [%]</th>
-										<td><div id="socBatDiv"></div></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-
 				<!-- Smarthome -->
 				<div class="card border-info " id="Smarthome">
 					<div class="card-header bg-info">
@@ -488,6 +453,91 @@
 									<tr id="wmaxspeicherladungRow">
 										<th scope="row">Maximale Speicherladung [W]</th>
 										<td><div id="wmaxspeicherladung"></div></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<!-- Speicher 1 -->
+				<div class="card border-warning hide" id="speicher1">
+					<div class="card-header bg-warning">
+						Speicher 1: GoodWe
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table">
+								<tbody>
+									<tr id="faultStrBat1Row" class="hide">
+										<th scope="row">Störungsbeschreibung</th>
+										<td><div id="faultStrBat1"></div></td>
+									</tr>
+									<tr id="wBat1Row">
+										<th scope="row">Leistung [W]</th>
+										<td><div id="wBat1Div"></div></td>
+									</tr>
+									<tr id="socBat1Row">
+										<th scope="row">SoC [%]</th>
+										<td><div id="socBat1Div"></div></td>
+									</tr>
+									<tr id="geladen1Row">
+										<th scope="row">geladen [kWh]</th>
+										<td><div id="speicherikwh1Div"></div></td>
+									</tr>
+									<tr id="entladen1Row">
+										<th scope="row">entladen [kWh]</th>
+										<td><div id="speicherekwh1Div"></div></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<!-- Speicher 2 -->
+				<div class="card border-warning hide" id="speicher2">
+					<div class="card-header bg-warning">
+						Speicher 2: Hoymiles
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table" id=speicher2a>
+								<tbody>
+									<tr id="faultStrBat2Row" class="hide">
+										<th scope="row">Störungsbeschreibung</th>
+										<td><div id="faultStrBat2"></div></td>
+									</tr>
+									<tr id="wBat2Row">
+										<th scope="row">Leistung [W]</th>
+										<td><div id="wBat2Div"></div></td>
+									</tr>
+									<tr id="socBat2Row">
+										<th scope="row">SoC [%]</th>
+										<td><div id="socBat2Div"></div></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="table-responsive">
+							<table class="table" id=speicher2b>
+								<thead>
+									<tr>
+										<th scope="col">Energie</th>
+										<th scope="col">heute [Wh]</th>
+										<th scope="col">gesamt [kWh]</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr id="geladen2Row">
+										<th scope="row">geladen</th>
+										<td style="text-align: center"><div id="speicheriwh2Div">---</div></td>
+										<td style="text-align: center"><div id="speicherikwh2Div"></div></td>
+									</tr>
+									<tr id="entladen2Row">
+										<th scope="row">entladen</th>
+										<td style="text-align: center"><div id="speicherewh2Div">---</div></td>
+										<td style="text-align: center"><div id="speicherekwh2Div"></div></td>
 									</tr>
 								</tbody>
 							</table>

@@ -175,6 +175,49 @@ class _Battery:
         """total energy exported in Wh"""
         return _RamdiskFile("speicherekwh", _float_coder)
 
+    @property
+    def power1(self):
+        return _RamdiskFile("speicherleistung1", _int_coder)
+
+    @property
+    def soc1(self):
+        """battery state of charge. 0=empty, 100=full"""
+        return _RamdiskFile("speichersoc1", _int_coder)
+
+    @property
+    def energy_imported1(self):
+        """total energy imported in Wh"""
+        return _RamdiskFile("speicherikwh1", _float_coder)
+
+    @property
+    def energy_exported1(self):
+        """total energy exported in Wh"""
+        return _RamdiskFile("speicherekwh1", _float_coder)
+
+    @property
+    def bat2_present(self):
+        """total energy exported in Wh"""
+        return _RamdiskFile("speicherB2", _int_coder)
+
+    @property
+    def power2(self):
+        return _RamdiskFile("speicherleistung2", _int_coder)
+
+    @property
+    def soc2(self):
+        """battery state of charge. 0=empty, 100=full"""
+        return _RamdiskFile("speichersoc2", _int_coder)
+
+    @property
+    def energy_imported2(self):
+        """total energy imported in Wh"""
+        return _RamdiskFile("speicherikwh2", _float_coder)
+
+    @property
+    def energy_exported2(self):
+        """total energy exported in Wh"""
+        return _RamdiskFile("speicherekwh2", _float_coder)
+
 
 class _Counter:
     @property

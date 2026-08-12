@@ -205,28 +205,58 @@ function processPvMsg(mqttmsg, mqttpayload) {
 function processBatMsg(mqttmsg, mqttpayload) {
 	switch (mqttmsg) {
 		case "openWB/housebattery/boolHouseBatteryConfigured":
-			visibilityCard('#speicher', mqttpayload);
+			visibilityCard('#speicher1', mqttpayload);
 			break;
-		case "openWB/housebattery/WhImported":
-			kShow(mqttpayload, '#speicherikwhdiv');
+		case "openWB/housebattery/WhImported1":
+			kShow(mqttpayload, '#speicherikwh1Div');
 			break;
-		case "openWB/housebattery/WhExported":
-			kShow(mqttpayload, '#speicherekwhdiv');
+		case "openWB/housebattery/WhExported1":
+			kShow(mqttpayload, '#speicherekwh1Div');
 			break;
-		case "openWB/housebattery/W":
-			directShow(mqttpayload, '#wBatDiv');
+		case "openWB/housebattery/W1":
+			directShow(mqttpayload, '#wBat1Div');
 			break;
-		case "openWB/housebattery/%Soc":
-			directShow(mqttpayload, '#socBatDiv');
+		case "openWB/housebattery/%Soc1":
+			directShow(mqttpayload, '#socBat1Div');
 			break;
 		case "openWB/housebattery/boolHouseBatteryConfigured":
-			visibilityCard('#speicher', mqttpayload);
+			visibilityCard('#speicher1', mqttpayload);
 			break;
 		case "openWB/housebattery/faultState":
-			setWarningLevel(mqttpayload, '#faultStrBatRow');
+			setWarningLevel(mqttpayload, '#faultStrBat1Row');
 			break;
 		case "openWB/housebattery/faultStr":
 			textShow(formatJsonString(mqttpayload), '#faultStrBat');
+			break;
+		case "openWB/housebattery/boolHouseBattery2Configured":
+			visibilityCard('#speicher2', mqttpayload);
+			break;
+		case "openWB/housebattery/WhImported2":
+			kShow(mqttpayload, '#speicherikwh2Div');
+			break;
+		case "openWB/housebattery/WhExported2":
+			kShow(mqttpayload, '#speicherekwh2Div');
+			break;
+		case "openWB/housebattery/W2":
+			directShow(mqttpayload, '#wBat2Div');
+			break;
+		case "openWB/housebattery/%Soc2":
+			directShow(mqttpayload, '#socBat2Div');
+			break;
+		case "openWB/housebattery/WhImDay2":
+			directShow(mqttpayload, '#speicheriwh2Div');
+			break;
+		case "openWB/housebattery/WhExDay2":
+			directShow(mqttpayload, '#speicherewh2Div');
+			break;
+		case "openWB/housebattery/boolHouseBattery2Configured":
+			visibilityCard('#speicher2', mqttpayload);
+			break;
+		case "openWB/housebattery/faultState2":
+			setWarningLevel(mqttpayload, '#faultStrBat2Row');
+			break;
+		case "openWB/housebattery/faultStr2":
+			textShow(formatJsonString(mqttpayload), '#faultStrBat2');
 			break;
 	}
 }
