@@ -111,7 +111,7 @@ def on_message(client: mqtt.Client, userdata, msg: mqtt.MQTTMessage):
                     newPwrB2 = 0
                     if (battWatt >= 0 and battWatt < 250 and evuWatt < -250):
                         newPwrB2 = int(evuWatt + 100)
-                    if (battWatt >= 250 and evuWatt < -250):
+                    if (battWatt >= 250 and evuWatt < 250):
                         newPwrB2=int(battWatt * -0.145)
                     if (battWatt <= -250):
                         newPwrB2=int(battWatt * -0.145)
