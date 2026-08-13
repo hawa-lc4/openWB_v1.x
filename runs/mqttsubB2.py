@@ -51,13 +51,14 @@ evuWatt = 0
 battWatt = 0
 newPwrB2 = 0
 B2_id1 = get_config_value("speicher_hoymiles_id1").strip()
-B2_top1 = "homeassistant/sensor/" + B2_id1 + "/quick/state"
+B2_top1s = "homeassistant/sensor/" + B2_id1 + "/quick/state"
+B2_top1p = "homeassistant/number/" + B2_id1 + "/power_ctrl/set"
 
 
 # connect to broker and subscribe to set topics
 def on_connect(client: mqtt.Client, userdata, flags: dict, rc: int):
     log.info("B2 Connected")
-    client.subscribe(B2_top1, 2)
+    client.subscribe(B2_top1s, 2)
     client.subscribe("openWB/evu/W", 2)
     client.subscribe("openWB/housebattery/W1", 2)
 
@@ -78,7 +79,7 @@ def on_message(client: mqtt.Client, userdata, msg: mqtt.MQTTMessage):
             # setTopicCleared = False
             # log all messages before any error forces this process to die
             # but not flooding mqtt.log with messages from HiBattery every second
-            if (msg.topic != B2_top1):
+            if (msg.topic != B2_top1s):
                 log.debug("Topic-B2: %s, Message: %s", msg.topic, msg.payload.decode("utf-8"))
 
             if (msg.topic == "openWB/evu/W"):
@@ -87,7 +88,7 @@ def on_message(client: mqtt.Client, userdata, msg: mqtt.MQTTMessage):
             if (msg.topic == "openWB/housebattery/W1"):
                 battWatt = int(msg.payload.decode("utf-8"))
 
-            if (msg.topic == B2_top1):
+            if (msg.topic == B2_top1s):
                 payload = msg.payload.decode("utf-8")
                 json_payload = json_loads(str(payload))
                 if medianCountB2 < medianInterval:
@@ -111,11 +112,11 @@ def on_message(client: mqtt.Client, userdata, msg: mqtt.MQTTMessage):
                     newPwrB2 = 0
                     if (battWatt >= 0 and battWatt < 250 and evuWatt < -250):
                         newPwrB2 = int(evuWatt + 100)
-                    if (battWatt >= 250 and evuWatt < -250):
+                    if (battWatt >= 250 and evuWatt < 250):
                         newPwrB2=int(battWatt * -0.145)
                     if (battWatt <= -250):
                         newPwrB2=int(battWatt * -0.145)
-                    client.publish("homeassistant/number/MSA-280426170535/power_ctrl/set", str(newPwrB2), qos=0, retain=True)
+                    client.publish(str(B2_top1p), str(newPwrB2), qos=0, retain=True)
 
             # clear all set topics if not already done
             # if not setTopicCleared:
