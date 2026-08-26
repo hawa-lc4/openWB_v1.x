@@ -18,14 +18,15 @@ if isinstance(resp, ModbusIOException):
 else:
 # charge & plug state
 	print(resp.registers[0])
+# this loadpoint is connected with grid phases changed!
 # current
-	print(resp.registers[1] / 10)
-	print(resp.registers[2] / 10)
 	print(resp.registers[3] / 10)
+	print(resp.registers[2] / 10)
+	print(resp.registers[1] / 10)
 # voltages
-	print(resp.registers[5])
-	print(resp.registers[6])
 	print(resp.registers[7])
+	print(resp.registers[6])
+	print(resp.registers[5])
 # power
 	print(resp.registers[9])
 # energy total
