@@ -327,12 +327,12 @@
 										<td><div id="bezugw2div">--</div></td>
 										<td><div id="bezugw3div">--</div></td>
 									</tr>
-									<tr id="powerfaktorEvuStatusId">
+									<!-- <tr id="powerfaktorEvuStatusId">
 										<th scope="row">Power Faktor</th>
 										<td><div id="evupf1div">--</div></td>
 										<td><div id="evupf2div">--</div></td>
 										<td><div id="evupf3div">--</div></td>
-									</tr>
+									</tr> -->
 								</tbody>
 							</table>
 						</div>

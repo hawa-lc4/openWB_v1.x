@@ -118,15 +118,15 @@ function processEvuMsg(mqttmsg, mqttpayload) {
 		case "openWB/evu/Hz":
 			directShow(mqttpayload, '#evuhzdiv');
 			break;
-		case "openWB/evu/PfPhase1":
-			directShow(mqttpayload, '#evupf1div');
-			break;
-		case "openWB/evu/PfPhase2":
-			directShow(mqttpayload, '#evupf2div');
-			break;
-		case "openWB/evu/PfPhase3":
-			directShow(mqttpayload, '#evupf3div');
-			break;
+		// case "openWB/evu/PfPhase1":
+		// 	directShow(mqttpayload, '#evupf1div');
+		// 	break;
+		// case "openWB/evu/PfPhase2":
+		// 	directShow(mqttpayload, '#evupf2div');
+		// 	break;
+		// case "openWB/evu/PfPhase3":
+		// 	directShow(mqttpayload, '#evupf3div');
+		// 	break;
 		case "openWB/evu/faultState":
 			setWarningLevel(mqttpayload, '#faultStrEvuRow');
 			break;
