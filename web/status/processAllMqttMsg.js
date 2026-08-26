@@ -352,22 +352,22 @@ function processLpMsg(mqttmsg, mqttpayload) {
 		textShow(formatJsonString(mqttpayload), '#lp' + index + ' .faultStrSocLp');
 	}
 	else {
-		switch (mqttmsg) {
-			case "openWB/lp/1/PfPhase1":
-				showSection('#lp1 .powerFaktorRow');
-				directShow(mqttpayload, '#lp1 .powerFaktorP1');
-				break;
-			case "openWB/lp/1/PfPhase2":
-				showSection('#lp1 .powerFaktorRow');
-				directShow(mqttpayload, '#lp1 .powerFaktorP2');
-				break;
-			case "openWB/lp/1/PfPhase3":
-				showSection('#lp1 .powerFaktorRow');
-				directShow(mqttpayload, '#lp1 .powerFaktorP3');
-				break;
-			default:
-				break;
-		}
+		// switch (mqttmsg) {
+		// 	case "openWB/lp/1/PfPhase1":
+		// 		showSection('#lp1 .powerFaktorRow');
+		// 		directShow(mqttpayload, '#lp1 .powerFaktorP1');
+		// 		break;
+		// 	case "openWB/lp/1/PfPhase2":
+		// 		showSection('#lp1 .powerFaktorRow');
+		// 		directShow(mqttpayload, '#lp1 .powerFaktorP2');
+		// 		break;
+		// 	case "openWB/lp/1/PfPhase3":
+		// 		showSection('#lp1 .powerFaktorRow');
+		// 		directShow(mqttpayload, '#lp1 .powerFaktorP3');
+		// 		break;
+		// 	default:
+		// 		break;
+		// }
 	}
 }
 
