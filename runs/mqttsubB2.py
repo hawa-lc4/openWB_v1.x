@@ -106,16 +106,20 @@ def on_message(client: mqtt.Client, userdata, msg: mqtt.MQTTMessage):
                     f = open('/var/www/html/openWB/ramdisk/speichersoc2', 'w')
                     f.write(str(medianSocB2))
                     f.close()
+                    medianCountB2 = 1
                     medianPowerB2 = 0
                     medianSocB2 = 0
-                    medianCountB2 = 1
-                    newPwrB2 = 0
-                    if (battWatt >= 0 and battWatt < 250 and evuWatt < -250):
-                        newPwrB2 = int(evuWatt + 100)
-                    if (battWatt >= 250 and evuWatt < 250):
+                    if (battWatt >= 0 and battWatt < 250):
+                        if ((evuWatt + newPwrB2) < -250):
+                            newPwrB2 = int((evuWatt + newPwrB2) / 2)
+                        else:
+                            newPwrB2 = 0
+                    elif (battWatt >= 250 and evuWatt < 250):
+                        newPwrB2=int(battWatt * -0.25)
+                    elif (battWatt <= -250):
                         newPwrB2=int(battWatt * -0.145)
-                    if (battWatt <= -250):
-                        newPwrB2=int(battWatt * -0.145)
+                    else:
+                        newPwrB2 = 0
                     client.publish(str(B2_top1p), str(newPwrB2), qos=0, retain=True)
 
             # clear all set topics if not already done
