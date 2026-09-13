@@ -41,12 +41,12 @@ while read -r line; do
         echo 1 > /var/www/html/openWB/ramdisk/plugstats1
         echo 1 > /var/www/html/openWB/ramdisk/chargestats1
         sudo sunxi-pio -m $LEDplugstat=1,1
-        sudo sunxi-pio -m $LEDchargestat=0,1
+        sudo sunxi-pio -m $LEDchargestat=1,1
         ;;
       7)
         echo 1 > /var/www/html/openWB/ramdisk/plugstats1
         echo 1 > /var/www/html/openWB/ramdisk/chargestats1
-        sudo sunxi-pio -m $LEDplugstat=1,1
+        sudo sunxi-pio -m $LEDplugstat=0,1
         sudo sunxi-pio -m $LEDchargestat=1,1
         ;;
       *)
