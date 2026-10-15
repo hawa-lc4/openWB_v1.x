@@ -7,7 +7,7 @@ def _calculate_powers_and_currents(currents: Optional[List[float]],
                                    powers: Optional[List[float]],
                                    voltages: Optional[List[float]]) -> Tuple[List[float]]:
     if voltages is None:
-        voltages = [230.0]*3
+        voltages = [235.0]*3
     if powers is None:
         if currents is None:
             powers = [0.0]*3

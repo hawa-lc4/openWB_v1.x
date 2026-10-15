@@ -37,20 +37,20 @@ class GoodWeCounter:
                                                                              [ModbusDataType.INT_16]*3,
                                                                              unit=self.__modbus_id)]
             power = self.__tcp_client.read_holding_registers(36008, ModbusDataType.INT_16, unit=self.__modbus_id) * -1
-            voltages = []
-            currents = []
-            for reg in [35121, 35126, 35131]:
-                curr_volt_temp = self.__tcp_client.read_holding_registers(reg, [ModbusDataType.UINT_16]*2, unit=self.__modbus_id)
-                voltages.append((curr_volt_temp[0]) * 0.1)
-                currents.append((curr_volt_temp[1]) * 0.1)
+            # voltages = []
+            # currents = []
+            # for reg in [35121, 35126, 35131]:
+            #     curr_volt_temp = self.__tcp_client.read_holding_registers(reg, [ModbusDataType.UINT_16]*2, unit=self.__modbus_id)
+            #     voltages.append((curr_volt_temp[0]) * 0.1)
+            #     currents.append((curr_volt_temp[1]) * 0.1)
 
 
             frequency = self.__tcp_client.read_holding_registers(
                 36014, ModbusDataType.UINT_16, unit=self.__modbus_id) / 100
 
         counter_state = CounterState(
-            voltages=voltages,
-            currents=currents,
+            # voltages=voltages,
+            # currents=currents,
             powers=powers,
             imported=imported,
             exported=exported,
